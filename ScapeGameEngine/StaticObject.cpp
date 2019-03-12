@@ -7,4 +7,8 @@ namespace sge {
 
 	StaticObject::~StaticObject() {
 	}
+
+	void StaticObject::render() {
+
+	}
 }

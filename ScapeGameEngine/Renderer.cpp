@@ -5,6 +5,48 @@ namespace sge {
 	GLFWwindow* Renderer::wind_ = nullptr;
 
 	///////////////////
+	///// Objects /////
+	///////////////////
+
+	void Renderer::registerObject(Object& obj) {
+		objectList_.push_back(&obj);
+	}
+
+	void Renderer::removeObject(Object& obj) {
+		int index = 0;
+
+		for (int i = 0; i < objectList_.size(); i++) {
+			if (objectList_[i] == &obj) {
+				index = i;
+			}
+		}
+
+		objectList_.erase(objectList_.begin + index);
+	}
+
+	///////////////////
+	///// Drawing /////
+	///////////////////
+
+	std::queue<Object*> drawQueue;
+
+	void setupDrawQueue(std::deque<Object*> objectList) {
+		drawQueue = std::queue<Object*>(objectList);
+
+		//Bind ALL the buffers
+		//For now, just use the static VAO
+		glBindVertexArray(BufferManager::VAO(STATIC));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BufferManager::EAB());
+		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO());
+	}
+
+	void drawNext() {
+		drawQueue.front()->render();
+
+		drawQueue.pop();
+	}
+
+	///////////////////
 	/////Callbacks/////
 	///////////////////
 

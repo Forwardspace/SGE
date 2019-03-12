@@ -1,5 +1,7 @@
 #pragma once
 #include "stdheaders.h"
+#include "Object.h"
+#include "BufferManager.h"
 
 namespace sge {
 	class Renderer {
@@ -8,6 +10,11 @@ namespace sge {
 		~Renderer() = delete;
 
 		static GLFWwindow* getWind() { return wind_; };
+
+		//Register a new Object to be drawn on the screen
+		static void registerObject(Object& obj);
+		//Remove an Object from being drawn to the screen
+		static void removeObject(Object& obj);
 
 		//Initiates rendering of a new frame
 		//(call this when done with the frame)
@@ -23,9 +30,10 @@ namespace sge {
 		static GLFWwindow* wind_;
 
 		//Stores pointers to objects that have to be drawn each frame
-		//std::list<Object*> objectList_;
+		//Note that this is a list, but not a std::list
+		static std::deque<Object*> objectList_;
 
-		//The number of the current fram
+		//The number of the current frame
 		static long unsigned int frameNum_;
 
 		///////////////////

@@ -8,8 +8,12 @@ namespace sge {
 	public:
 		StaticObject();
 		~StaticObject();
+
+		void render();
 	
 	protected:
 		Mesh objectMesh;
+
+		const ObjectType type_ = ObjectType::STATIC;
 	};
 }

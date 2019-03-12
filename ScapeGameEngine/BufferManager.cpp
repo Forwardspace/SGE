@@ -35,4 +35,25 @@ namespace sge {
 
 		return VBO_;
 	}
+
+	GLuint BufferManager::EAB() {
+		if (EAB_ == NULL) {
+			//No EAB found, make one
+			GLuint newEAB = NULL;
+			glGenBuffers(1, &newEAB);
+
+			if (newEAB == NULL) {
+				throw std::runtime_error("Unable to generate a new EAB! array deelementalisation in progress...");
+			}
+		
+			EAB_ = newEAB;
+		}
+
+		return EAB_;
+	}
+
+	BufferManager::BufferManager() {
+		EAB_ = NULL;
+		VBO_ = NULL;
+	}
 }

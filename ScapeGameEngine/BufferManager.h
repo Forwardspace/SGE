@@ -2,26 +2,31 @@
 #include "stdheaders.h"
 
 namespace sge {
+	//Matches ObjectType
 	enum VAOType {
-		STATIC = 0,
-		DYNAMIC = 1,
-		NONE_BOUND = -1
+		STATIC,
+		DYNAMIC,
+		NONE_BOUND
 	};
 
 	class BufferManager {
 	public:
 		//Use this to get access to the required VAO
 		//It will be instantiated on first use automatically.
-		GLuint VAO(VAOType t);
+		static GLuint VAO(VAOType t);
 		//Use this to get access to the required VBO
 		//It will be instantiated on first use automatically.
-		GLuint VBO();
-
+		static GLuint VBO();
+		//Use this to get access to the required EAB (Element Array Buffer)
+		//a.k.a. index buffer
+		static GLuint EAB();
+		
 		BufferManager() = delete;	//Singleton
 		~BufferManager() = delete;
 	
 	private:
-		std::map<int, GLuint> VAOs_;
-		GLuint VBO_ = NULL;
+		static std::map<int, GLuint> VAOs_;
+		static GLuint VBO_;
+		static GLuint EAB_;
 	};
 }
