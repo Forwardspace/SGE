@@ -32,14 +32,28 @@ namespace sge {
 
 	std::queue<Object*> drawQueue;
 
-	void setupDrawQueue(std::deque<Object*> objectList) {
-		drawQueue = std::queue<Object*>(objectList);
-
+	void bindBuffers() {
 		//Bind ALL the buffers
 		//For now, just use the static VAO
 		glBindVertexArray(BufferManager::VAO(VAOType::STATIC));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BufferManager::EAB());
 		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO());
+	}
+
+	void clearScreen() {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		//(0, 0, 0, 1) - opaque black
+		glClearColor(0, 0, 0, 1);
+	}
+
+	//Everything necessary for starting a new frame
+	void startDrawing(std::deque<Object*> objectList) {
+		drawQueue = std::queue<Object*>(objectList);
+
+		clearScreen();
+
+		bindBuffers();
 
 		//Enable the first vertex attribute array (0) that
 		//stores vertex locations.
@@ -61,15 +75,21 @@ namespace sge {
 		drawQueue.pop();
 	}
 
+	void finalizeFrame(GLFWwindow* window) {
+		glfwSwapBuffers(window);
+	}
+
 	void Renderer::renderFrame() {
 		callBack();
 
-		setupDrawQueue(objectList_);
+		startDrawing(objectList_);
 
 		//Draw all registered Objects
 		while (drawQueue.size()) {
 			drawNext();
 		}
+
+		finalizeFrame(wind_);
 	}
 
 	///////////////////
