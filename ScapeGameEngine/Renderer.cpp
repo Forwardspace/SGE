@@ -21,12 +21,14 @@ namespace sge {
 			}
 		}
 
-		objectList_.erase(objectList_.begin + index);
+		objectList_.erase(objectList_.begin() + index);
 	}
 
 	///////////////////
 	///// Drawing /////
 	///////////////////
+
+	std::deque<Object*> Renderer::objectList_;
 
 	std::queue<Object*> drawQueue;
 
@@ -35,15 +37,39 @@ namespace sge {
 
 		//Bind ALL the buffers
 		//For now, just use the static VAO
-		glBindVertexArray(BufferManager::VAO(STATIC));
+		glBindVertexArray(BufferManager::VAO(VAOType::STATIC));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BufferManager::EAB());
 		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO());
+
+		//Enable the first vertex attribute array (0) that
+		//stores vertex locations.
+		glEnableVertexAttribArray(0);
+
+		//Describe the first attribute array
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		//See the OpenGL documentation for explanation, but basically
+		//0 - index, 3 - how many coordinates per vertex, GL_FLOAT - we're using floats
+		//GL_FALSE - the data is not normalized or anything, 0 - no space between vertices,
+		//(void*)0 offset to the first vertex; our data starts from the beginning, so 0
+
+		//Other Attributes are optional, so handle them somewhere else, for now it's not implemented
 	}
 
 	void drawNext() {
 		drawQueue.front()->render();
 
 		drawQueue.pop();
+	}
+
+	void Renderer::renderFrame() {
+		callBack();
+
+		setupDrawQueue(objectList_);
+
+		//Draw all registered Objects
+		while (drawQueue.size()) {
+			drawNext();
+		}
 	}
 
 	///////////////////
@@ -53,16 +79,18 @@ namespace sge {
 	std::list<std::function<void()>> Renderer::windowPeriodicCallbacks_ = {};
 
 	void Renderer::init(int w, int h, std::string name, bool fullscreen = false) {
-		//glewExperimental = true;
+		glewExperimental = true;
+
 		if (!glfwInit()) {
 			std::runtime_error up("GLFW Can't init. What now?");
 			throw up;
 		}
 
 		glfwWindowHint(GLFW_SAMPLES, 4); //Antialiasing
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //OpenGL version
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //New OpenGL
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);  // yes, 3 and 2!!!
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		wind_ = glfwCreateWindow(
 			w,
@@ -76,15 +104,18 @@ namespace sge {
 			throw std::runtime_error("GLFW Unable to init window! What are we (not) paying you for?");
 		}
 
+		glfwMakeContextCurrent(wind_);
+
+		GLenum error = glewInit();
+		if (error != GLEW_OK) {
+			std::cout << glewGetErrorString(error);
+			throw std::runtime_error("Unable to init GLEW! Time for some duct tape... ");
+		}
 	}
 
 	[[ noreturn ]] void Renderer::terminate() {
 		glfwTerminate();
 		std::exit(0);
-	}
-
-	void Renderer::renderFrame() {
-		callBack();
 	}
 
 	void Renderer::registerWindowCallback(std::function<void()> callback) {

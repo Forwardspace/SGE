@@ -14,6 +14,6 @@ namespace sge {
 	protected:
 		Mesh objectMesh;
 
-		const ObjectType type_ = ObjectType::STATIC;
+		const ObjectType::Enum type_ = ObjectType::STATIC;
 	};
 }

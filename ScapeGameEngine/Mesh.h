@@ -13,11 +13,7 @@ namespace sge {
 	class Mesh {
 	public:
 		VertexArray* VertArrayPtr() { return &VertArray_; }
-		IndexArray* IndArray() { return &IndArray_; }
-
-		//Do not call this without setting up buffers
-		//i.e. use Renderer
-		void render();
+		IndexArray* IndArrayPtr() { return &IndArray_; }
 
 		Mesh();
 		~Mesh();

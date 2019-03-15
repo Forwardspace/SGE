@@ -3,17 +3,19 @@
 
 namespace sge {
 	//Matches ObjectType
-	enum VAOType {
-		STATIC,
-		DYNAMIC,
-		NONE_BOUND
-	};
+	namespace VAOType {
+		enum Enum {
+			STATIC,
+			DYNAMIC,
+			NONE_BOUND
+		};
+	}
 
 	class BufferManager {
 	public:
 		//Use this to get access to the required VAO
 		//It will be instantiated on first use automatically.
-		static GLuint VAO(VAOType t);
+		static GLuint VAO(VAOType::Enum t);
 		//Use this to get access to the required VBO
 		//It will be instantiated on first use automatically.
 		static GLuint VBO();
@@ -23,7 +25,7 @@ namespace sge {
 		
 		BufferManager() = delete;	//Singleton
 		~BufferManager() = delete;
-	
+
 	private:
 		static std::map<int, GLuint> VAOs_;
 		static GLuint VBO_;

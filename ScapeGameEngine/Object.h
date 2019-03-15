@@ -2,11 +2,13 @@
 
 namespace sge {
 	//Matches VAOType
-	enum ObjectType {
-		STATIC,
-		DYNAMIC,
-		GENERIC
-	};
+	namespace ObjectType {
+		enum Enum {
+			STATIC,
+			DYNAMIC,
+			GENERIC
+		};
+	}
 
 	//A base for all other objects.
 	//Don't use this for rendering;
@@ -19,15 +21,15 @@ namespace sge {
 		~Object();
 
 		//I'm going to regret this...
-		virtual void render();
+		virtual void render() = 0;
 
-		ObjectType type() { return type_; }
+		ObjectType::Enum type() { return type_; }
 
 	protected:
 		double posX = 0, posY = 0, posZ = 0;
 		double scaleX = 1, scaleY = 1, scaleZ = 1;
 		double rotX = 0, rotY = 0, rotZ = 0;
 
-		const ObjectType type_ = ObjectType::GENERIC;
+		const ObjectType::Enum type_ = ObjectType::GENERIC;
 	};
 }

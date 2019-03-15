@@ -29,6 +29,10 @@ namespace sge {
 		//A direct handle to the active GLFW window
 		static GLFWwindow* wind_;
 
+		///////////////////
+		///// Drawing /////
+		///////////////////
+
 		//Stores pointers to objects that have to be drawn each frame
 		//Note that this is a list, but not a std::list
 		static std::deque<Object*> objectList_;

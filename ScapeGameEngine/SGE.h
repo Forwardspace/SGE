@@ -9,6 +9,8 @@ but sadly your sizeof ain't right.
 //There you go.
 #endif
 
+#define GLEW_STATIC
+
 #include "stdheaders.h"
 #include "sgeheaders.h"
 #include "libs.h"

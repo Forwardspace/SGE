@@ -1,7 +1,11 @@
 #include "BufferManager.h"
 
 namespace sge {
-	GLuint BufferManager::VAO(VAOType type) {
+	GLuint BufferManager::EAB_ = NULL;
+	GLuint BufferManager::VBO_ = NULL;
+	std::map<int, GLuint> BufferManager::VAOs_;
+
+	GLuint BufferManager::VAO(VAOType::Enum type) {
 		if (VAOs_[type] == NULL) {
 			//No VAO bound, make one
 			GLuint VAO = NULL;
@@ -14,9 +18,8 @@ namespace sge {
 			//Set it as a default for the type given
 			VAOs_[type] = VAO;
 		}
-		else {
-			return VAOs_[type];
-		}
+		
+		return VAOs_[type];
 	}
 
 	GLuint BufferManager::VBO() {
@@ -50,10 +53,5 @@ namespace sge {
 		}
 
 		return EAB_;
-	}
-
-	BufferManager::BufferManager() {
-		EAB_ = NULL;
-		VBO_ = NULL;
 	}
 }
