@@ -8,6 +8,9 @@ namespace sge {
 	StaticObject::StaticObject() {
 	}
 
+	StaticObject::StaticObject(Mesh msh) {
+		objectMesh = msh;
+	}
 
 	StaticObject::~StaticObject() {
 	}

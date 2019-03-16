@@ -121,25 +121,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BufferManager.h" />
+    <ClInclude Include="FragmentShader.h" />
+    <ClInclude Include="IOManager.h" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SGE.h" />
     <ClInclude Include="sgeheaders.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="stdheaders.h" />
+    <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferManager.cpp" />
+    <ClCompile Include="FragmentShader.cpp" />
+    <ClCompile Include="IOManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

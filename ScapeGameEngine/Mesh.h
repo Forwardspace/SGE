@@ -4,7 +4,7 @@
 
 namespace sge {
 	struct Vertex3D {
-		float x = 0, y = 0, z = 0;
+		GLfloat x = 0, y = 0, z = 0;
 	};
 
 	using VertexArray = std::vector<Vertex3D>;
@@ -15,7 +15,11 @@ namespace sge {
 		VertexArray* VertArrayPtr() { return &VertArray_; }
 		IndexArray* IndArrayPtr() { return &IndArray_; }
 
+		void setVertArrayPtr(VertexArray va) { VertArray_ = va; }
+		void setIndArrayPtr(IndexArray ia) { IndArray_ = ia; }
+
 		Mesh();
+		Mesh(VertexArray va, IndexArray ia);
 		~Mesh();
 	private:
 		VertexArray VertArray_;

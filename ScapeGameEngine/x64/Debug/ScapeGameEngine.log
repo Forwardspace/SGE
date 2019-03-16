@@ -1,4 +1,6 @@
-﻿  Renderer.cpp
+﻿  Mesh.cpp
+  Object.cpp
+  Renderer.cpp
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.13.26128\include\functional(823): warning C4180: qualifier applied to function type has no meaning; ignored
   c:\users\juraj\source\repos\scapegameengine\scapegameengine\renderer.cpp(148): note: see reference to function template instantiation '_Fx (__cdecl *std::function<void (void)>::target<void(void)>(void) noexcept const)(void)' being compiled
           with
@@ -10,4 +12,9 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               _Fx=void (void)
           ]
+  StaticObject.cpp
+  test.cpp
+  Generating Code...
+MSVCRTD.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\vc120.pdb'; linking object as if no debug info
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe

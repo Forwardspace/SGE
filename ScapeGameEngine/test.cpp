@@ -9,6 +9,8 @@ int main() {
 
 	sge::StaticObject triangle(trimesh);
 
+	sge::Renderer::registerObject(triangle);
+
 	while (true) {
 		sge::Renderer::renderFrame();
 	}

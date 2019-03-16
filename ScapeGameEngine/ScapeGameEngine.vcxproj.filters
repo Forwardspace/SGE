@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Shaders">
+      <UniqueIdentifier>{81df4ddd-a211-4ec4-b807-620bc092efa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{ab23d00a-14c4-4da5-8e7e-597a20a775ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{e82dc671-d866-4fce-96c4-6ff8420b6de2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{0abbafe1-14b8-408f-b9e3-d638e50a7523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Management">
+      <UniqueIdentifier>{13baea3c-b829-4768-88bd-a6bbdb8f5ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Management">
+      <UniqueIdentifier>{441e24db-59a3-4897-9e5e-cd3aaa4481b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SGE.h">
@@ -30,17 +48,29 @@
     <ClInclude Include="Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BufferManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferManager.h">
+      <Filter>Header Files\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="IOManager.h">
+      <Filter>Header Files\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="FragmentShader.h">
+      <Filter>Header Files\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,17 +83,29 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BufferManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObject.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferManager.cpp">
+      <Filter>Source Files\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="IOManager.cpp">
+      <Filter>Source Files\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="FragmentShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
