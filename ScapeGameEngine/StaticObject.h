@@ -4,12 +4,17 @@
 #include "Mesh.h"
 
 namespace sge {
-	class StaticObject : protected Object {
+	class StaticObject : public Object {
 	public:
 		StaticObject();
+		StaticObject(Mesh msh);
 		~StaticObject();
+
+		void render();
 	
 	protected:
 		Mesh objectMesh;
+
+		const ObjectType::Enum type_ = ObjectType::STATIC;
 	};
 }
