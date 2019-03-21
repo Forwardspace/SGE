@@ -77,6 +77,8 @@ namespace sge {
 
 	void finalizeFrame(GLFWwindow* window) {
 		glfwSwapBuffers(window);
+
+		glDisableVertexAttribArray(0);
 	}
 
 	void Renderer::renderFrame() {

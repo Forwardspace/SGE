@@ -1,9 +1,6 @@
 #include "IOManager.h"
 
 namespace sge {
-	IOManager::IOManager() {
-	}
-
 	std::string IOManager::stringFromFile(std::string filename) {
 		std::ifstream in(filename);
 
@@ -18,8 +15,5 @@ namespace sge {
 		}
 
 		return filestr;
-	}
-
-	IOManager::~IOManager() {
 	}
 }

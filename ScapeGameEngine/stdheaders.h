@@ -10,6 +10,7 @@
 #include <map>
 #include <queue>
 #include <functional>
+#include <initializer_list>
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>

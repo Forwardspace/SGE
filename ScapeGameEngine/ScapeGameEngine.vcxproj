@@ -130,6 +130,7 @@
     <ClInclude Include="SGE.h" />
     <ClInclude Include="sgeheaders.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="stdheaders.h" />
     <ClInclude Include="VertexShader.h" />
@@ -145,6 +146,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="VertexShader.cpp" />

@@ -10,11 +10,13 @@ namespace sge {
 		//Load GLSL from file
 		Shader(std::string filename);
 		~Shader();
+
+		GLuint handle() { return handle_; }
 	
 	protected:
 		//Used by child classes only
 		void shaderFromFile(GLenum type, std::string filename);
 
-		GLuint handle = NULL;
+		GLuint handle_ = NULL;
 	};
 }
