@@ -1,4 +1,5 @@
 #pragma once
+#include "stdheaders.h"
 
 namespace sge {
 	//Matches VAOType
@@ -20,15 +21,22 @@ namespace sge {
 		Object();
 		~Object();
 
+		void setPos(float x, float y, float z) { posX_ = x; posY_ = y; posZ_ = z; transformNeedsUpdating = true; }
+		void setRot(float x, float y, float z) { rotX_ = x; rotY_ = y; rotZ_ = z; transformNeedsUpdating = true; }
+
 		//I'm going to regret this...
 		virtual void render() = 0;
 
 		ObjectType::Enum type() { return type_; }
 
 	protected:
-		double posX = 0, posY = 0, posZ = 0;
-		double scaleX = 1, scaleY = 1, scaleZ = 1;
-		double rotX = 0, rotY = 0, rotZ = 0;
+		float posX_ = 0, posY_ = 0, posZ_ = 0;
+		float scaleX_ = 1, scaleY_ = 1, scaleZ_ = 1;
+		float rotX_ = 0, rotY_ = 0, rotZ_ = 0;
+
+		glm::mat4x4 cachedMatrix_;
+
+		bool transformNeedsUpdating = true;
 
 		const ObjectType::Enum type_ = ObjectType::GENERIC;
 	};

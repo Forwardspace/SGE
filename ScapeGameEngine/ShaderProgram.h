@@ -1,6 +1,7 @@
 #pragma once
 #include "stdheaders.h"
 #include "Shader.h"
+//#include "ShaderManager.h"
 
 namespace sge {
 	class ShaderProgram {

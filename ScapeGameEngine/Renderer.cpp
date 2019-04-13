@@ -1,8 +1,14 @@
 #include "Renderer.h"
 
 namespace sge {
+	int Renderer::w_;
+	int Renderer::h_;
+
+	glm::mat4x4 Renderer::projectionMatrix_;
+
 	long unsigned int Renderer::frameNum_ = 0;
 	GLFWwindow* Renderer::wind_ = nullptr;
+	Camera* Renderer::currentCamera_;
 
 	///////////////////
 	///// Objects /////
@@ -94,6 +100,10 @@ namespace sge {
 		finalizeFrame(wind_);
 	}
 
+	void Renderer::updateProjectionMatrix(float FoV, float NCP, float FCP) {
+		projectionMatrix_ = glm::perspective(glm::radians(FoV), float(w_) / float(h_), NCP, FCP);
+	}
+
 	///////////////////
 	/////Callbacks/////
 	///////////////////
@@ -101,6 +111,8 @@ namespace sge {
 	std::list<std::function<void()>> Renderer::windowPeriodicCallbacks_ = {};
 
 	void Renderer::init(int w, int h, std::string name, bool fullscreen = false) {
+		w_ = w; h_ = h;
+
 		glewExperimental = true;
 
 		if (!glfwInit()) {
@@ -133,6 +145,9 @@ namespace sge {
 			std::cout << glewGetErrorString(error);
 			throw std::runtime_error("Unable to init GLEW! Time for some duct tape... ");
 		}
+
+		//Projection matrix is inited here with some defaults
+		updateProjectionMatrix(85, 0.1f, 100);
 	}
 
 	[[ noreturn ]] void Renderer::terminate() {
@@ -166,7 +181,7 @@ namespace sge {
 	void defaultWindowPeriodicCallback() {
 		glfwPollEvents();
 
-		if (glfwGetKey(Renderer::getWind(), GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(Renderer::getWind())) {
+		if (glfwGetKey(Renderer::wind(), GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(Renderer::wind())) {
 			Renderer::terminate();
 		}
 	}

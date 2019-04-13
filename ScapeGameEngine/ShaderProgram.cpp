@@ -26,8 +26,8 @@ namespace sge {
 			throw std::runtime_error(log);
 		}
 
-		//Debugging only - remove when shader management is implemented
-		glUseProgram(handle_);
+		//Done, set it as currently active
+		//ShaderManager::setActive(*this);
 	}
 
 	ShaderProgram::~ShaderProgram() {

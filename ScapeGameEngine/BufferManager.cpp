@@ -3,6 +3,7 @@
 namespace sge {
 	GLuint BufferManager::EAB_ = NULL;
 	GLuint BufferManager::VBO_ = NULL;
+	std::map<int, GLuint> BufferManager::FBOs_;
 	std::map<int, GLuint> BufferManager::VAOs_;
 
 	GLuint BufferManager::VAO(VAOType::Enum type) {
@@ -53,5 +54,21 @@ namespace sge {
 		}
 
 		return EAB_;
+	}
+
+	GLuint BufferManager::FBO(FBOType::Enum type) {
+		if (FBOs_[type] == NULL) {
+			//No FBO found, make one
+			GLuint newFBO = NULL;
+			glGenFramebuffers(1, &newFBO);
+
+			if (newFBO == NULL) {
+				throw std::runtime_error("Unable to generate a new FBO! Press F...");
+			}
+
+			FBOs_[type] = newFBO;
+		}
+
+		return FBOs_[type];
 	}
 }

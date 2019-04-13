@@ -9,15 +9,29 @@ int main() {
 
 	sge::StaticObject triangle(trimesh);
 
+	sge::StaticObject otherTriangle(trimesh);
+
 	sge::Renderer::registerObject(triangle);
+
+	sge::Renderer::registerObject(otherTriangle);
+	otherTriangle.setPos(1.5, 0, 0);
 
 	sge::VertexShader vs("C:\\Users\\Juraj\\source\\repos\\ScapeGameEngine\\x64\\Debug\\shaders\\vs.shader");
 	sge::FragmentShader fs("C:\\Users\\Juraj\\source\\repos\\ScapeGameEngine\\x64\\Debug\\shaders\\fs.shader");
 	sge::ShaderProgram prog({vs, fs});
+	sge::ShaderManager::setActive(prog);
 
-	glUseProgram(prog.handle());
+	sge::Camera maincam(0, 0, 1);
+	sge::Renderer::setCurrentCamera(&maincam);
+
+	float x = 1;
 
 	while (true) {
 		sge::Renderer::renderFrame();
+
+		maincam.setPos(0, 0, x);
+		maincam.setRot(0, 100 + x * 20, 0);
+		triangle.setRot(0, -x * 2, 0);
+		x += 0.01;
 	}
 }
