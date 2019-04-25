@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glew-2.1.0\include;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\DevIL Windows SDK\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -88,7 +88,8 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glew-2.1.0\lib\Release\x64;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glfw.3.2.1.5\build\native\lib\static\v140\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glew-2.1.0\lib\Release\x64;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glfw.3.2.1.5\build\native\lib\static\v140\x64;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\DevIL Windows SDK\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -121,6 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BufferManager.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="IOManager.h" />
     <ClInclude Include="libs.h" />
@@ -130,9 +132,13 @@
     <ClInclude Include="SGE.h" />
     <ClInclude Include="sgeheaders.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="stdheaders.h" />
+    <ClInclude Include="test.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -140,15 +146,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferManager.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="IOManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

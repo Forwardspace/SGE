@@ -1,5 +1,5 @@
 packages
 .vs
-*.exe
 *.ilk
 *.pdb
+ScapeGameEngine/x64

@@ -2,7 +2,8 @@
 
 namespace sge {
 	GLuint BufferManager::EAB_ = NULL;
-	GLuint BufferManager::VBO_ = NULL;
+	std::map<int, GLuint> BufferManager::VBOs_;
+	std::map<int, GLuint> BufferManager::FBOs_;
 	std::map<int, GLuint> BufferManager::VAOs_;
 
 	GLuint BufferManager::VAO(VAOType::Enum type) {
@@ -22,21 +23,21 @@ namespace sge {
 		return VAOs_[type];
 	}
 
-	GLuint BufferManager::VBO() {
-		if (VBO_ == NULL) {
+	GLuint BufferManager::VBO(VBOType::Enum type) {
+		if (VBOs_[type] == NULL) {
 			//No VBO found, make one
-			GLuint newVBO = NULL;
-			glGenBuffers(1, &newVBO);
+			GLuint VBO = NULL;
+			glGenBuffers(1, &VBO);
 
-			if (newVBO == NULL) {
+			if (VBO == NULL) {
 				throw std::runtime_error("Unable to generate a new VBO! Buffering...");
 			}
 
 			//Set it as a default
-			VBO_ = newVBO;
+			VBOs_[type] = VBO;
 		}
 
-		return VBO_;
+		return VBOs_[type];
 	}
 
 	GLuint BufferManager::EAB() {
@@ -53,5 +54,21 @@ namespace sge {
 		}
 
 		return EAB_;
+	}
+
+	GLuint BufferManager::FBO(FBOType::Enum type) {
+		if (FBOs_[type] == NULL) {
+			//No FBO found, make one
+			GLuint newFBO = NULL;
+			glGenFramebuffers(1, &newFBO);
+
+			if (newFBO == NULL) {
+				throw std::runtime_error("Unable to generate a new FBO! Press F...");
+			}
+
+			FBOs_[type] = newFBO;
+		}
+
+		return FBOs_[type];
 	}
 }
