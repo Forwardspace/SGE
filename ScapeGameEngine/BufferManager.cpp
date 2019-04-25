@@ -2,7 +2,7 @@
 
 namespace sge {
 	GLuint BufferManager::EAB_ = NULL;
-	GLuint BufferManager::VBO_ = NULL;
+	std::map<int, GLuint> BufferManager::VBOs_;
 	std::map<int, GLuint> BufferManager::FBOs_;
 	std::map<int, GLuint> BufferManager::VAOs_;
 
@@ -23,21 +23,21 @@ namespace sge {
 		return VAOs_[type];
 	}
 
-	GLuint BufferManager::VBO() {
-		if (VBO_ == NULL) {
+	GLuint BufferManager::VBO(VBOType::Enum type) {
+		if (VBOs_[type] == NULL) {
 			//No VBO found, make one
-			GLuint newVBO = NULL;
-			glGenBuffers(1, &newVBO);
+			GLuint VBO = NULL;
+			glGenBuffers(1, &VBO);
 
-			if (newVBO == NULL) {
+			if (VBO == NULL) {
 				throw std::runtime_error("Unable to generate a new VBO! Buffering...");
 			}
 
 			//Set it as a default
-			VBO_ = newVBO;
+			VBOs_[type] = VBO;
 		}
 
-		return VBO_;
+		return VBOs_[type];
 	}
 
 	GLuint BufferManager::EAB() {

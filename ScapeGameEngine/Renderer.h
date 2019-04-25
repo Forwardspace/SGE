@@ -2,6 +2,7 @@
 #include "stdheaders.h"
 #include "Object.h"
 #include "BufferManager.h"
+#include "TextureManager.h"
 #include "Camera.h"
 
 namespace sge {

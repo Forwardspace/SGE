@@ -5,7 +5,7 @@ namespace sge {
 		std::ifstream in(filename);
 
 		if (!in) {
-			throw std::runtime_error("Unable to open ifstream. Whilestream ain't working as well.");
+			throw std::runtime_error("Unable to open ifstream. Elsestream ain't working as well.");
 		}
 
 		std::string filestr;

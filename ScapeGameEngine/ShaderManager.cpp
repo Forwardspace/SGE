@@ -10,7 +10,7 @@ namespace sge {
 		}
 	}
 
-	const char* MVP_uniform = "MVP";
+	char* MVP_uniform = (char*)"MVP";
 
 	void ShaderManager::bindMVP(glm::mat4x4 MVP) {
 		GLint MVP_uniform_location = glGetUniformLocation(boundShader_->handle(), MVP_uniform);
@@ -19,5 +19,16 @@ namespace sge {
 		}
 
 		glUniformMatrix4fv(MVP_uniform_location, 1, GL_FALSE, &MVP[0][0]);
+	}
+
+	char* Sampler_uniform = (char*)"DefSampler";
+
+	void ShaderManager::bindSamplerTexUnit(int absoluteUnit) {
+		GLint Sampler_uniform_location = glGetUniformLocation(boundShader_->handle(), Sampler_uniform);
+		if (Sampler_uniform_location < 0) {
+			throw std::runtime_error("Can't find Sampler uniform location! Sample this!");
+		}
+
+		glUniform1i(Sampler_uniform_location, absoluteUnit);
 	}
 }

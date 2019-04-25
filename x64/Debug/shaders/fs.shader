@@ -1,7 +1,13 @@
 #version 410 core
 
-out vec3 color;
+//Fresh from the vertex shader
+in vec2 interUV;
+
+//RGBA
+out vec4 color;
+
+uniform sampler2D DefSampler;
 
 void main() {
-	color = vec3(0, 0, 1);
+	color = texture(DefSampler, interUV).rgba;
 }

@@ -7,3 +7,4 @@
 #include "FragmentShader.h"
 #include "VertexShader.h"
 #include "ShaderProgram.h"
+#include "Texture.h"

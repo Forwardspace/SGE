@@ -39,11 +39,11 @@ namespace sge {
 	std::queue<Object*> drawQueue;
 
 	void bindBuffers() {
-		//Bind ALL the buffers
+		//Bind common buffers
 		//For now, just use the static VAO
 		glBindVertexArray(BufferManager::VAO(VAOType::STATIC));
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BufferManager::EAB());
-		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO());
+		//Other buffers are bound when used
 	}
 
 	void clearScreen() {
@@ -51,6 +51,26 @@ namespace sge {
 
 		//(0, 0, 0, 1) - opaque black
 		glClearColor(0, 0, 0, 1);
+	}
+
+	void initAttribPtrs() {
+		//Enable the first vertex attribute array (0) that
+		//stores vertex locations.
+		glEnableVertexAttribArray(0);
+		//The second one stores texture UV vertices
+		glEnableVertexAttribArray(1);
+
+		//Describe the first attribute array
+		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO(VBOType::VERTEX));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		//See the OpenGL documentation for explanation, but basically
+		//0 - index, 3 - how many coordinates per vertex, GL_FLOAT - we're using floats
+		//GL_FALSE - the data is not normalized or anything, 0 - no space between vertices,
+		//(void*)0 offset to the first vertex; our data starts from the beginning, so 0
+
+		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO(VBOType::UV));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		//Texture UV vertices have only two coordinates
 	}
 
 	//Everything necessary for starting a new frame
@@ -61,18 +81,7 @@ namespace sge {
 
 		bindBuffers();
 
-		//Enable the first vertex attribute array (0) that
-		//stores vertex locations.
-		glEnableVertexAttribArray(0);
-
-		//Describe the first attribute array
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-		//See the OpenGL documentation for explanation, but basically
-		//0 - index, 3 - how many coordinates per vertex, GL_FLOAT - we're using floats
-		//GL_FALSE - the data is not normalized or anything, 0 - no space between vertices,
-		//(void*)0 offset to the first vertex; our data starts from the beginning, so 0
-
-		//Other Attributes are optional, so handle them somewhere else, for now it's not implemented
+		initAttribPtrs();
 	}
 
 	void drawNext() {
@@ -85,6 +94,7 @@ namespace sge {
 		glfwSwapBuffers(window);
 
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
 	}
 
 	void Renderer::renderFrame() {
@@ -148,6 +158,13 @@ namespace sge {
 
 		//Projection matrix is inited here with some defaults
 		updateProjectionMatrix(85, 0.1f, 100);
+
+		//Initialize various libraries
+		ilInit();
+		iluInit();
+		ilutInit();
+
+		TextureManager::init();
 	}
 
 	[[ noreturn ]] void Renderer::terminate() {

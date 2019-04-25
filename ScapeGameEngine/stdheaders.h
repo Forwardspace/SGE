@@ -18,3 +18,6 @@
 #include <GLFW\glfw3.h>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <IL\il.h>
+#include <IL\ilu.h>
+#include <IL\ilut.h>

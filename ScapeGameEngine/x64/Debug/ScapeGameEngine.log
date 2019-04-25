@@ -1,3 +1,4 @@
-﻿  test.cpp
-c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(35): warning C4305: '+=': truncation from 'double' to 'float'
+﻿  TextureManager.cpp
+c:\program files (x86)\windows kits\10\include\10.0.16299.0\shared\minwindef.h(130): warning C4005: 'APIENTRY': macro redefinition
+  c:\users\juraj\source\repos\scapegameengine\packages\glfw.3.2.1.5\build\native\include\glfw\glfw3.h(98): note: see previous definition of 'APIENTRY'
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe
