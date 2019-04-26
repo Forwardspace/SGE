@@ -6,8 +6,14 @@ namespace sge {
 	public:
 		static std::string stringFromFile(std::string filename);
 
+		static const aiScene* sceneFromFile(std::string filename);
+		static aiMesh* firstMeshFromScene(const aiScene* scene);
+
 		//Singleton
 		IOManager() = delete;
 		~IOManager() = delete;
+
+	private:
+		static Assimp::Importer* importer;
 	};
 }

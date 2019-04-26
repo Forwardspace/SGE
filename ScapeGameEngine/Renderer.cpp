@@ -157,7 +157,7 @@ namespace sge {
 		}
 
 		//Projection matrix is inited here with some defaults
-		updateProjectionMatrix(85, 0.1f, 100);
+		updateProjectionMatrix(85, 0.1f, 1000);
 
 		//Initialize various libraries
 		ilInit();
@@ -165,6 +165,9 @@ namespace sge {
 		ilutInit();
 
 		TextureManager::init();
+
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 	}
 
 	[[ noreturn ]] void Renderer::terminate() {

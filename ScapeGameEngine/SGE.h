@@ -2,7 +2,7 @@
 
 #ifndef __cplusplus
 //Nope:
-What are you doing
+What are you doing?
 //There you go.
 #endif
 

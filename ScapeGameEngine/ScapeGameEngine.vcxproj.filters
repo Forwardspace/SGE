@@ -93,9 +93,6 @@
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="test.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
