@@ -28,7 +28,8 @@ namespace sge {
 			aiProcess_SortByPType |
 			aiProcess_FindInvalidData |
 			aiProcess_GenUVCoords |
-			aiProcess_OptimizeMeshes
+			aiProcess_OptimizeMeshes |
+			aiProcess_ValidateDataStructure
 		);
 
 		if (!scene) {

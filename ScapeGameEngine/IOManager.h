@@ -13,6 +13,8 @@ namespace sge {
 		IOManager() = delete;
 		~IOManager() = delete;
 
+		static void terminate() { delete importer; }
+
 	private:
 		static Assimp::Importer* importer;
 	};

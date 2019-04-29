@@ -14,8 +14,11 @@ namespace sge {
 		//aiVector3D is basically just three floats, right? I hope so...
 		VertArray_ = std::vector<Vertex3D>(
 			&mesh->mVertices[0],
-			&mesh->mVertices[mesh->mNumVertices - 1]
+			&mesh->mVertices[mesh->mNumVertices]
 		);
+		/*for (int i = 0; i < mesh->mNumVertices; i++) {
+			VertArray_.push_back(mesh->mVertices[i]);
+		}*/
 		
 		//Now faces are more complicated, for some reason.
 		for (GLuint i = 0; i < mesh->mNumFaces; i++) {

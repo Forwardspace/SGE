@@ -21,6 +21,8 @@ namespace sge {
 	void Renderer::removeObject(Object& obj) {
 		int index = 0;
 
+		//Search for obj in objectList and remove
+		//the first reference to it.
 		for (int i = 0; i < objectList_.size(); i++) {
 			if (objectList_[i] == &obj) {
 				index = i;
@@ -171,6 +173,9 @@ namespace sge {
 	}
 
 	[[ noreturn ]] void Renderer::terminate() {
+		//Some cleanup
+		IOManager::terminate();
+
 		glfwTerminate();
 		std::exit(0);
 	}

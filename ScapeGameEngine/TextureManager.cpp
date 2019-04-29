@@ -8,8 +8,6 @@ namespace sge {
 	void TextureManager::init() {
 		//Load the default checkerboard texture
 		defaultTexture = new Texture(defaultTextureFilename);
-		//No matching delete - the texture is used throughout
-		//the whole runtime
 
 		glActiveTexture(GL_TEXTURE0);
 	}
@@ -24,5 +22,9 @@ namespace sge {
 			glBindTexture(GL_TEXTURE_2D, tex->handle());
 			boundTexture = tex;
 		}
+	}
+
+	void TextureManager::terminate() {
+		delete defaultTexture;
 	}
 }
