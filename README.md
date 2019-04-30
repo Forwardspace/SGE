@@ -1,10 +1,11 @@
-# SGE version 0.0.1
+# SGE version 0.0.3
 
 ### Why are you reading this?
 
 
-ScapeGameEngine is an easy to use game engine, now with even less sense, purpose and focus!
+ScapeGameEngine is a fully featured game engine, lacking, however, the ability to make any actual games with it.
+
+### Documentation
 
 
-
-Documentation is coming soon (yeah, sure).
+Documentation is almost there (yeah, sure).
