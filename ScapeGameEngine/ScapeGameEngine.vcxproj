@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glew-2.1.0\include;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\DevIL Windows SDK\include;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\Assimp.3.0.0\build\native\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\packages\glew-2.1.0\include;..\packages\DevIL Windows SDK\include;..\packages\Assimp.3.0.0\build\native\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -85,10 +85,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>SGE_GL_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glew-2.1.0\lib\Release\x64;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\glfw.3.2.1.5\build\native\lib\static\v140\x64;C:\Users\Juraj\source\repos\ScapeGameEngine\packages\DevIL Windows SDK\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\packages\glew-2.1.0\lib\Release\x64;..\packages\glfw.3.2.1.5\build\native\lib\static\v140\x64;..\packages\DevIL Windows SDK\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

@@ -45,7 +45,7 @@ namespace sge {
 		const aiScene* scene = IOManager::sceneFromFile(filename);
 			
 		//For all meshes...
-		for (int i = 0; i < scene->mNumMeshes; i++) {
+		for (GLuint i = 0; i < scene->mNumMeshes; i++) {
 			//Append their data to this Mesh
 			aiMesh* m = scene->mMeshes[i];
 			appendMeshData(scene, m);

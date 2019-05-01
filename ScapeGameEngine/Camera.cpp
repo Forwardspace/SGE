@@ -37,9 +37,9 @@ namespace sge {
 	}
 
 	void Camera::clampAngles() {
-		rotX_ = fmod(rotX_, 360);
-		rotY_ = fmod(rotY_, 360);
-		rotZ_ = fmod(rotZ_, 360);
+		rotX_ = (float)fmod(rotX_, 360);
+		rotY_ = (float)fmod(rotY_, 360);
+		rotZ_ = (float)fmod(rotZ_, 360);
 	}
 
 	void Camera::updateViewMatrix() {

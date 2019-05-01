@@ -13,6 +13,7 @@ namespace sge {
 		IOManager() = delete;
 		~IOManager() = delete;
 
+		static void init();
 		static void terminate() { delete importer; }
 
 	private:

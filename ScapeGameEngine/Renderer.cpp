@@ -79,10 +79,7 @@ namespace sge {
 	void startDrawing(std::deque<Object*> objectList) {
 		drawQueue = std::queue<Object*>(objectList);
 
-		clearScreen();
-
 		bindBuffers();
-
 		initAttribPtrs();
 	}
 
@@ -94,6 +91,7 @@ namespace sge {
 
 	void finalizeFrame(GLFWwindow* window) {
 		glfwSwapBuffers(window);
+		clearScreen();
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -166,18 +164,23 @@ namespace sge {
 		iluInit();
 		ilutInit();
 
+		//Internal managers
 		TextureManager::init();
+		IOManager::init();
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 	}
 
-	[[ noreturn ]] void Renderer::terminate() {
+	[[ noreturn ]] void Renderer::terminate(bool exit) {
 		//Some cleanup
 		IOManager::terminate();
 
 		glfwTerminate();
-		std::exit(0);
+
+		if (exit) {
+			std::exit(0);
+		}
 	}
 
 	void Renderer::registerWindowCallback(std::function<void()> callback) {

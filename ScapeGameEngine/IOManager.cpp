@@ -1,7 +1,11 @@
 #include "IOManager.h"
 
 namespace sge {
-	Assimp::Importer* IOManager::importer = new Assimp::Importer;
+	Assimp::Importer* IOManager::importer;
+
+	void IOManager::init() {
+		IOManager::importer = new Assimp::Importer;
+	}
 
 	std::string IOManager::stringFromFile(std::string filename) {
 		std::ifstream in(filename);
