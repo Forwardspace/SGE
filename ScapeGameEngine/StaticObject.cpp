@@ -12,7 +12,7 @@ namespace sge {
 		objectMesh_ = msh;
 	}
 
-	StaticObject::StaticObject(std::string filename) {
+	StaticObject::StaticObject(fs::path filename) {
 		objectMesh_ = Mesh(filename);
 	}
 

@@ -38,7 +38,7 @@ namespace sge {
 		Mesh(VertexArray va, IndexArray ia, TexCoordArray ta);
 		//Mesh from file: loads the first mesh from the file
 		//given. Called automatically.
-		Mesh(std::string filename);
+		Mesh(fs::path filename);
 		~Mesh();
 	private:
 		VertexArray VertArray_;

@@ -14,7 +14,7 @@ namespace sge {
 		StaticObject(Mesh& msh);
 		//Object from a file: loads the first mesh from the
 		//specified file.
-		StaticObject(std::string filename);
+		StaticObject(fs::path filename);
 		~StaticObject();
 
 		void setMesh(Mesh& mesh) { objectMesh_ = mesh; }

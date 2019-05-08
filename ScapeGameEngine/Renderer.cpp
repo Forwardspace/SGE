@@ -123,8 +123,6 @@ namespace sge {
 	void Renderer::init(int w, int h, std::string name, bool fullscreen = false) {
 		w_ = w; h_ = h;
 
-		glewExperimental = true;
-
 		if (!glfwInit()) {
 			std::runtime_error up("GLFW Can't init. What now?");
 			throw up;
@@ -150,11 +148,10 @@ namespace sge {
 
 		glfwMakeContextCurrent(wind_);
 
-		GLenum error = glewInit();
-		if (error != GLEW_OK) {
-			std::cout << glewGetErrorString(error);
-			throw std::runtime_error("Unable to init GLEW! Time for some duct tape... ");
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+			throw std::runtime_error("Cannot initialize Glad! I'll gladly stop.");
 		}
+		glGetError();	//Clear error buffer
 
 		//Projection matrix is inited here with some defaults
 		updateProjectionMatrix(85, 0.1f, 1000);

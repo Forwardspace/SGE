@@ -1,6 +1,5 @@
 #pragma once
 
-#define GLEW_STATIC
 #define NOMINMAX
 
 #include <iostream>
@@ -12,12 +11,17 @@
 #include <queue>
 #include <functional>
 #include <initializer_list>
+#include <filesystem>
+
+namespace fs = std::experimental::filesystem;
 
 #include <cmath>
 
 //GL-related
-#include <GL\glew.h>
+#define GLFW_INCLUDE_NONE
 #include <GLFW\glfw3.h>
+#include <glad\glad.h>
+
 //GLM
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>

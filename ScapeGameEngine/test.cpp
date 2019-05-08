@@ -13,8 +13,8 @@ void mainTest() {
 	sge::StaticObject pallet(".\\models\\pallet.obj");
 	sge::Renderer::registerObject(pallet);
 
-	sge::VertexShader vs(".\\shaders\\vs.shader");
-	sge::FragmentShader fs(".\\shaders\\fs.shader");
+	sge::VertexShader vs(fs::path(".\\shaders\\vs.shader"));
+	sge::FragmentShader fs(fs::path(".\\shaders\\fs.shader"));
 	sge::ShaderProgram prog({vs, fs});
 	sge::ShaderManager::setActive(prog);
 

@@ -41,7 +41,7 @@ namespace sge {
 		);
 	}
 
-	Mesh::Mesh(std::string filename) {
+	Mesh::Mesh(fs::path filename) {
 		const aiScene* scene = IOManager::sceneFromFile(filename);
 			
 		//For all meshes...

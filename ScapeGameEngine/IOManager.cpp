@@ -7,7 +7,7 @@ namespace sge {
 		IOManager::importer = new Assimp::Importer;
 	}
 
-	std::string IOManager::stringFromFile(std::string filename) {
+	std::string IOManager::stringFromFile(fs::path filename) {
 		std::ifstream in(filename);
 
 		if (!in) {
@@ -23,9 +23,9 @@ namespace sge {
 		return filestr;
 	}
 
-	const aiScene* IOManager::sceneFromFile(std::string filename) {
+	const aiScene* IOManager::sceneFromFile(fs::path filename) {
 		const aiScene* scene = importer->ReadFile(
-			filename,
+			filename.string(),
 			aiProcess_CalcTangentSpace |	//Not needed for now, but future-proofing is always welcome
 			aiProcess_Triangulate |
 			aiProcess_JoinIdenticalVertices |
