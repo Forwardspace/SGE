@@ -21,6 +21,8 @@ namespace sge {
 	void Renderer::removeObject(Object& obj) {
 		int index = 0;
 
+		//Search for obj in objectList and remove
+		//the first reference to it.
 		for (int i = 0; i < objectList_.size(); i++) {
 			if (objectList_[i] == &obj) {
 				index = i;
@@ -77,10 +79,7 @@ namespace sge {
 	void startDrawing(std::deque<Object*> objectList) {
 		drawQueue = std::queue<Object*>(objectList);
 
-		clearScreen();
-
 		bindBuffers();
-
 		initAttribPtrs();
 	}
 
@@ -92,6 +91,7 @@ namespace sge {
 
 	void finalizeFrame(GLFWwindow* window) {
 		glfwSwapBuffers(window);
+		clearScreen();
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -123,8 +123,6 @@ namespace sge {
 	void Renderer::init(int w, int h, std::string name, bool fullscreen = false) {
 		w_ = w; h_ = h;
 
-		glewExperimental = true;
-
 		if (!glfwInit()) {
 			std::runtime_error up("GLFW Can't init. What now?");
 			throw up;
@@ -150,26 +148,36 @@ namespace sge {
 
 		glfwMakeContextCurrent(wind_);
 
-		GLenum error = glewInit();
-		if (error != GLEW_OK) {
-			std::cout << glewGetErrorString(error);
-			throw std::runtime_error("Unable to init GLEW! Time for some duct tape... ");
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+			throw std::runtime_error("Cannot initialize Glad! I'll gladly stop.");
 		}
+		glGetError();	//Clear error buffer
 
 		//Projection matrix is inited here with some defaults
-		updateProjectionMatrix(85, 0.1f, 100);
+		updateProjectionMatrix(85, 0.1f, 1000);
 
 		//Initialize various libraries
 		ilInit();
 		iluInit();
 		ilutInit();
 
+		//Internal managers
 		TextureManager::init();
+		IOManager::init();
+
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 	}
 
-	[[ noreturn ]] void Renderer::terminate() {
+	[[ noreturn ]] void Renderer::terminate(bool exit) {
+		//Some cleanup
+		IOManager::terminate();
+
 		glfwTerminate();
-		std::exit(0);
+
+		if (exit) {
+			std::exit(0);
+		}
 	}
 
 	void Renderer::registerWindowCallback(std::function<void()> callback) {

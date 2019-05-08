@@ -8,14 +8,16 @@ namespace sge {
 	public:
 		Shader();
 		//Load GLSL from file
-		Shader(std::string filename);
+		Shader(fs::path filename);
+		//Load GLSL from char*
+		Shader(std::string data);
 		~Shader();
 
 		GLuint handle() { return handle_; }
 	
 	protected:
 		//Used by child classes only
-		void shaderFromFile(GLenum type, std::string filename);
+		void shaderFromString(GLenum type, std::string source);
 
 		GLuint handle_ = NULL;
 	};

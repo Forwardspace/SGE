@@ -12,13 +12,16 @@ namespace sge {
 	public:
 		StaticObject();
 		StaticObject(Mesh& msh);
+		//Object from a file: loads the first mesh from the
+		//specified file.
+		StaticObject(fs::path filename);
 		~StaticObject();
 
-		void setMesh(Mesh& mesh) { objectMesh_ = &mesh; }
-		void setTexture(Texture& tex) { objectTexture_ = &tex; }
+		void setMesh(Mesh& mesh) { objectMesh_ = mesh; }
+		void setTexture(Texture& tex) { objectTexture_ = tex; useDefaultTexture = false; }
 
-		Mesh* mesh() { return objectMesh_; }
-		Texture* texture() { return objectTexture_; }
+		Mesh mesh() { return objectMesh_; }
+		Texture texture() { return objectTexture_; }
 
 		void render();
 	
@@ -27,8 +30,9 @@ namespace sge {
 		void clampAngles();
 		void updateModelMatrix();
 
-		Mesh* objectMesh_ = nullptr;
-		Texture* objectTexture_ = nullptr;
+		Mesh objectMesh_;
+		Texture objectTexture_;
+		bool useDefaultTexture = true;
 
 		const ObjectType::Enum type_ = ObjectType::STATIC;
 	};

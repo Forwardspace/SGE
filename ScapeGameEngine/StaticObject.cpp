@@ -9,7 +9,11 @@ namespace sge {
 	}
 
 	StaticObject::StaticObject(Mesh& msh) {
-		objectMesh_ = &msh;
+		objectMesh_ = msh;
+	}
+
+	StaticObject::StaticObject(fs::path filename) {
+		objectMesh_ = Mesh(filename);
 	}
 
 	StaticObject::~StaticObject() {
@@ -59,14 +63,19 @@ namespace sge {
 		auto e1 = glGetError();
 
 		//Bind the assigned texture for the shader
-		TextureManager::bindTexture(objectTexture_);
+		if (!useDefaultTexture) {
+			TextureManager::bindTexture(&objectTexture_);
+		}
+		else {
+			TextureManager::bindTexture(nullptr);
+		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO(VBOType::UV));
 		//The UV data
 		glBufferData(
 			GL_ARRAY_BUFFER,
-			objectMesh_->TexCoordArrayPtr()->size() * sizeof(Vertex2D),
-			objectMesh_->TexCoordArrayPtr()->data(),
+			objectMesh_.TexCoordArrayPtr()->size() * sizeof(Vertex2D),
+			objectMesh_.TexCoordArrayPtr()->data(),
 			GL_STATIC_DRAW
 		);
 
@@ -74,8 +83,8 @@ namespace sge {
 		//Give the raw vertices 
 		glBufferData(
 			GL_ARRAY_BUFFER,
-			objectMesh_->VertArrayPtr()->size() * sizeof(Vertex3D),
-			objectMesh_->VertArrayPtr()->data(),
+			objectMesh_.VertArrayPtr()->size() * sizeof(Vertex3D),
+			objectMesh_.VertArrayPtr()->data(),
 			GL_STATIC_DRAW
 		);
 
@@ -84,13 +93,13 @@ namespace sge {
 		//Give the indices used to draw said raw vertices
 		glBufferData(
 			GL_ELEMENT_ARRAY_BUFFER,
-			objectMesh_->IndArrayPtr()->size() * sizeof(SGE_INDEX_TYPE),
-			objectMesh_->IndArrayPtr()->data(),
+			objectMesh_.IndArrayPtr()->size() * sizeof(SGE_INDEX_TYPE),
+			objectMesh_.IndArrayPtr()->data(),
 			GL_STATIC_DRAW
 		);
 
 		//Finally, tell OpenGL to draw the indices (the last argument is the data offset from the beginning of
 		//the element buffer, 0 in our case)
-		glDrawElements(GL_TRIANGLES, (GLsizei)(objectMesh_->IndArrayPtr()->size()), SGE_INDEX_TYPE, (void*)0);
+		glDrawElements(GL_TRIANGLES, (GLsizei)(objectMesh_.IndArrayPtr()->size()), SGE_INDEX_TYPE, (void*)0);
 	}
 }

@@ -4,7 +4,7 @@
 namespace sge {
 	//Matches VAOType
 	namespace ObjectType {
-		enum Enum {
+		enum  Enum {
 			STATIC,
 			DYNAMIC,
 			GENERIC

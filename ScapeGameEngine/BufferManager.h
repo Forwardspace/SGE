@@ -4,7 +4,7 @@
 namespace sge {
 	//Matches ObjectType
 	namespace VAOType {
-		enum Enum {
+		enum  Enum {
 			STATIC,
 			DYNAMIC,
 			NONE_BOUND,
@@ -12,14 +12,14 @@ namespace sge {
 	}
 
 	namespace VBOType {
-		enum Enum {
+		enum  Enum {
 			VERTEX,
 			UV
 		};
 	}
 
 	namespace FBOType {
-		enum Enum {
+		enum  Enum {
 			POSITION,
 			DIFFUSE,
 			NORMAL,

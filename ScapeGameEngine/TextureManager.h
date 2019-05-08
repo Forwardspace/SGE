@@ -8,6 +8,7 @@ namespace sge {
 		static void bindTexture(Texture* tex);
 
 		static void init();
+		static void terminate();
 
 		TextureManager() = delete;	//Singleton
 		~TextureManager() = delete;

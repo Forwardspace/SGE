@@ -6,7 +6,8 @@ namespace sge {
 	class VertexShader : public Shader {
 	public:
 		VertexShader();
-		VertexShader(std::string filename);
+		VertexShader(fs::path filename);
+		VertexShader(std::string source);
 		~VertexShader();
 	};
 }

@@ -4,15 +4,14 @@ namespace sge {
 	Shader::Shader() {
 	}
 
-	void Shader::shaderFromFile(GLenum type, std::string filename) {
-		std::string shaderfile = IOManager::stringFromFile(filename).c_str();
-		const char* source = shaderfile.c_str();
-
+	void Shader::shaderFromString(GLenum type, std::string source) {
 		GLint result = GL_FALSE;
 		int loglength = 0;
 
+		const char* data = source.c_str();
+
 		handle_ = glCreateShader(type);
-		glShaderSource(handle_, 1, &source, NULL);
+		glShaderSource(handle_, 1, &data, NULL);
 		glCompileShader(handle_);
 
 		//Do some error checking
@@ -27,6 +26,17 @@ namespace sge {
 			//the error is going to be.
 		}
 		//All done
+	}
+
+	Shader::Shader(fs::path filename) {
+		//Unable to create shader without a type
+		//std::string source = IOManager::stringFromFile(filename);
+		//shaderFromString(<TYPE>, source);
+	}
+
+	Shader::Shader(std::string data) {
+		//Unable to create shader without a type
+		//shaderFromString(<TYPE>, data);
 	}
 
 	Shader::~Shader() {

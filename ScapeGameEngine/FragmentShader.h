@@ -6,7 +6,8 @@ namespace sge {
 	class FragmentShader : public Shader {
 	public:
 		FragmentShader();
-		FragmentShader(std::string filename);
+		FragmentShader(fs::path filename);
+		FragmentShader(std::string source);
 		~FragmentShader();
 	};
 }

@@ -2,6 +2,7 @@
 #include "stdheaders.h"
 #include "Object.h"
 #include "BufferManager.h"
+#include "IOManager.h"
 #include "TextureManager.h"
 #include "Camera.h"
 
@@ -40,7 +41,7 @@ namespace sge {
 		static void removeWindowCallback(std::function<void()>);
 
 		static void init(int w, int h, std::string name, bool fullscreen);
-		[[ noreturn ]] static void terminate();
+		static void terminate(bool exit = true);
 	private:
 		//A direct handle to the active GLFW window
 		static GLFWwindow* wind_;
