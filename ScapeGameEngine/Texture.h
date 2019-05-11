@@ -12,6 +12,8 @@ namespace sge {
 		~Texture();
 		//Load from file
 		Texture(std::string filename);
+		//Load from array
+		Texture(GLubyte* data, int w, int h);
 
 		GLuint handle() { return handle_; }
 

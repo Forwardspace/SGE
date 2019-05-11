@@ -52,6 +52,12 @@ namespace sge {
 		}
 	}
 
+	Texture::Texture(GLubyte* data, int w, int h) {
+		w_ = w;
+		h_ = h;
+		makeTexture(data);
+	}
+
 	void Texture::makeTexture(GLubyte* data) {
 		glGenTextures(1, &handle_);
 		glBindTexture(GL_TEXTURE_2D, handle_);
