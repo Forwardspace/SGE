@@ -8,6 +8,7 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <array>
 #include <queue>
 #include <functional>
 #include <initializer_list>

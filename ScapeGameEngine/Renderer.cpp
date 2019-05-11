@@ -164,6 +164,7 @@ namespace sge {
 		//Internal managers
 		TextureManager::init();
 		IOManager::init();
+		GLFWIOManager::init(wind_);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);

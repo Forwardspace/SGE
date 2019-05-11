@@ -37,6 +37,18 @@
     <Filter Include="Source Files\Textures">
       <UniqueIdentifier>{29f6dade-25ea-4e3e-a678-09a615719a21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{5e5238a1-a8e8-4892-8bf8-243bf7d86b5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{90e533d5-46d5-47fe-adb9-e5eb83faf158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO">
+      <UniqueIdentifier>{6b701cd8-6d15-4f9a-870f-8275c5f528a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IO">
+      <UniqueIdentifier>{7e55e20b-1e33-4eec-9f22-0ab77bf62a0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SGE.h">
@@ -93,6 +105,9 @@
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="GLFWIOManager.h">
+      <Filter>Header Files\Management</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -145,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="..\packages\glad\src\glad.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLFWIOManager.cpp">
+      <Filter>Source Files\Management</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

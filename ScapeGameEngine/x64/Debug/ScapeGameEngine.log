@@ -2,17 +2,18 @@
   BufferManager.cpp
   Camera.cpp
   FragmentShader.cpp
+  GLFWIOManager.cpp
   IOManager.cpp
   Mesh.cpp
   Object.cpp
   Renderer.cpp
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\functional(1616): warning C4180: qualifier applied to function type has no meaning; ignored
-  c:\users\juraj\source\repos\scapegameengine\scapegameengine\renderer.cpp(190): note: see reference to function template instantiation '_Fx (__cdecl *std::function<void (void)>::target<void(void)>(void) noexcept const)(void)' being compiled
+  c:\users\juraj\source\repos\scapegameengine\scapegameengine\renderer.cpp(191): note: see reference to function template instantiation '_Fx (__cdecl *std::function<void (void)>::target<void(void)>(void) noexcept const)(void)' being compiled
           with
           [
               _Fx=void (void)
           ]
-  c:\users\juraj\source\repos\scapegameengine\scapegameengine\renderer.cpp(190): note: see reference to function template instantiation '_Fx (__cdecl *std::function<void (void)>::target<void(void)>(void) noexcept const)(void)' being compiled
+  c:\users\juraj\source\repos\scapegameengine\scapegameengine\renderer.cpp(191): note: see reference to function template instantiation '_Fx (__cdecl *std::function<void (void)>::target<void(void)>(void) noexcept const)(void)' being compiled
           with
           [
               _Fx=void (void)
