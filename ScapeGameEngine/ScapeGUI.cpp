@@ -34,19 +34,25 @@ namespace sgeui {
 		}
 	}
 
+//Default SGEUI theme colours
+#define SGEUI_BANNER_COL { (GLbyte)120, (GLbyte)120, (GLbyte)120, (GLbyte)255 }
+#define SGEUI_BACK_COL_BLACK { (GLbyte)20, (GLbyte)20, (GLbyte)20, (GLbyte)255 }
+#define SGEUI_BACK_COL_WHITE { (GLbyte)180, (GLbyte)180, (GLbyte)180, (GLbyte)255 }
+#define SGEUI_BACK_COL_GRAYISH_BLUE { (GLbyte)55, (GLbyte)55, (GLbyte)70, (GLbyte)255 }
+
 	void genTextures() {
 		TexCol backCol;
-		TexCol bannerCol = {120, 120, 120, 255 };
+		TexCol bannerCol = SGEUI_BANNER_COL;
 
 		switch (style) {
 		case Style::BLACK:
-			backCol = { 20, 20, 20, 255 };
+			backCol = SGEUI_BACK_COL_BLACK;
 			break;
 		case Style::WHITE:
-			backCol = { 180, 180, 180, 255 };
+			backCol = SGEUI_BACK_COL_WHITE;
 			break;
 		case Style::GRAYISH_BLUE:
-			backCol = { 55, 55, 70, 255 };
+			backCol = SGEUI_BACK_COL_GRAYISH_BLUE;
 			break;
 		}
 		
@@ -69,6 +75,33 @@ namespace sgeui {
 		}
 	}
 
+	//Default vertex shader
+	const char* vsSrc =
+		"#version 410 core					\
+		 layout(location = 0) in vec2 pos;	\
+		 uniform mat3 translate;			\
+											\
+		 void main() {						\
+			gl_Position = translate * pos;	\
+		 }									";
+	//Default fragment shader
+	const char* fsSrc = 
+		"#version 410 core					\
+		 layout(location = 0) in vec2 UV;	\
+		 uniform sampler2d DefSampler;		\
+											\
+		 out vec4 col;						\
+		 void main() {						\
+			col = texture(DefSampler, UV);	\
+		 }									";
+
+	void makeShaders() {
+		sge::Shader vsSh((std::string)vsSrc);
+		sge::Shader fsSh((std::string)fsSrc);
+
+		sge::ShaderProgram sh({vsSh, fsSh});
+	}
+
 	void genPolygons() {
 
 	}
@@ -86,7 +119,8 @@ namespace sgeui {
 		return rectangle;
 	}
 
+	GLFWwindow* wind;
+	int w, h;
 	Style::Enum style;
-
 	std::map<int, sge::Texture*> textures;
 }

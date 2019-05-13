@@ -12,8 +12,9 @@ namespace sge {
 
 		TextureManager() = delete;	//Singleton
 		~TextureManager() = delete;
+
+		static Texture* defaultTexture;
 	private:
 		static Texture* boundTexture;
-		static Texture* defaultTexture;
 	};
 }

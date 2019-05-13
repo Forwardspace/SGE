@@ -60,8 +60,6 @@ namespace sge {
 		ShaderManager::bindMVP(MVP);
 		ShaderManager::bindSamplerTexUnit(0);
 
-		auto e1 = glGetError();
-
 		//Bind the assigned texture for the shader
 		if (!useDefaultTexture) {
 			TextureManager::bindTexture(&objectTexture_);
@@ -87,8 +85,6 @@ namespace sge {
 			objectMesh_.VertArrayPtr()->data(),
 			GL_STATIC_DRAW
 		);
-
-		auto e2 = glGetError();
 
 		//Give the indices used to draw said raw vertices
 		glBufferData(
