@@ -2,9 +2,12 @@
 #include "stdheaders.h"
 #include "Texture.h"
 #include "TextureManager.h"
+#include "ShaderManager.h"
+#include "BufferManager.h"
 
 namespace sgeui {
 	extern int w, h;
+	extern sge::ShaderProgram GUIShaderProgram;
 
 	struct Point2D {
 		float x = 0, y = 0;

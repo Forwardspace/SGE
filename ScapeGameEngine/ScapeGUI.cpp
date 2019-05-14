@@ -12,7 +12,8 @@ namespace sgeui {
 
 	void makeUIBase() {
 		genTextures();
-		genPolygons();
+		makeShaders();
+		setVertexPtrs();
 	}
 
 	//Fills the texture tex with count pixels of col
@@ -100,10 +101,13 @@ namespace sgeui {
 		sge::Shader fsSh((std::string)fsSrc);
 
 		sge::ShaderProgram sh({vsSh, fsSh});
+		GUIShaderProgram = sh;
 	}
 
-	void genPolygons() {
-
+	void setVertexPtrs() {
+		//Just configure the VBO to accept 2D coordinates (instead of 3D)
+		glBindBuffer(GL_ARRAY_BUFFER, sge::BufferManager::VBO(sge::VBOType::VERTEX2D));
+		glVertexAttribPointer(0, 2 /* <- The important part */, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	}
 
 	//Provided a bottom left and an upper right point,
@@ -123,4 +127,5 @@ namespace sgeui {
 	int w, h;
 	Style::Enum style;
 	std::map<int, sge::Texture*> textures;
+	sge::ShaderProgram GUIShaderProgram;
 }

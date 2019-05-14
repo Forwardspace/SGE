@@ -87,6 +87,7 @@ namespace sge {
 		);
 
 		//Give the indices used to draw said raw vertices
+		//The index array is bound at the start of the frame
 		glBufferData(
 			GL_ELEMENT_ARRAY_BUFFER,
 			objectMesh_.IndArrayPtr()->size() * sizeof(SGE_INDEX_TYPE),

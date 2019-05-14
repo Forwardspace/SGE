@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
+#include "BufferManager.h"
 #include "VertexShader.h"
 #include "FragmentShader.h"
 #include "Shader.h"
@@ -28,7 +29,7 @@ namespace sgeui {
 	void makeUIBase();
 	void genTextures();
 	void makeShaders();
-	void genPolygons();
+	void setVertexPtrs();
 
 	Renderable rectFromTwoPoints(Point2D bl, Point2D ur);
 
@@ -36,4 +37,5 @@ namespace sgeui {
 	extern int w, h;
 	extern Style::Enum style;
 	extern std::map<int, sge::Texture*> textures;
+	extern sge::ShaderProgram GUIShaderProgram;
 }
