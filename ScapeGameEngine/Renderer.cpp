@@ -90,6 +90,16 @@ namespace sge {
 	}
 
 	void finalizeFrame(GLFWwindow* window) {
+		//Update the GUI (has to be done last no to overlap with any vertices)
+		//First clear the depth bit; it has to draw over everything
+		glClear(GL_DEPTH_BUFFER_BIT);
+		sgeui::update();
+
+		//DEBUG ONLY:
+		auto m = sgeui::rectFromTwoPoints({ 0, 0.5 }, { 0.5, 0 });
+		sgeui::renderPoly(m.pa(), m.ia(), m.ua(), *sgeui::textures[sgeui::TextureType::BACKGROUND], 0, 0);
+		//END DEBUG ONLY
+
 		glfwSwapBuffers(window);
 		clearScreen();
 
@@ -165,6 +175,8 @@ namespace sge {
 		TextureManager::init();
 		IOManager::init();
 		GLFWIOManager::init(wind_);
+		//GUI
+		sgeui::init(sge::Renderer::wind(), w_, h_, sgeui::Style::GRAYISH_BLUE);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);

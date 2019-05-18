@@ -114,6 +114,12 @@
     <ClInclude Include="ScapeGUI.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="ScapeGUIInit.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScapeGUITypes.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -170,11 +176,14 @@
     <ClCompile Include="GLFWIOManager.cpp">
       <Filter>Source Files\Management</Filter>
     </ClCompile>
-    <ClCompile Include="ScapeGUI.cpp">
-      <Filter>Source Files\IO</Filter>
-    </ClCompile>
     <ClCompile Include="ScapeGUIRendering.cpp">
-      <Filter>Source Files\IO</Filter>
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScapeGUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScapeGUIInit.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

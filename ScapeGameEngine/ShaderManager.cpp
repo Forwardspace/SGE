@@ -2,12 +2,25 @@
 
 namespace sge {
 	ShaderProgram* ShaderManager::boundShader_ = nullptr;
+	std::stack<ShaderProgram*> ShaderManager::shaderStack;
 
 	void ShaderManager::setActive(ShaderProgram& sh) {
 		if (!(boundShader_) || (boundShader_->handle() != sh.handle())) {
 			boundShader_ = &sh;
 			glUseProgram(boundShader_->handle());
 		}
+	}
+
+	//Push the current shader onto a stack, bind the new shader
+	void ShaderManager::pushActive(ShaderProgram& newActive) {
+		shaderStack.push(boundShader_);
+		setActive(newActive);
+	}
+
+	void ShaderManager::popActive() {
+		ShaderProgram* newActive = shaderStack.top();
+		setActive(*newActive);
+		shaderStack.pop();
 	}
 
 	char* MVP_uniform = (char*)"MVP";

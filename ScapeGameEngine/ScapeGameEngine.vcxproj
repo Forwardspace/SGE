@@ -131,7 +131,9 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ScapeGUI.h" />
+    <ClInclude Include="ScapeGUIInit.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
+    <ClInclude Include="ScapeGUITypes.h" />
     <ClInclude Include="SGE.h" />
     <ClInclude Include="sgeheaders.h" />
     <ClInclude Include="Shader.h" />
@@ -157,6 +159,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ScapeGUI.cpp" />
+    <ClCompile Include="ScapeGUIInit.cpp" />
     <ClCompile Include="ScapeGUIRendering.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />

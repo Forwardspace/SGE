@@ -27,6 +27,19 @@ namespace sgeui {
 		}
 	}
 
+	//Provided a bottom left and an upper right point,
+	//this will generate a renderable rectangle bounded
+	//by these points
+	Renderable rectFromTwoPoints(Point2D bl, Point2D ur) {
+		//Generate two triangles and all corresponding data
+		PointArray pa = { { bl.x, bl.y }, { ur.x, ur.y }, { bl.x, ur.y }, { ur.x, bl.y } };
+		IndexArray ia = { 0, 3, 2, 3, 1, 2 };
+		UVArray ua = { { 1, 0 }, { 0, 1 }, { 1, 1 }, { 0, 0 } };
+
+		Renderable rectangle(pa, ia, ua);
+		return rectangle;
+	}
+
 	const char* translate_uniform = "translate";
 
 	void renderPoly(
@@ -39,7 +52,7 @@ namespace sgeui {
 	) {
 		//Similar to sge::StaticObject::render
 		//Activate the GUI shader program, bind the texture
-		sge::ShaderManager::setActive(GUIShaderProgram);
+		sge::ShaderManager::pushActive(GUIShaderProgram);
 		sge::ShaderManager::bindSamplerTexUnit(0);
 
 		sge::TextureManager::bindTexture(&tx);
@@ -50,10 +63,11 @@ namespace sgeui {
 
 		//Generate the translate matrix (no need for
 		//the whole MVP matrix
-		glm::mat3x3 translate = { 
-			1, 0, x,
-			0, 1, y,
-			0, 0, 1
+		glm::mat4x4 translate = { 
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			x, y, 0, 1
 		};
 		
 		//Give it to the shader (manually set the
@@ -66,7 +80,7 @@ namespace sgeui {
 			throw std::runtime_error("GUI: Can't find translate uniform location!");
 		}
 
-		glUniformMatrix3fv(
+		glUniformMatrix4fv(
 			translate_uniform_location,
 			1, GL_FALSE,
 			&translate[0][0]
@@ -100,5 +114,7 @@ namespace sgeui {
 
 		//And finally, issue the draw command:
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ia.size()), GL_UNSIGNED_INT, (void*)0);
+
+		sge::ShaderManager::popActive();
 	}
 }

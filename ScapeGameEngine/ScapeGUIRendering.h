@@ -5,21 +5,11 @@
 #include "ShaderManager.h"
 #include "BufferManager.h"
 
+#include "ScapeGUITypes.h"
+
 namespace sgeui {
 	extern int w, h;
 	extern sge::ShaderProgram GUIShaderProgram;
-
-	struct Point2D {
-		float x = 0, y = 0;
-	};
-
-	struct TexCol {
-		GLbyte r = 0, g = 0, b = 0, a = 0;
-	};
-
-	using PointArray = std::vector<Point2D>;
-	using IndexArray = std::vector<GLuint>;
-	using UVArray = PointArray;
 
 	class Renderable {
 	public:
@@ -35,6 +25,11 @@ namespace sgeui {
 		Renderable* getParent() { return parent; }
 
 		void render();
+
+		//Get point array
+		PointArray pa() { return pa_; }
+		IndexArray ia() { return ia_; }
+		UVArray ua() { return ua_; }
 	private:
 		PointArray pa_;
 		IndexArray ia_;
@@ -46,6 +41,8 @@ namespace sgeui {
 		Renderable* parent = nullptr;
 
 		float x_ = 0, y_ = 0;
+		//Bottom left and upper right bounds
+		Point2D blBound, urBound;
 	};
 
 	void renderPoly(
@@ -56,4 +53,6 @@ namespace sgeui {
 		float xP,
 		float yP
 	);
+
+	Renderable rectFromTwoPoints(Point2D bl, Point2D ur);
 }

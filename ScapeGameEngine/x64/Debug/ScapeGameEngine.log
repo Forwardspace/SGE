@@ -1,2 +1,4 @@
-﻿  ScapeGUI.cpp
+﻿  test.cpp
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(21): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(31): warning C4305: '+=': truncation from 'double' to 'float'
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe

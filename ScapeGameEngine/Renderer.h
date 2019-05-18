@@ -7,6 +7,8 @@
 #include "TextureManager.h"
 #include "Camera.h"
 
+#include "ScapeGUI.h"
+
 namespace sge {
 	class Renderer {
 	public:
@@ -14,6 +16,8 @@ namespace sge {
 		~Renderer() = delete;
 
 		static GLFWwindow* wind() { return wind_; };
+		static int w() { return w_; }
+		static int h() { return h_; }
 
 		static glm::mat4x4 projectionMatrix() { return projectionMatrix_; }
 		static Camera* currentCamera() { 

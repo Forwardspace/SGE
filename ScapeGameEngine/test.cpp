@@ -15,7 +15,7 @@ void mainTest() {
 
 	sge::VertexShader vs(fs::path(".\\shaders\\vs.shader"));
 	sge::FragmentShader fs(fs::path(".\\shaders\\fs.shader"));
-	sge::ShaderProgram prog({vs, fs});
+	sge::ShaderProgram prog({ vs, fs });
 	sge::ShaderManager::setActive(prog);
 
 	sge::Camera maincam(0, 0.5, 1.8);
@@ -26,7 +26,7 @@ void mainTest() {
 	while (true) {
 		sge::Renderer::renderFrame();
 
-		maincam.setRot(0, 180, 0);
+		maincam.setRot(0, 180 + x * 10, 0);
 		pallet.setRot(0, -x / 2, 0);
 		x += 0.01;
 	}
