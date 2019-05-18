@@ -4,7 +4,7 @@ namespace sge {
 	bool GLFWIOManager::storeText_ = false;
 	std::wstring GLFWIOManager::textBuffer_;
 	double GLFWIOManager::mouseX_ = 0, GLFWIOManager::mouseY_ = 0;
-	std::array<bool, 8> GLFWIOManager::mouseKeyStatus {};
+	std::array<bool, 8> GLFWIOManager::mouseKeyStatus_ {};
 
 	void GLFWIOManager::init(GLFWwindow* wind_) {
 		glfwSetCharCallback(wind_, charCallback);
@@ -31,11 +31,11 @@ namespace sge {
 	void GLFWIOManager::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 		if (action == GLFW_PRESS) {
 			//Update key state to 1
-			mouseKeyStatus[button] = true;
+			mouseKeyStatus_[button] = true;
 		}
 		else {
 			//Update it to 0
-			mouseKeyStatus[button] = false;
+			mouseKeyStatus_[button] = false;
 		}
 	}
 }

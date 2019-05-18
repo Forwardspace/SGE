@@ -22,16 +22,11 @@ namespace sgeui {
 		GLuint size = sizeof(TexCol) * count;
 
 		for (GLuint i = 0; i < size;) {
-#if SGE_TEXTURE_COLOUR_FORMAT == GL_RGBA
 			tex[i + 0] = col.r;
 			tex[i + 1] = col.g;
 			tex[i + 2] = col.b;
-#elif SGE_TEXTURE_COLOUR_FORMAT == GL_BGRA
-			tex[i + 0] = col.b;
-			tex[i + 1] = col.g;
-			tex[i + 2] = col.r;
-#endif
 			tex[i + 3] = col.a;
+
 			i += 4;
 		}
 	}

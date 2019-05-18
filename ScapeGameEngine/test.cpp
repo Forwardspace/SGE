@@ -18,16 +18,32 @@ void mainTest() {
 	sge::ShaderProgram prog({ vs, fs });
 	sge::ShaderManager::setActive(prog);
 
+	sge::Texture woodtex(".\\textures\\woodtex.jpg");
+	pallet.setTexture(woodtex);
+
 	sge::Camera maincam(0, 0.5, 1.8);
 	sge::Renderer::setCurrentCamera(&maincam);
 
 	float x = 1;
 
+	double prevX = 0;
+	double prevY = 0;
 	while (true) {
 		sge::Renderer::renderFrame();
 
-		maincam.setRot(0, 180 + x * 10, 0);
-		pallet.setRot(0, -x / 2, 0);
+		//TEST - showcase a simple fps controller
+		glfwSetInputMode(sge::Renderer::wind(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		double mY = sge::GLFWIOManager::mouseX();
+		double deltaY = mY - prevY;
+		deltaY /= 5;
+
+		double mX = sge::GLFWIOManager::mouseY();
+		double deltaX = mX - prevX;
+		deltaX /= 5;
+
+		maincam.setRot(180 - deltaX, -deltaY, 0);
+		pallet.setRot(0, 180, 0);
 		x += 0.01;
 	}
 }

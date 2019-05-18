@@ -38,8 +38,11 @@ namespace sge {
 			w_ = ilGetInteger(IL_IMAGE_WIDTH);
 			h_ = ilGetInteger(IL_IMAGE_HEIGHT);
 
+			//(Is it RGB or BGR?)
+			GLenum format = ilGetInteger(IL_IMAGE_FORMAT);
+
 			//Finally, create the texture
-			makeTexture((GLubyte*)dataPtr);
+			makeTexture((GLubyte*)dataPtr, format);
 
 			ilDeleteImages(1, &image);
 		}
@@ -52,18 +55,19 @@ namespace sge {
 		}
 	}
 
-	Texture::Texture(GLubyte* data, int w, int h) {
+	//Format must be either GL_RGB or GL_BGR
+	Texture::Texture(GLubyte* data, int w, int h, GLenum format) {
 		w_ = w;
 		h_ = h;
-		makeTexture(data);
+		makeTexture(data, format);
 	}
 
-	void Texture::makeTexture(GLubyte* data) {
+	void Texture::makeTexture(GLubyte* data, GLenum format) {
 		glGenTextures(1, &handle_);
 		glBindTexture(GL_TEXTURE_2D, handle_);
 
 		//Give the data to OpenGL
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w_, h_, 0, SGE_TEXTURE_COLOUR_FORMAT, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w_, h_, 0, format, GL_UNSIGNED_BYTE, data);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		//Use mipmaps

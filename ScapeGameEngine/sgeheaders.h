@@ -8,5 +8,6 @@
 #include "VertexShader.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
+#include "GLFWIOManager.h"
 
 #include "ScapeGUI.h"

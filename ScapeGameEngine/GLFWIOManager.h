@@ -15,6 +15,22 @@ namespace sge {
 		//Sets up all GLFW callbacks
 		static void init(GLFWwindow* wind);
 
+		//Getters
+		static double mouseX() { return mouseX_; }
+		static double mouseY() { return mouseY_; }
+		static std::array<bool, 8> mouseKeyStatus() { return mouseKeyStatus_; }
+
+		static std::wstring textBuffer() { return textBuffer_; }
+		
+		//Stores text from GLFW if true, erases the
+		//text and doesn't store it if false
+		static void setStoreText(bool store) {
+			storeText_ = store; 
+			if (!store) {
+				textBuffer_ = L"";
+			}
+		}
+
 	private:
 		//Determines if the text recieved from GLFW is to be stored
 		//in the buffer below
@@ -24,7 +40,7 @@ namespace sge {
 		//Mouse stuff
 		static double mouseX_, mouseY_;
 		//Stores true if the mouse key at some location is pressed
-		static std::array<bool, 8> mouseKeyStatus;
+		static std::array<bool, 8> mouseKeyStatus_;
 
 		//Recieved from Renderer.h
 		//static GLFWwindow* wind_;

@@ -1,10 +1,6 @@
 #pragma once
 #include "stdheaders.h"
 
-#ifndef SGE_TEXTURE_COLOUR_FORMAT
-#define SGE_TEXTURE_COLOUR_FORMAT GL_BGRA
-#endif
-
 namespace sge {
 	class Texture {
 	public:
@@ -13,12 +9,12 @@ namespace sge {
 		//Load from file
 		Texture(std::string filename);
 		//Load from array
-		Texture(GLubyte* data, int w, int h);
+		Texture(GLubyte* data, int w, int h, GLenum format);
 
 		GLuint handle() { return handle_; }
 
 	private:
-		void makeTexture(GLubyte* data);
+		void makeTexture(GLubyte* data, GLenum format);
 
 		GLuint handle_ = NULL;
 		int w_, h_;
