@@ -5,6 +5,7 @@ namespace sge {
 	std::wstring GLFWIOManager::textBuffer_;
 	double GLFWIOManager::mouseX_ = 0, GLFWIOManager::mouseY_ = 0;
 	std::array<bool, 8> GLFWIOManager::mouseKeyStatus_ {};
+	std::map<int, bool> GLFWIOManager::keyStatus_ {};
 
 	void GLFWIOManager::init(GLFWwindow* wind_) {
 		glfwSetCharCallback(wind_, charCallback);
@@ -14,7 +15,12 @@ namespace sge {
 	}
 
 	void GLFWIOManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-
+		if (action == GLFW_PRESS || action == GLFW_REPEAT) {
+			keyStatus_[key] = true;
+		}
+		else {
+			keyStatus_[key] = false;
+		}
 	}
 
 	void GLFWIOManager::charCallback(GLFWwindow* window, GLuint codepoint) {

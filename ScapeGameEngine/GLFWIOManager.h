@@ -19,6 +19,7 @@ namespace sge {
 		static double mouseX() { return mouseX_; }
 		static double mouseY() { return mouseY_; }
 		static std::array<bool, 8> mouseKeyStatus() { return mouseKeyStatus_; }
+		static bool isPressed(int key) { return keyStatus_[key]; }
 
 		static std::wstring textBuffer() { return textBuffer_; }
 		
@@ -41,7 +42,8 @@ namespace sge {
 		static double mouseX_, mouseY_;
 		//Stores true if the mouse key at some location is pressed
 		static std::array<bool, 8> mouseKeyStatus_;
-
+		//Stores true if the key at some location is pressed
+		static std::map<int, bool> keyStatus_;
 		//Recieved from Renderer.h
 		//static GLFWwindow* wind_;
 	};

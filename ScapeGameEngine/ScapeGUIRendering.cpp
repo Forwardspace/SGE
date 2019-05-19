@@ -34,7 +34,7 @@ namespace sgeui {
 		//Generate two triangles and all corresponding data
 		PointArray pa = { { bl.x, bl.y }, { ur.x, ur.y }, { bl.x, ur.y }, { ur.x, bl.y } };
 		IndexArray ia = { 0, 3, 2, 3, 1, 2 };
-		UVArray ua = { { 1, 0 }, { 0, 1 }, { 1, 1 }, { 0, 0 } };
+		UVArray ua = { { 1, 1 }, { 0, 0 }, { 1, 0 }, { 0, 1 } };
 
 		Renderable rectangle(pa, ia, ua);
 		return rectangle;

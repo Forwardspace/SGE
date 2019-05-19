@@ -11,7 +11,12 @@ void mainTest() {
 	sge::Renderer::init(1024, 768, "A SGE Test", false);
 
 	sge::StaticObject pallet(".\\models\\pallet.obj");
+	sge::StaticObject pallet2(".\\models\\pallet.obj");
 	sge::Renderer::registerObject(pallet);
+	sge::Renderer::registerObject(pallet2);
+
+	pallet2.setPos(0, 0.18, 0);
+	pallet2.setRot(0, 30, 0);
 
 	sge::VertexShader vs(fs::path(".\\shaders\\vs.shader"));
 	sge::FragmentShader fs(fs::path(".\\shaders\\fs.shader"));
@@ -20,6 +25,7 @@ void mainTest() {
 
 	sge::Texture woodtex(".\\textures\\woodtex.jpg");
 	pallet.setTexture(woodtex);
+	pallet2.setTexture(woodtex);
 
 	sge::Camera maincam(0, 0.5, 1.8);
 	sge::Renderer::setCurrentCamera(&maincam);
@@ -31,19 +37,45 @@ void mainTest() {
 	while (true) {
 		sge::Renderer::renderFrame();
 
-		//TEST - showcase a simple fps controller
+		//TEST - showcase a simple free look camera controller
 		glfwSetInputMode(sge::Renderer::wind(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		double mouseSensitivity = 5;
+		double speed = 0.1;
 
 		double mY = sge::GLFWIOManager::mouseX();
 		double deltaY = mY - prevY;
-		deltaY /= 5;
+		deltaY *= (1 / mouseSensitivity);
 
 		double mX = sge::GLFWIOManager::mouseY();
 		double deltaX = mX - prevX;
-		deltaX /= 5;
+		deltaX *= (1 / mouseSensitivity);
+
+		bool pressedW = sge::GLFWIOManager::isPressed(GLFW_KEY_W);
+		bool pressedS = sge::GLFWIOManager::isPressed(GLFW_KEY_S);
+		bool pressedD = sge::GLFWIOManager::isPressed(GLFW_KEY_D);
+		bool pressedA = sge::GLFWIOManager::isPressed(GLFW_KEY_A);
+		float velZ = speed * pressedW - speed * pressedS;
+		float velX = speed * pressedD - speed * pressedA;
 
 		maincam.setRot(180 - deltaX, -deltaY, 0);
-		pallet.setRot(0, 180, 0);
+
+		//Calculate where to move to based on the camera's
+		//orientation
+		glm::vec3 pos = maincam.pos();
+		glm::mat4 view = maincam.viewMatrix();
+
+		glm::vec3 forward = glm::vec3(view[0][2], view[1][2], view[2][2]);
+		glm::vec3 right = glm::vec3(view[0][0], view[1][0], view[2][0]);
+		
+		glm::vec3 deltaPosZ = forward * velZ;
+		glm::vec3 deltaPosX = right * velX;
+
+		glm::vec3 deltaPos = deltaPosX - deltaPosZ;
+		pos += deltaPos;
+
+		maincam.setPos(pos.x, pos.y, pos.z);
+
 		x += 0.01;
 	}
 }
