@@ -17,47 +17,30 @@ namespace sgeui {
 		setVertexPtrs();
 	}
 
-	//Fills the texture tex with count pixels of col
-	void fillTex(GLubyte* tex, int count, TexCol col) {
-		GLuint size = sizeof(TexCol) * count;
-
-		for (GLuint i = 0; i < size;) {
-			tex[i + 0] = col.r;
-			tex[i + 1] = col.g;
-			tex[i + 2] = col.b;
-			tex[i + 3] = col.a;
-
-			i += 4;
-		}
-	}
-
-	//Default SGEUI theme colours
-#define SGEUI_BANNER_COL { (GLbyte)120, (GLbyte)120, (GLbyte)120, (GLbyte)255 }
-#define SGEUI_BACK_COL_BLACK { (GLbyte)20, (GLbyte)20, (GLbyte)20, (GLbyte)255 }
-#define SGEUI_BACK_COL_WHITE { (GLbyte)180, (GLbyte)180, (GLbyte)180, (GLbyte)255 }
-#define SGEUI_BACK_COL_GRAYISH_BLUE { (GLbyte)55, (GLbyte)55, (GLbyte)70, (GLbyte)255 }
+#define SGEUI_BLACK_BCK_FNAME "textures\\gui\\bck_black.png";
+#define SGEUI_WHITE_BCK_FNAME "textures\\gui\\bck_white.png";
+#define SGEUI_BLUISH_GRAY_BCK_FNAME "textures\\gui\\bck_bluish_gray.png";
 
 	void genTextures() {
-		TexCol backCol;
-		TexCol bannerCol = SGEUI_BANNER_COL;
+		//Create the background texture based on the style enum
+		fs::path bckFilename = "error_filename";
 
 		switch (style) {
 		case Style::BLACK:
-			backCol = SGEUI_BACK_COL_BLACK;
+			bckFilename = SGEUI_BLACK_BCK_FNAME;
 			break;
 		case Style::WHITE:
-			backCol = SGEUI_BACK_COL_WHITE;
+			bckFilename = SGEUI_WHITE_BCK_FNAME;
 			break;
 		case Style::GRAYISH_BLUE:
-			backCol = SGEUI_BACK_COL_GRAYISH_BLUE;
+			//YES, it's the same
+			//NO, I won't change it
+			bckFilename = SGEUI_BLUISH_GRAY_BCK_FNAME;
 			break;
 		}
 
-		//DEBUG ONLY
-		//Just set the default texture until
-		//I can set up texture generation
-		textures[TextureType::BACKGROUND] = sge::TextureManager::defaultTexture;
-		//END DEBUG ONLY
+		sge::Texture* backTex = new sge::Texture(bckFilename);
+		textures[TextureType::BACKGROUND] = backTex;
 	}
 
 	void terminate() {

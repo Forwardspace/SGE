@@ -7,7 +7,7 @@ namespace sge {
 		Texture();
 		~Texture();
 		//Load from file
-		Texture(std::string filename);
+		Texture(fs::path filename);
 		//Load from array
 		Texture(GLubyte* data, int w, int h, GLenum format);
 

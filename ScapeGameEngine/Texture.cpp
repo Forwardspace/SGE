@@ -7,13 +7,13 @@ namespace sge {
 	Texture::~Texture() {
 	}
 
-	Texture::Texture(std::string filename) {
+	Texture::Texture(fs::path filename) {
 		ILuint image;
 		ilGenImages(1, &image);
 		ilBindImage(image);
 
 		try {
-			ILboolean success = ilLoadImage(filename.c_str());
+			ILboolean success = ilLoadImage(filename.u8string().c_str());
 
 			auto error = iluErrorString(ilGetError());
 
