@@ -4,8 +4,8 @@
 namespace sgeui {
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_, Style::Enum style_ = Style::GRAYISH_BLUE) {
 		wind = wind_;
-		w = w_;
-		h = h_;
+		windW = w_;
+		windH = h_;
 		style = style_;
 
 		makeUIBase();
@@ -88,7 +88,7 @@ namespace sgeui {
 	}
 
 	GLFWwindow* wind;
-	int w, h;
+	int windW, windH;
 	Style::Enum style;
 	std::map<int, sge::Texture*> textures;
 	sge::ShaderProgram GUIShaderProgram;

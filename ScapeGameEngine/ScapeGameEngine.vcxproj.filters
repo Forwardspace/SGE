@@ -120,6 +120,9 @@
     <ClInclude Include="ScapeGUITypes.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="ScapeGUIWidgets.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="ScapeGUIInit.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScapeGUIWidgets.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

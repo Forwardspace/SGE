@@ -3,6 +3,7 @@
 #include "ScapeGUIRendering.h"
 #include "ScapeGUIInit.h"
 #include "ScapeGUITypes.h"
+#include "ScapeGUIWidgets.h"
 
 namespace sgeui {
 	void init(GLFWwindow* wind, int w, int h, Style::Enum style);

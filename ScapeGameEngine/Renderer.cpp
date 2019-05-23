@@ -4,6 +4,8 @@ namespace sge {
 	int Renderer::w_;
 	int Renderer::h_;
 
+	sgeui::Window* guiwnd;
+
 	glm::mat4x4 Renderer::projectionMatrix_;
 
 	long unsigned int Renderer::frameNum_ = 0;
@@ -99,8 +101,7 @@ namespace sge {
 		sgeui::update();
 
 		//DEBUG ONLY:
-		auto m = sgeui::rectFromTwoPoints({ 0, 0.5 }, { 0.5, 0 });
-		sgeui::renderPoly(m.pa(), m.ia(), m.ua(), *sgeui::textures[sgeui::TextureType::BACKGROUND], 0, 0);
+		guiwnd->render();
 		//END DEBUG ONLY
 
 		glfwSwapBuffers(window);
@@ -179,10 +180,12 @@ namespace sge {
 		IOManager::init();
 		GLFWIOManager::init(wind_);
 		//GUI
-		sgeui::init(sge::Renderer::wind(), w_, h_, sgeui::Style::GRAYISH_BLUE);
+		sgeui::init(sge::Renderer::wind(), w_, h_, sgeui::Style::WHITE);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
+
+		guiwnd = new sgeui::Window(400, 400, 10, 10);
 	}
 
 	[[ noreturn ]] void Renderer::terminate(bool exit) {

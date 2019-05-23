@@ -1,14 +1,14 @@
 #include "ScapeGUIRendering.h"
 
 namespace sgeui {
-	void Renderable::addChild(Renderable & c) {
-		children.push_back(&c);
-		c.parent = this;
+	void Renderable::addChild(Renderable* c) {
+		children.push_back(c);
+		c->parent = this;
 	}
 
-	void Renderable::removeChild(Renderable & c) {
+	void Renderable::removeChild(Renderable* c) {
 		for (int i = 0; i < children.size(); i++) {
-			if (&c == children[i]) {
+			if (c == children[i]) {
 				children[i]->parent = nullptr; //Abandon the child
 				children.erase(children.begin() + i);
 			}
@@ -17,7 +17,9 @@ namespace sgeui {
 
 	void Renderable::render() {
 		//First render this object
-		renderPoly(pa_, ia_, ua_, tx_, x_, y_);
+		if (render_) {
+			renderPoly(pa_, ia_, ua_, tx_, x_, y_);
+		}
 
 		//Then render all the children
 		if (children.size() > 0) {
@@ -40,26 +42,37 @@ namespace sgeui {
 		return rectangle;
 	}
 
+	//Set UVs of a rect to either (if upper) the upper half of the texture
+	//or (if not upper) the bottom half.
+	void halveUVs(Renderable* r, bool upper) {
+		if (upper) {
+			r->setUA({ { 0, 0.5 }, { 1, 1 }, { 0, 1 }, { 1, 0.5 } });
+		}
+		else {
+			r->setUA({ { 0, 0.5 }, { 1, 0.5 }, { 0, 0.5 }, { 1, 0 } });
+		}
+	}
+
 	const char* translate_uniform = "translate";
 
 	void renderPoly(
 		PointArray& pa,
 		IndexArray& ia,
 		UVArray& ua,
-		sge::Texture& tx,
-		float xP,
-		float yP
+		sge::Texture* tx,
+		int xP,
+		int yP
 	) {
 		//Similar to sge::StaticObject::render
 		//Activate the GUI shader program, bind the texture
 		sge::ShaderManager::pushActive(GUIShaderProgram);
 		sge::ShaderManager::bindSamplerTexUnit(0);
 
-		sge::TextureManager::bindTexture(&tx);
+		sge::TextureManager::bindTexture(tx);
 
 		//Convert pixel coords to ratios
-		float x = xP / w;
-		float y = yP / h;
+		float x = (float)xP / windW;
+		float y = (float)yP / windH;
 
 		//Generate the translate matrix (no need for
 		//the whole MVP matrix

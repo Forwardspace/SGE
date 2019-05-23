@@ -30,7 +30,7 @@ namespace sgeui {
 	void setVertexPtrs();
 
 	extern GLFWwindow* wind;
-	extern int w, h;
+	extern int windW, windH;
 	extern Style::Enum style;
 	extern std::map<int, sge::Texture*> textures;
 	extern sge::ShaderProgram GUIShaderProgram;

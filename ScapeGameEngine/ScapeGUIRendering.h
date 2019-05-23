@@ -8,7 +8,7 @@
 #include "ScapeGUITypes.h"
 
 namespace sgeui {
-	extern int w, h;
+	extern int windW, windH;
 	extern sge::ShaderProgram GUIShaderProgram;
 
 	class Renderable {
@@ -18,9 +18,10 @@ namespace sgeui {
 
 		void setPos(float x, float y) { x_ = x; y_ = y; }
 		glm::vec2 getPos() { return glm::vec2(x_, y_); }
+		void setTx(sge::Texture* tx) { tx_ = tx; }
 
-		void addChild(Renderable& c);
-		void removeChild(Renderable& c);
+		void addChild(Renderable* c);
+		void removeChild(Renderable* c);
 
 		Renderable* getParent() { return parent; }
 
@@ -30,12 +31,16 @@ namespace sgeui {
 		PointArray pa() { return pa_; }
 		IndexArray ia() { return ia_; }
 		UVArray ua() { return ua_; }
-	private:
+
+		void setUA(UVArray ua) { ua_ = ua; }
+	protected:
 		PointArray pa_;
 		IndexArray ia_;
 		UVArray ua_;
 
-		sge::Texture tx_ = *sge::TextureManager::defaultTexture;
+		bool render_ = true;
+
+		sge::Texture* tx_ = sge::TextureManager::defaultTexture;
 
 		std::vector<Renderable*> children;
 		Renderable* parent = nullptr;
@@ -49,10 +54,11 @@ namespace sgeui {
 		PointArray& pa,
 		IndexArray& ia,
 		UVArray& ua,
-		sge::Texture& tx,
-		float xP,
-		float yP
+		sge::Texture* tx,
+		int xP,
+		int yP
 	);
 
 	Renderable rectFromTwoPoints(Point2D bl, Point2D ur);
+	void halveUVs(Renderable* r, bool upper = false);
 }
