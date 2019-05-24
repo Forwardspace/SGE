@@ -4,7 +4,7 @@ namespace sgeui {
 	Window::Window(){
 	}
 
-	int bannerHeight = 10;
+	int bannerHeight = 50;
 
 	sgeui::Window::Window(int w, int h, int xPos, int yPos) {
 		w_ = w;
@@ -13,22 +13,21 @@ namespace sgeui {
 		y_ = yPos;
 		render_ = false;	//This is just a container, not a renderable object
 
+
+		Point2D bl = { { (float)xPos / windW }, { (float)(yPos - h) / windH } };
+		Point2D ur = { { (float)(xPos + w) / windW }, { (float)yPos / windH } };
+		Point2D bannerBl = { bl.x, { (float)(yPos - bannerHeight) / windH }};
+
 		//Generate the banner with a fixed height
 		//Use the upper half of the texture
-		Point2D blBanner = { { (float)xPos / windW }, { (float)(yPos - bannerHeight) / windH } };
-		Point2D urBanner = { { (float)(xPos + w_) / windW }, { (float)h_ / windH } };
-		
-		Renderable* banner = new Renderable(rectFromTwoPoints(blBanner, urBanner));
+		Renderable* banner = new Renderable(rectFromTwoPoints(bannerBl, ur));
 		banner->setTx(textures[TextureType::BACKGROUND]);
 		halveUVs(banner, true);
 		addChild(banner);
 
 		//Generate the rest of the window
 		//Use the bottom half of the texture
-		Point2D blSurface = { { (float)xPos / windW }, { (float)(yPos + h_) / windH } };
-		Point2D urSurface = { { (float)(xPos + w_) / windW }, { (float)(h_ - bannerHeight) / windH } };
-		
-		Renderable* surface = new Renderable(rectFromTwoPoints(blSurface, urSurface));
+		Renderable* surface = new Renderable(rectFromTwoPoints(bl, ur));
 		surface->setTx(textures[TextureType::BACKGROUND]);
 		halveUVs(surface, false);
 		addChild(surface);
