@@ -81,8 +81,6 @@ namespace sge {
 	void startDrawing(std::deque<Object*> objectList) {
 		drawQueue = std::queue<Object*>(objectList);
 
-		glEnable(GL_CULL_FACE);
-
 		bindBuffers();
 		initAttribPtrs();
 	}
@@ -96,8 +94,6 @@ namespace sge {
 	void finalizeFrame(GLFWwindow* window) {
 		//Update the GUI (has to be done last no to overlap with any vertices)
 		//First clear the depth bit; it has to draw over everything
-		glClear(GL_DEPTH_BUFFER_BIT);
-		glDisable(GL_CULL_FACE);
 		sgeui::update();
 
 		//DEBUG ONLY:

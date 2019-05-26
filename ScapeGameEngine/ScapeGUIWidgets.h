@@ -11,4 +11,12 @@ namespace sgeui {
 	private:
 		int h_ = 0, w_ = 0;
 	};
+
+	//That thing with the close button in the top right
+	class WindowHelper : public Renderable {
+	public:
+		WindowHelper(Point2D ur, Point2D bl);
+		~WindowHelper();
+	private:
+	};
 }

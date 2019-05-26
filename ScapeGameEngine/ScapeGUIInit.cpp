@@ -21,6 +21,10 @@ namespace sgeui {
 #define SGEUI_WHITE_BCK_FNAME "textures\\gui\\bck_white.png";
 #define SGEUI_BLUISH_GRAY_BCK_FNAME "textures\\gui\\bck_bluish_gray.png";
 
+	const std::string textureFilenames[] = {
+		"textures\\gui\\close_button.png"
+	};
+
 	void genTextures() {
 		//Create the background texture based on the style enum
 		fs::path bckFilename = "error_filename";
@@ -41,6 +45,12 @@ namespace sgeui {
 
 		sge::Texture* backTex = new sge::Texture(bckFilename);
 		textures[TextureType::BACKGROUND] = backTex;
+
+		////Load the rest of the textures iteratively
+		//for (int i = 0; i < sizeof(textureFilenames); i++) {
+		//	sge::Texture* tex = new sge::Texture(textureFilenames[i]);
+		//	textures[i + 1] = backTex;
+		//}
 	}
 
 	void terminate() {

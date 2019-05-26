@@ -23,19 +23,40 @@ namespace sgeui {
 		Renderable* banner = new Renderable(rectFromTwoPoints(bannerBl, ur));
 		banner->setTx(textures[TextureType::BACKGROUND]);
 		halveUVs(banner, true);
-		addChild(banner);
 
 		//Generate the rest of the window
 		//Use the bottom half of the texture
 		Renderable* surface = new Renderable(rectFromTwoPoints(bl, ur));
 		surface->setTx(textures[TextureType::BACKGROUND]);
 		halveUVs(surface, false);
+
+		//Make the Window Helper
+		WindowHelper* wh = new WindowHelper(ur, bannerBl);
+
+		//Add them sorted by depth (no depth testing, remember)
 		addChild(surface);
+		addChild(banner);
+		addChild(wh);
 	}
 
 	Window::~Window(){
 		for (auto child : children) {
 			delete child;
 		}
+	}
+
+	///////////////////////////////////
+
+	WindowHelper::WindowHelper(Point2D ur, Point2D bl){
+		render_ = false;	//This is just a container, not a renderable object
+
+		//The close button is in the top right
+		Point2D closeBl = { { ur.x - (float)bannerHeight / windW }, { bl.y } };
+		Renderable* closeButton = new Renderable(rectFromTwoPoints(closeBl, ur));
+		
+		//closeButton->setTx(textures[TextureType::CLOSE_BUTTON]);
+		closeButton->setTx(sge::TextureManager::defaultTexture);
+		closeButton->setBounds(closeBl, ur);
+		addChild(closeButton);
 	}
 }

@@ -33,6 +33,7 @@ namespace sgeui {
 		UVArray ua() { return ua_; }
 
 		void setUA(UVArray ua) { ua_ = ua; }
+		void setBounds(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; }
 	protected:
 		PointArray pa_;
 		IndexArray ia_;
@@ -47,7 +48,7 @@ namespace sgeui {
 
 		float x_ = 0, y_ = 0;
 		//Bottom left and upper right bounds
-		Point2D blBound, urBound;
+		Point2D blBound_, urBound_;
 	};
 
 	void renderPoly(

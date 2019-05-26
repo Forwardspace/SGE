@@ -19,7 +19,8 @@ namespace sgeui {
 
 	namespace TextureType {
 		enum Enum {
-			BACKGROUND
+			BACKGROUND,
+			CLOSE_BUTTON
 		};
 	}
 

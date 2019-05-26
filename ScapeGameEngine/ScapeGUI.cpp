@@ -6,6 +6,11 @@ namespace sgeui {
 	}
 
 	void update() {
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
 		setVertexPtrs();
+
+		//lDisable(GL_CULL_FACE);
+		//glDisable(GL_DEPTH_TEST);
 	}
 }
