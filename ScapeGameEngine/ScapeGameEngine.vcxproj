@@ -129,6 +129,7 @@
     <ClInclude Include="libs.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="PackedTexture.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ScapeGUI.h" />
     <ClInclude Include="ScapeGUIInit.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="IOManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="PackedTexture.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ScapeGUI.cpp" />
     <ClCompile Include="ScapeGUIInit.cpp" />

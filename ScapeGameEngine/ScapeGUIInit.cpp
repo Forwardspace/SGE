@@ -2,93 +2,103 @@
 #include "TextureManager.h"
 
 namespace sgeui {
-	void initSGEUI(GLFWwindow* wind_, int w_, int h_, Style::Enum style_ = Style::GRAYISH_BLUE) {
+	void initSGEUI(GLFWwindow* wind_, int w_, int h_) {
 		wind = wind_;
 		windW = w_;
 		windH = h_;
-		style = style_;
 
 		makeUIBase();
 	}
 
 	void makeUIBase() {
-		genTextures();
+		loadResources();
 		makeShaders();
-		setVertexPtrs();
 	}
 
-#define SGEUI_BLACK_BCK_FNAME "textures\\gui\\bck_black.png";
-#define SGEUI_WHITE_BCK_FNAME "textures\\gui\\bck_white.png";
-#define SGEUI_BLUISH_GRAY_BCK_FNAME "textures\\gui\\bck_bluish_gray.png";
+	const fs::path resourcesRoot = "gui\\resources";
+	const fs::path resourceDefinitionsFilename = resourcesRoot / "resources.csv";
 
-	const std::string textureFilenames[] = {
-		"textures\\gui\\close_button.png"
-	};
+	std::map<int, sge::Texture*> textures;
+	std::map<int, sge::PackedTexture*> packedTextures;
+	int defaultTheme;
 
-	void genTextures() {
-		//Create the background texture based on the style enum
-		fs::path bckFilename = "error_filename";
+	//Load the window themes
+	//(loop over the rest until END_THEMES is encountered)
+	void loadThemes(int &i, std::vector<std::string> &rDef) {
+		for (i++; i < rDef.size(); i++) {
+			if (rDef[i] == "END_THEMES") {
+				if (textures.size() == 0) {
+					throw std::runtime_error("Invalid GUI Resource Definition file (themeTextures empty)!");
+				}
+				return;
+			}
 
-		switch (style) {
-		case Style::BLACK:
-			bckFilename = SGEUI_BLACK_BCK_FNAME;
-			break;
-		case Style::WHITE:
-			bckFilename = SGEUI_WHITE_BCK_FNAME;
-			break;
-		case Style::GRAYISH_BLUE:
-			//YES, it's the same
-			//NO, I won't change it
-			bckFilename = SGEUI_BLUISH_GRAY_BCK_FNAME;
-			break;
+			sge::Texture* temp = new sge::Texture(resourcesRoot / rDef[i]);
+			textures[std::stoi(rDef[++i])] = temp;
+		}
+	}
+
+	void loadtextures(int &i, std::vector<std::string>& rDef) {
+		for (i++; i < rDef.size(); i++) {
+			if (rDef[i] == "END_ADDITIONAL_TEXTURES") {
+				if (textures.size() == 0 && packedTextures.size() == 0) {
+					throw std::runtime_error("Invalid GUI Resource Definition file (textures empty)");
+				}
+				return;
+			}
+			else if (rDef[i] == "PACKED") {
+				//Contains multiple textures in one file
+				i++;
+				sge::PackedTexture* temp = new sge::PackedTexture(resourcesRoot / rDef[i]);
+				packedTextures[std::stoi(rDef[++i])] = temp;
+			}
+			else {
+				sge::Texture* temp = new sge::Texture(resourcesRoot / rDef[i]);
+				textures[std::stoi(rDef[++i])] = temp;
+			}
+		}
+	}
+
+	void loadResources() {
+		std::vector<std::string> rDef = sge::IOManager::stringVecFromCSV(resourceDefinitionsFilename);
+
+		if (rDef.size() == 0) {
+			throw std::runtime_error("rDef size 0! rTFM > 0!");
 		}
 
-		sge::Texture* backTex = new sge::Texture(bckFilename);
-		textures[TextureType::BACKGROUND] = backTex;
-
-		////Load the rest of the textures iteratively
-		//for (int i = 0; i < sizeof(textureFilenames); i++) {
-		//	sge::Texture* tex = new sge::Texture(textureFilenames[i]);
-		//	textures[i + 1] = backTex;
-		//}
+		for (int i = 0; i < rDef.size(); i++) {
+			if (rDef[i] == "THEMES") {
+				loadThemes(i, rDef);
+			}
+			else if (rDef[i] == "DEFAULT_THEME") {
+				i++;
+				defaultTheme = std::stoi(rDef[i]);
+			}
+			else if (rDef[i] == "ADDITIONAL_TEXTURES") {
+				loadtextures(i, rDef);
+			}
+		}
 	}
 
 	void terminate() {
-		for (auto pair : textures) {
+		for (auto& pair : textures) {
 			//Ignore the key, delete the value
+			delete pair.second;
+		}
+		for (auto& pair : packedTextures) {
 			delete pair.second;
 		}
 	}
 
-	//Default vertex shader
-	const char* vsSrc =
-		"#version 410 core										\n"
-		"layout(location = 0) in vec2 pos;						\n"
-		"layout(location = 1) in vec2 UV;						\n"
-		"uniform mat4 translate;								\n"
-		"out vec2 interUV;										\n"
-		"														\n"
-		"void main() {											\n"
-		"	interUV = UV;										\n"
-		"	gl_Position = translate * vec4(pos, 0, 1);			\n"
-		"}														\n";
-	//Default fragment shader
-	const char* fsSrc =
-		"#version 410 core						\n"
-		 "uniform sampler2D DefSampler;			\n"
-		 "in vec2 interUV;						\n"
-		 "										\n"
-		 "out vec4 col;							\n"
-		 "void main() {							\n"
-		 "	col = texture(DefSampler, interUV);	\n"
-		 "}										\n";
+	const fs::path quadVSShFilename = "gui\\shaders\\quadvs.shader";
+	const fs::path quadFSShFilename = "gui\\shaders\\quadfs.shader";
 
 	void makeShaders() {
-		sge::VertexShader vsSh((std::string)vsSrc);
-		sge::FragmentShader fsSh((std::string)fsSrc);
+		sge::VertexShader quadVS(quadVSShFilename);
+		sge::FragmentShader quadFS(quadFSShFilename);
 
-		sge::ShaderProgram sh({ vsSh, fsSh });
-		GUIShaderProgram = sh;
+		sge::ShaderProgram quadShader({ quadVS, quadFS });
+		GUIShaderProgram = quadShader;
 	}
 
 	void setVertexPtrs() {
@@ -99,7 +109,5 @@ namespace sgeui {
 
 	GLFWwindow* wind;
 	int windW, windH;
-	Style::Enum style;
-	std::map<int, sge::Texture*> textures;
 	sge::ShaderProgram GUIShaderProgram;
 }

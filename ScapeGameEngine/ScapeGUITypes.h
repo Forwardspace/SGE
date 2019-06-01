@@ -13,5 +13,5 @@ namespace sgeui {
 	using IndexArray = std::vector<GLuint>;
 	using UVArray = PointArray;
 
-	class Renderable;
+	class RenderableQuad;
 }

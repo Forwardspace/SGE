@@ -8,7 +8,7 @@ int main() {
 #else
 void mainTest() {
 #endif
-	sge::Renderer::init(1024, 768, "A SGE Test", false);
+	sge::Renderer::init(1200, 1000, "A SGE Test", false);
 
 	sge::StaticObject pallet(".\\models\\pallet.obj");
 	sge::StaticObject pallet2(".\\models\\pallet.obj");

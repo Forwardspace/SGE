@@ -8,6 +8,17 @@ namespace sge {
 	}
 
 	Texture::Texture(fs::path filename) {
+		loadFromFile(filename);
+	}
+
+	//Format must be either GL_RGB or GL_BGR
+	Texture::Texture(GLubyte* data, int w, int h, GLenum format) {
+		w_ = w;
+		h_ = h;
+		makeTexture(data, format);
+	}
+
+	void Texture::loadFromFile(fs::path filename) {
 		ILuint image;
 		ilGenImages(1, &image);
 		ilBindImage(image);
@@ -30,7 +41,7 @@ namespace sge {
 
 			//All done, now extract the raw data from it
 			ILubyte* dataPtr = ilGetData();
-			
+
 			if (dataPtr == nullptr) {
 				throw std::runtime_error("Texture error: null pointer");
 			}
@@ -48,18 +59,11 @@ namespace sge {
 		}
 		catch (std::runtime_error err) {
 			throw std::runtime_error(
-				"Unable to load texture. This texture lacks texture... (" + 
+				"Unable to load texture. This texture lacks texture... (" +
 				std::string(err.what()) +
 				")"
 			);
 		}
-	}
-
-	//Format must be either GL_RGB or GL_BGR
-	Texture::Texture(GLubyte* data, int w, int h, GLenum format) {
-		w_ = w;
-		h_ = h;
-		makeTexture(data, format);
 	}
 
 	void Texture::makeTexture(GLubyte* data, GLenum format) {

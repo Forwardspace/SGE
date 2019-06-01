@@ -1,4 +1,8 @@
-﻿  ScapeGUIWidgets.cpp
-c:\users\juraj\source\repos\scapegameengine\scapegameengine\scapeguiwidgets.cpp(12): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\juraj\source\repos\scapegameengine\scapegameengine\scapeguiwidgets.cpp(13): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+﻿  test.cpp
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(18): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(30): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(58): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(59): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(61): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\juraj\source\repos\scapegameengine\scapegameengine\test.cpp(79): warning C4305: '+=': truncation from 'double' to 'float'
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe

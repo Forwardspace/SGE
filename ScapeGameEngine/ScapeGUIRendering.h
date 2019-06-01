@@ -6,60 +6,55 @@
 #include "BufferManager.h"
 
 #include "ScapeGUITypes.h"
+#include "ScapeGUIInit.h"
 
 namespace sgeui {
-	extern int windW, windH;
-	extern sge::ShaderProgram GUIShaderProgram;
-
-	class Renderable {
+	class RenderableQuad {
 	public:
-		Renderable(PointArray pa, IndexArray ia, UVArray ua) { pa_ = pa; ia_ = ia; ua_ = ua; }
-		Renderable() {}
+		RenderableQuad(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; }
+		RenderableQuad() {}
 
 		void setPos(float x, float y) { x_ = x; y_ = y; }
 		glm::vec2 getPos() { return glm::vec2(x_, y_); }
-		void setTx(sge::Texture* tx) { tx_ = tx; }
+		void setTextureIndex(int index) { textureIndex_ = index; }
+		void setPacked(bool packed) { packedTexture_ = packed; }
 
-		void addChild(Renderable* c);
-		void removeChild(Renderable* c);
+		void addChild(RenderableQuad* c);
+		void removeChild(RenderableQuad* c);
 
-		Renderable* getParent() { return parent; }
+		RenderableQuad* getParent() { return parent; }
 
 		void render();
+		virtual void update() {}
 
-		//Get point array
-		PointArray pa() { return pa_; }
-		IndexArray ia() { return ia_; }
-		UVArray ua() { return ua_; }
+		int textureIndex() {}
 
-		void setUA(UVArray ua) { ua_ = ua; }
 		void setBounds(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; }
+		void setUVBounds(Point2D bl, Point2D ur) { UVblBound_ = bl, UVurBound_ = ur; }
 	protected:
-		PointArray pa_;
-		IndexArray ia_;
-		UVArray ua_;
+		int textureIndex_ = defaultTheme;
+		bool packedTexture_ = false;
 
 		bool render_ = true;
 
-		sge::Texture* tx_ = sge::TextureManager::defaultTexture;
-
-		std::vector<Renderable*> children;
-		Renderable* parent = nullptr;
+		std::vector<RenderableQuad*> children;
+		RenderableQuad* parent = nullptr;
 
 		float x_ = 0, y_ = 0;
 		//Bottom left and upper right bounds
-		Point2D blBound_, urBound_;
+		Point2D blBound_ = {0, 0}, urBound_ = {1, 1};
+		Point2D UVblBound_ = {0, 0}, UVurBound_ = {1, 1};
 	};
 
-	void renderPoly(
-		PointArray& pa,
-		IndexArray& ia,
-		UVArray& ua,
+	void renderQuad(
+		Point2D bl,
+		Point2D ur,
+		Point2D UVbl,
+		Point2D UVur,
 		sge::Texture* tx,
 		int xP,
 		int yP
 	);
 
-	Renderable rectFromTwoPoints(Point2D bl, Point2D ur);
-	void halveUVs(Renderable* r, bool upper = false);
+	void halveUVs(RenderableQuad* r, bool upper = false);
 }

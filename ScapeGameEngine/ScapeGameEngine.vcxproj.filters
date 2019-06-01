@@ -123,6 +123,9 @@
     <ClInclude Include="ScapeGUIWidgets.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="PackedTexture.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -190,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="ScapeGUIWidgets.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PackedTexture.cpp">
+      <Filter>Source Files\Textures</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

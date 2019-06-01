@@ -6,6 +6,10 @@
 #include "ScapeGUIWidgets.h"
 
 namespace sgeui {
-	void init(GLFWwindow* wind, int w, int h, Style::Enum style);
+	void init(GLFWwindow* wind, int w, int h);
 	void update();
+
+	//Pointers to all the windows in the GUI, which in turn
+	//point to all the other elements to be rendered
+	extern std::list<Window*> windows;
 }

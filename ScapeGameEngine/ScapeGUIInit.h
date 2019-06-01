@@ -5,6 +5,7 @@
 #include "FragmentShader.h"
 #include "ShaderManager.h"
 #include "BufferManager.h"
+#include "PackedTexture.h"
 
 #include "ScapeGUITypes.h"
 
@@ -17,22 +18,26 @@ namespace sgeui {
 		};
 	}
 
-	namespace TextureType {
+	/*namespace TextureType {
 		enum Enum {
-			BACKGROUND,
-			CLOSE_BUTTON
+			THEME,
+			NORMAL,
+			PACKED,
 		};
-	}
+	}*/
 
-	void initSGEUI(GLFWwindow* wind_, int w_, int h_, Style::Enum style_);
+	void initSGEUI(GLFWwindow* wind_, int w_, int h_);
 	void makeUIBase();
-	void genTextures();
+	void loadResources();
 	void makeShaders();
 	void setVertexPtrs();
 
 	extern GLFWwindow* wind;
 	extern int windW, windH;
-	extern Style::Enum style;
+
 	extern std::map<int, sge::Texture*> textures;
+	extern std::map<int, sge::PackedTexture*> packedTextures;
+	extern int defaultTheme;
+	
 	extern sge::ShaderProgram GUIShaderProgram;
 }

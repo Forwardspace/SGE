@@ -50,4 +50,41 @@ namespace sge {
 		
 		return scene->mMeshes[0];
 	}
+
+	std::vector<std::string> IOManager::stringVecFromCSV(fs::path filename) {
+		std::string filestr = stringFromFile(filename);
+		std::vector<std::string> result;
+
+		//Go through the string, splitting it by ','
+		std::string buffer;
+		bool comment = false;
+		for (char c : filestr) {
+			if (comment) {		//Ignore lines starting with #
+				if (c == '\n') {
+					comment = false;
+				}
+			}
+			else {
+				if (c == '#') {		//A comment is starting...
+					comment = true;
+				}
+				else if (c != ',') {
+					if (c != ' ' && c != '\n') {
+						buffer += c;
+					}
+				}
+				else {
+					if (!buffer.empty()) {
+						result.push_back(buffer);
+						buffer = "";
+					}
+				}
+			}
+		}
+		if (!buffer.empty()) {
+			result.push_back(buffer);
+		}
+
+		return result;
+	}
 }

@@ -5,6 +5,7 @@ namespace sge {
 	int Renderer::h_;
 
 	sgeui::Window* guiwnd;
+	sgeui::Window* guiwnd2;
 
 	glm::mat4x4 Renderer::projectionMatrix_;
 
@@ -92,13 +93,8 @@ namespace sge {
 	}
 
 	void finalizeFrame(GLFWwindow* window) {
-		//Update the GUI (has to be done last no to overlap with any vertices)
-		//First clear the depth bit; it has to draw over everything
+		//Update the GUI (has to be done last not to be overlapped with any vertices)
 		sgeui::update();
-
-		//DEBUG ONLY:
-		guiwnd->render();
-		//END DEBUG ONLY
 
 		glfwSwapBuffers(window);
 		clearScreen();
@@ -176,12 +172,13 @@ namespace sge {
 		IOManager::init();
 		GLFWIOManager::init(wind_);
 		//GUI
-		sgeui::init(sge::Renderer::wind(), w_, h_, sgeui::Style::WHITE);
+		sgeui::init(sge::Renderer::wind(), w_, h_);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
 		guiwnd = new sgeui::Window(400, 400, 10, 10);
+		guiwnd2 = new sgeui::Window(350, 400, 500, 500);
 	}
 
 	[[ noreturn ]] void Renderer::terminate(bool exit) {

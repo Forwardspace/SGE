@@ -1,6 +1,7 @@
 #pragma once
 #include "stdheaders.h"
 #include "Texture.h"
+#include "IOManager.h"
 
 namespace sge {
 	class TextureManager {

@@ -11,8 +11,9 @@ namespace sgeui {
 		h_ = h;
 		x_ = xPos;
 		y_ = yPos;
-		render_ = false;	//This is just a container, not a renderable object
+		render_ = false;	//This is just a container, not a RenderableQuad object
 
+		windows.push_back(this);
 
 		Point2D bl = { { (float)xPos / windW }, { (float)(yPos - h) / windH } };
 		Point2D ur = { { (float)(xPos + w) / windW }, { (float)yPos / windH } };
@@ -20,18 +21,18 @@ namespace sgeui {
 
 		//Generate the banner with a fixed height
 		//Use the upper half of the texture
-		Renderable* banner = new Renderable(rectFromTwoPoints(bannerBl, ur));
-		banner->setTx(textures[TextureType::BACKGROUND]);
+		RenderableQuad* banner = new RenderableQuad(bannerBl, ur);
+		banner->setTextureIndex(defaultTheme);
 		halveUVs(banner, true);
 
 		//Generate the rest of the window
 		//Use the bottom half of the texture
-		Renderable* surface = new Renderable(rectFromTwoPoints(bl, ur));
-		surface->setTx(textures[TextureType::BACKGROUND]);
+		RenderableQuad* surface = new RenderableQuad(bl, ur);
+		surface->setTextureIndex(defaultTheme);
 		halveUVs(surface, false);
 
 		//Make the Window Helper
-		WindowHelper* wh = new WindowHelper(ur, bannerBl);
+		WindowHelper* wh = new WindowHelper(bannerBl, ur);
 
 		//Add them sorted by depth (no depth testing, remember)
 		addChild(surface);
@@ -40,6 +41,9 @@ namespace sgeui {
 	}
 
 	Window::~Window(){
+		//Remove this from the windows list
+		windows.remove(this);
+
 		for (auto child : children) {
 			delete child;
 		}
@@ -47,16 +51,25 @@ namespace sgeui {
 
 	///////////////////////////////////
 
-	WindowHelper::WindowHelper(Point2D ur, Point2D bl){
-		render_ = false;	//This is just a container, not a renderable object
+	const int closeButtonTextureIndex = 3;
+
+	WindowHelper::WindowHelper(Point2D bl, Point2D ur) {
+		render_ = false;	//This is just a container, not a RenderableQuadobject
 
 		//The close button is in the top right
-		Point2D closeBl = { { ur.x - (float)bannerHeight / windW }, { bl.y } };
-		Renderable* closeButton = new Renderable(rectFromTwoPoints(closeBl, ur));
+		Point2D closeBl = { { ur.x - (float)(bannerHeight / 2) / windW}, { bl.y + (float)(bannerHeight / 2) / windW } };
+		RenderableQuad* closeButton = new RenderableQuad(closeBl, ur);
 		
-		//closeButton->setTx(textures[TextureType::CLOSE_BUTTON]);
-		closeButton->setTx(sge::TextureManager::defaultTexture);
+		closeButton->setTextureIndex(closeButtonTextureIndex);
+		closeButton->setPacked(true);
 		closeButton->setBounds(closeBl, ur);
 		addChild(closeButton);
+	}
+
+	void WindowHelper::update() {
+		//Update the UVs based on state
+		//DEBUG: just set it to texture #0
+		auto UVs = packedTextures[closeButtonTextureIndex]->unpackTexture(sge::PackedTextureType::NORMAL);
+		children[0]->setUVBounds({UVs[0].x, UVs[0].y}, { UVs[1].x, UVs[1].y });
 	}
 }

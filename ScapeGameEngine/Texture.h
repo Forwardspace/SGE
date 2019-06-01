@@ -13,8 +13,9 @@ namespace sge {
 
 		GLuint handle() { return handle_; }
 
-	private:
+	protected:
 		void makeTexture(GLubyte* data, GLenum format);
+		void loadFromFile(fs::path filename);
 
 		GLuint handle_ = NULL;
 		int w_, h_;

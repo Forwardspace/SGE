@@ -1,12 +1,12 @@
 #include "ScapeGUIRendering.h"
 
 namespace sgeui {
-	void Renderable::addChild(Renderable* c) {
+	void RenderableQuad::addChild(RenderableQuad* c) {
 		children.push_back(c);
 		c->parent = this;
 	}
 
-	void Renderable::removeChild(Renderable* c) {
+	void RenderableQuad::removeChild(RenderableQuad* c) {
 		for (int i = 0; i < children.size(); i++) {
 			if (c == children[i]) {
 				children[i]->parent = nullptr; //Abandon the child
@@ -15,10 +15,13 @@ namespace sgeui {
 		}
 	}
 
-	void Renderable::render() {
+	void RenderableQuad::render() {
 		//First render this object
+		update();
 		if (render_) {
-			renderPoly(pa_, ia_, ua_, tx_, x_, y_);
+			auto tx = 
+				packedTexture_ ? packedTextures[textureIndex_] : textures[textureIndex_];
+			renderQuad(blBound_, urBound_, UVblBound_, UVurBound_, tx, x_, y_);
 		}
 
 		//Then render all the children
@@ -29,36 +32,24 @@ namespace sgeui {
 		}
 	}
 
-	//Provided a bottom left and an upper right point,
-	//this will generate a renderable rectangle bounded
-	//by these points
-	Renderable rectFromTwoPoints(Point2D bl, Point2D ur) {
-		//Generate two triangles and all corresponding data
-		PointArray pa = { { bl.x, bl.y }, { ur.x, ur.y }, { bl.x, ur.y }, { ur.x, bl.y } };
-		IndexArray ia = { 0, 3, 2, 3, 1, 2 };
-		UVArray ua = { { 0, 0 }, { 1, 1 }, { 0, 1 }, { 1, 0 } };
-
-		Renderable rectangle(pa, ia, ua);
-		return rectangle;
-	}
-
 	//Set UVs of a rect to either (if upper) the upper half of the texture
 	//or (if not upper) the bottom half.
-	void halveUVs(Renderable* r, bool upper) {
+	void halveUVs(RenderableQuad* r, bool upper) {
 		if (upper) {
-			r->setUA({ { 0, 0.5 }, { 1, 1 }, { 0, 1 }, { 1, 0.5 } });
+			r->setUVBounds({ 0, 0.5 }, { 1, 1 });
 		}
 		else {
-			r->setUA({ { 0, 0.5 }, { 1, 0.5 }, { 0, 0.5 }, { 1, 0 } });
+			r->setUVBounds({ 0, 0.5 }, { 1, 0.5 });
 		}
 	}
 
 	const char* translate_uniform = "translate";
 
-	void renderPoly(
-		PointArray& pa,
-		IndexArray& ia,
-		UVArray& ua,
+	void renderQuad(
+		Point2D bl,
+		Point2D ur,
+		Point2D UVbl,
+		Point2D UVur,
 		sge::Texture* tx,
 		int xP,
 		int yP
@@ -73,6 +64,12 @@ namespace sgeui {
 		//Convert pixel coords to ratios
 		float x = (float)xP / windW;
 		float y = (float)yP / windH;
+
+		//This will generate a rectangle bounded
+		//by these points
+		PointArray pa = { { bl.x, bl.y }, { ur.x, ur.y }, { bl.x, ur.y }, { ur.x, bl.y } };
+		IndexArray ia = { 0, 3, 2, 3, 1, 2 };
+		UVArray ua = { { UVbl.x, UVbl.y }, { UVur.x, UVur.y }, { UVbl.x, UVur.y }, { UVur.x, UVbl.y } };
 
 		//Generate the translate matrix (no need for
 		//the whole MVP matrix
@@ -125,9 +122,10 @@ namespace sgeui {
 			GL_STATIC_DRAW
 		);
 
+		auto b = glGetError();
 		//And finally, issue the draw command:
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ia.size()), GL_UNSIGNED_INT, (void*)0);
-
+		auto a = glGetError();
 		sge::ShaderManager::popActive();
 	}
 }
