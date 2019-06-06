@@ -10,4 +10,6 @@
 #include "Texture.h"
 #include "GLFWIOManager.h"
 
+#include "FPSCamera.h"
+
 #include "ScapeGUI.h"

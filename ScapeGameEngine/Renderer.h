@@ -6,10 +6,14 @@
 #include "GLFWIOManager.h"
 #include "TextureManager.h"
 #include "Camera.h"
+#include "UserInputManager.h"
 
 #include "ScapeGUI.h"
 
 namespace sge {
+	//How long did the current frame take, in s.
+	extern double deltaTime;
+
 	class Renderer {
 	public:
 		Renderer() = delete;	//Singleton

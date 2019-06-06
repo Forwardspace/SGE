@@ -13,6 +13,8 @@ namespace sge {
 	GLFWwindow* Renderer::wind_ = nullptr;
 	Camera* Renderer::currentCamera_;
 
+	double deltaTime;
+
 	///////////////////
 	///// Objects /////
 	///////////////////
@@ -38,6 +40,16 @@ namespace sge {
 	///////////////////
 	///// Drawing /////
 	///////////////////
+
+	//Calculate deltaTime each frame
+	std::clock_t timer;
+	void startTimer() {
+		timer = std::clock();
+	}
+
+	void endTimer() {
+		deltaTime = (std::clock() - timer) / (double)CLOCKS_PER_SEC;
+	}
 
 	std::deque<Object*> Renderer::objectList_;
 
@@ -174,9 +186,12 @@ namespace sge {
 		//GUI
 		sgeui::init(sge::Renderer::wind(), w_, h_);
 
+		windowPeriodicCallbacks_.push_back(std::function<void()>(UserInputManager::update));
+
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
+		//DEBUG ONLY
 		guiwnd = new sgeui::Window(400, 400, 10, 10);
 		guiwnd2 = new sgeui::Window(350, 400, 500, 500);
 	}
@@ -205,13 +220,10 @@ namespace sge {
 	}
 
 	void Renderer::callBack() {
-		if (windowPeriodicCallbacks_.size() == 0) {
-			defaultWindowPeriodicCallback();
-		}
-		else {
-			for (auto f : windowPeriodicCallbacks_) {
-				f();
-			}
+		defaultWindowPeriodicCallback();
+
+		for (auto f : windowPeriodicCallbacks_) {
+			f();
 		}
 	}
 

@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="GLFWIOManager.h" />
     <ClInclude Include="IOManager.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="stdheaders.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="UserInputManager.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +156,7 @@
     <ClCompile Include="..\packages\glad\src\glad.c" />
     <ClCompile Include="BufferManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="GLFWIOManager.cpp" />
     <ClCompile Include="IOManager.cpp" />
@@ -172,6 +175,7 @@
     <ClCompile Include="test.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="UserInputManager.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

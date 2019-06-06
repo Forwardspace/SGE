@@ -30,51 +30,12 @@ void mainTest() {
 	sge::Camera maincam(0, 0.5, 1.8);
 	sge::Renderer::setCurrentCamera(&maincam);
 
+	sge::FPSCamera::enable();
+
 	float x = 1;
 
-	double prevX = 0;
-	double prevY = 0;
 	while (true) {
 		sge::Renderer::renderFrame();
-
-		//TEST - showcase a simple free look camera controller
-		glfwSetInputMode(sge::Renderer::wind(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-		double mouseSensitivity = 5;
-		double speed = 0.1;
-
-		double mY = sge::GLFWIOManager::mouseX();
-		double deltaY = mY - prevY;
-		deltaY *= (1 / mouseSensitivity);
-
-		double mX = sge::GLFWIOManager::mouseY();
-		double deltaX = mX - prevX;
-		deltaX *= (1 / mouseSensitivity);
-
-		bool pressedW = sge::GLFWIOManager::isPressed(GLFW_KEY_W);
-		bool pressedS = sge::GLFWIOManager::isPressed(GLFW_KEY_S);
-		bool pressedD = sge::GLFWIOManager::isPressed(GLFW_KEY_D);
-		bool pressedA = sge::GLFWIOManager::isPressed(GLFW_KEY_A);
-		float velZ = speed * pressedW - speed * pressedS;
-		float velX = speed * pressedD - speed * pressedA;
-
-		maincam.setRot(180 - deltaX, -deltaY, 0);
-
-		//Calculate where to move to based on the camera's
-		//orientation
-		glm::vec3 pos = maincam.pos();
-		glm::mat4 view = maincam.viewMatrix();
-
-		glm::vec3 forward = glm::vec3(view[0][2], view[1][2], view[2][2]);
-		glm::vec3 right = glm::vec3(view[0][0], view[1][0], view[2][0]);
-		
-		glm::vec3 deltaPosZ = forward * velZ;
-		glm::vec3 deltaPosX = right * velX;
-
-		glm::vec3 deltaPos = deltaPosX - deltaPosZ;
-		pos += deltaPos;
-
-		maincam.setPos(pos.x, pos.y, pos.z);
 
 		x += 0.01;
 	}

@@ -49,6 +49,12 @@
     <Filter Include="Source Files\IO">
       <UniqueIdentifier>{7e55e20b-1e33-4eec-9f22-0ab77bf62a0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{bde35fc5-5303-40c0-bd6c-d34f3e0c6f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{c47963fc-162b-427b-9b57-4d807b816b85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SGE.h">
@@ -126,6 +132,12 @@
     <ClInclude Include="PackedTexture.h">
       <Filter>Header Files\Textures</Filter>
     </ClInclude>
+    <ClInclude Include="UserInputManager.h">
+      <Filter>Header Files\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -196,6 +208,12 @@
     </ClCompile>
     <ClCompile Include="PackedTexture.cpp">
       <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInputManager.cpp">
+      <Filter>Source Files\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

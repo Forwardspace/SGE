@@ -1,6 +1,8 @@
 #pragma once
 #include "stdheaders.h"
 
+#include "UserInputManager.h"
+
 namespace sge {
 	class GLFWIOManager {
 	public:

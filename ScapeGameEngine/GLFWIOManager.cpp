@@ -15,12 +15,13 @@ namespace sge {
 	}
 
 	void GLFWIOManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+		bool pressed = false;
+		
 		if (action == GLFW_PRESS || action == GLFW_REPEAT) {
-			keyStatus_[key] = true;
+			pressed = true;
 		}
-		else {
-			keyStatus_[key] = false;
-		}
+
+		keyStatus_[key] = pressed;
 	}
 
 	void GLFWIOManager::charCallback(GLFWwindow* window, GLuint codepoint) {
