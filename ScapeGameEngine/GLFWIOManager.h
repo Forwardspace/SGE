@@ -20,7 +20,7 @@ namespace sge {
 		//Getters
 		static double mouseX() { return mouseX_; }
 		static double mouseY() { return mouseY_; }
-		static std::array<bool, 8> mouseKeyStatus() { return mouseKeyStatus_; }
+		static bool mouseKeyStatus(int n) { return mouseKeyStatus_[n]; }
 		static bool isPressed(int key) { return keyStatus_[key]; }
 
 		static std::wstring textBuffer() { return textBuffer_; }

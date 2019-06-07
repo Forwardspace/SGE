@@ -16,8 +16,12 @@ namespace sgeui {
 
 		void setPos(float x, float y) { x_ = x; y_ = y; }
 		glm::vec2 getPos() { return glm::vec2(x_, y_); }
+
 		void setTextureIndex(int index) { textureIndex_ = index; }
 		void setPacked(bool packed) { packedTexture_ = packed; }
+
+		Point2D bl() { return blBound_; }
+		Point2D ur() { return urBound_; }
 
 		void addChild(RenderableQuad* c);
 		void removeChild(RenderableQuad* c);
@@ -31,6 +35,10 @@ namespace sgeui {
 
 		void setBounds(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; }
 		void setUVBounds(Point2D bl, Point2D ur) { UVblBound_ = bl, UVurBound_ = ur; }
+	
+		//These variables are primarily externally modified
+		bool awaitingLMBRelease = false;
+		bool focused = true;
 	protected:
 		int textureIndex_ = defaultTheme;
 		bool packedTexture_ = false;

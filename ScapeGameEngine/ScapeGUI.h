@@ -11,5 +11,5 @@ namespace sgeui {
 
 	//Pointers to all the windows in the GUI, which in turn
 	//point to all the other elements to be rendered
-	extern std::list<Window*> windows;
+	extern std::vector<Window*> windows;
 }

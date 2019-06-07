@@ -1,9 +1,15 @@
 #pragma once
 #include "ScapeGUIRendering.h"
 #include "ScapeGUIInit.h"
+
 #include "PackedTexture.h"
+#include "GLFWIOManager.h"
 
 namespace sgeui {
+	extern int windW, windH;
+
+	extern int defaultInteractMouseButton;
+
 	class Window : public RenderableQuad{
 	public:
 		Window();
@@ -22,5 +28,13 @@ namespace sgeui {
 	private:
 	};
 
-	extern std::list<Window*> windows;
+	extern std::vector<Window*> windows;
+
+	//Returns true if the mouse position is
+	//in the rectangle described by bl, ur
+	bool hit(Point2D bl, Point2D ur);
+	//Returns true if the mouse position is
+	//in the rectangle described by bl, ur
+	//and the left mouse button is clicked
+	bool clickedOn(Point2D bl, Point2D ur, bool& awaitingLMBRelease);
 }

@@ -14,8 +14,21 @@ namespace sgeui {
 		setVertexPtrs();
 
 		//Recursively render all elements
-		for (auto& window : windows) {
-			window->render();
+		bool render = true;
+		int i = 0;
+		while (render) {
+			size_t size = windows.size();
+			if (i >= size) {
+				break;
+			}
+
+			windows[i]->render();
+
+			//Check if a window has been removed
+			if (!(windows.size() < size)) {
+				//It hasn't, continue
+				i++;
+			}
 		}
 
 		glEnable(GL_CULL_FACE);
@@ -23,5 +36,5 @@ namespace sgeui {
 		glDisable(GL_BLEND);
 	}
 
-	std::list<Window*> windows;
+	std::vector<Window*> windows;
 }

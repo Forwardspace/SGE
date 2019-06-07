@@ -30,7 +30,7 @@ void mainTest() {
 	sge::Camera maincam(0, 0.5, 1.8);
 	sge::Renderer::setCurrentCamera(&maincam);
 
-	sge::FPSCamera::enable();
+	//sge::FPSCamera::enable();
 
 	float x = 1;
 
