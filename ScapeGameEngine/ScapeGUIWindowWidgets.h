@@ -3,7 +3,7 @@
 #include "ScapeGUIInit.h"
 
 #include "PackedTexture.h"
-#include "GLFWIOManager.h"
+#include "UserInputManager.h"
 
 namespace sgeui {
 	extern int windW, windH;
@@ -18,6 +18,13 @@ namespace sgeui {
 	private:
 		int h_ = 0, w_ = 0;
 	};
+	
+	class WindowBanner : public RenderableQuad {
+	public:
+		WindowBanner() { draggable = true; }
+		WindowBanner(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; draggable = true; }
+		void update();
+	};
 
 	//That thing with the close button in the top right
 	class WindowHelper : public RenderableQuad {
@@ -26,9 +33,20 @@ namespace sgeui {
 
 		void update();
 	private:
+		void updateCloseButton();
 	};
 
 	extern std::vector<Window*> windows;
+
+	namespace ClickState {
+		enum Enum {
+			NONE,
+			HOVER,
+			CLICKED,
+			AWAITING_BUTTON_RELEASE,
+			CLICK_AND_DRAG
+		};
+	}
 
 	//Returns true if the mouse position is
 	//in the rectangle described by bl, ur
@@ -36,5 +54,5 @@ namespace sgeui {
 	//Returns true if the mouse position is
 	//in the rectangle described by bl, ur
 	//and the left mouse button is clicked
-	bool clickedOn(Point2D bl, Point2D ur, bool& awaitingLMBRelease);
+	ClickState::Enum getClickState(Point2D bl, Point2D ur, bool& awaitingButtonRelease, bool draggable);
 }

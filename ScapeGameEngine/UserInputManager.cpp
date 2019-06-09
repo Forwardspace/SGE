@@ -17,7 +17,7 @@ namespace sge {
 		currentMapping_ = mapping;
 	}
 
-	void UserInputManager::update() {
+	void UserInputManager::updateKeyboard() {
 		//Reset all weights to zero
 		for (auto& pair : currentMapping_.axes) {
 			std::get<1>(pair) = 0;
@@ -33,8 +33,8 @@ namespace sge {
 		}
 	}
 
-	void UserInputManager::endFrame() {
-
+	void UserInputManager::update() {
+		updateKeyboard();
 	}
 
 	//An example of the UIM this class uses:

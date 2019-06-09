@@ -1,11 +1,11 @@
 #include "FPSCamera.h"
 
 namespace sge {
-	double FPSCamera::mouseSensitivity = 5;
-	double FPSCamera::speed = 0.1;
+	float FPSCamera::mouseSensitivity = 5.0f;
+	float FPSCamera::speed = 0.1f;
 
-	double FPSCamera::prevX = 0;
-	double FPSCamera::prevY = 0;
+	float FPSCamera::prevX = 0;
+	float FPSCamera::prevY = 0;
 
 	void FPSCamera::enable() {
 		Renderer::registerWindowCallback(update);
@@ -20,15 +20,15 @@ namespace sge {
 	void FPSCamera::update() {
 		Camera* maincam = Renderer::currentCamera();
 
-		double mouseSensitivity = 5;
-		double speed = 0.1;
+		float mouseSensitivity = 5.0f;
+		float speed = 0.1f;
 
-		double mY = sge::GLFWIOManager::mouseX();
-		double deltaY = mY - prevY;
+		float mY = sge::GLFWIOManager::mouseX();
+		float deltaY = mY - prevY;
 		deltaY *= (1 / mouseSensitivity);
 
-		double mX = sge::GLFWIOManager::mouseY();
-		double deltaX = mX - prevX;
+		float mX = sge::GLFWIOManager::mouseY();
+		float deltaX = mX - prevX;
 		deltaX *= (1 / mouseSensitivity);
 
 		float velZ = speed * UserInputManager::getAxis("Y");

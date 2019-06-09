@@ -3,7 +3,7 @@
 namespace sge {
 	bool GLFWIOManager::storeText_ = false;
 	std::wstring GLFWIOManager::textBuffer_;
-	double GLFWIOManager::mouseX_ = 0, GLFWIOManager::mouseY_ = 0;
+	int GLFWIOManager::mouseX_ = 0, GLFWIOManager::mouseY_ = 0;
 	std::array<bool, 8> GLFWIOManager::mouseKeyStatus_ {};
 	std::map<int, bool> GLFWIOManager::keyStatus_ {};
 

@@ -14,7 +14,7 @@ namespace sgeui {
 		RenderableQuad(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; }
 		RenderableQuad() {}
 
-		void setPos(float x, float y) { x_ = x; y_ = y; }
+		void setPos(int x, int y) { x_ = x; y_ = y; }
 		glm::vec2 getPos() { return glm::vec2(x_, y_); }
 
 		void setTextureIndex(int index) { textureIndex_ = index; }
@@ -30,14 +30,16 @@ namespace sgeui {
 
 		void render();
 		virtual void update() {}
+		void moveBy(int x, int y);
 
-		int textureIndex() {}
+		int textureIndex() { return textureIndex_; }
 
 		void setBounds(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; }
 		void setUVBounds(Point2D bl, Point2D ur) { UVblBound_ = bl, UVurBound_ = ur; }
 	
-		//These variables are primarily externally modified
-		bool awaitingLMBRelease = false;
+		//These variables are primarily externally used
+		bool awaitingButtonRelease = false;
+		bool draggable = false;
 		bool focused = true;
 	protected:
 		int textureIndex_ = defaultTheme;
@@ -48,7 +50,7 @@ namespace sgeui {
 		std::vector<RenderableQuad*> children;
 		RenderableQuad* parent = nullptr;
 
-		float x_ = 0, y_ = 0;
+		int x_ = 0, y_ = 0;
 		//Bottom left and upper right bounds
 		Point2D blBound_ = {0, 0}, urBound_ = {1, 1};
 		Point2D UVblBound_ = {0, 0}, UVurBound_ = {1, 1};

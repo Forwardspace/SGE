@@ -4,9 +4,6 @@ namespace sge {
 	int Renderer::w_;
 	int Renderer::h_;
 
-	sgeui::Window* guiwnd;
-	sgeui::Window* guiwnd2;
-
 	glm::mat4x4 Renderer::projectionMatrix_;
 
 	long unsigned int Renderer::frameNum_ = 0;
@@ -108,6 +105,11 @@ namespace sge {
 		//Update the GUI (has to be done last not to be overlapped with any vertices)
 		sgeui::update();
 
+		//Update the UserInputManager
+		//It has to be updated last because of the
+		//mouse delta calculation
+		UserInputManager::update();
+
 		glfwSwapBuffers(window);
 		clearScreen();
 
@@ -116,8 +118,6 @@ namespace sge {
 	}
 
 	void Renderer::renderFrame() {
-		callBack();
-
 		startDrawing(objectList_);
 
 		//Draw all registered Objects
@@ -126,6 +126,8 @@ namespace sge {
 		}
 
 		finalizeFrame(wind_);
+
+		callBack();
 	}
 
 	void Renderer::updateProjectionMatrix(float FoV, float NCP, float FCP) {
@@ -174,6 +176,10 @@ namespace sge {
 		//Projection matrix is inited here with some defaults
 		updateProjectionMatrix(85, 0.1f, 1000);
 
+		///////////////////////////////
+		/////ACTUAL INITIALIZATION/////
+		///////////////////////////////
+
 		//Initialize various libraries
 		ilInit();
 		iluInit();
@@ -186,14 +192,10 @@ namespace sge {
 		//GUI
 		sgeui::init(sge::Renderer::wind(), w_, h_);
 
-		windowPeriodicCallbacks_.push_back(std::function<void()>(UserInputManager::update));
+		windowPeriodicCallbacks_.push_back(defaultWindowPeriodicCallback);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
-
-		//DEBUG ONLY
-		guiwnd = new sgeui::Window(400, 400, 10, 10);
-		guiwnd2 = new sgeui::Window(350, 400, 500, 500);
 	}
 
 	[[ noreturn ]] void Renderer::terminate(bool exit) {
@@ -214,14 +216,12 @@ namespace sge {
 	void Renderer::removeWindowCallback(std::function<void()> callback) {
 		windowPeriodicCallbacks_.remove_if(
 			[callback](std::function<void()> toCompare) {
-				return (callback.target<void()>() == toCompare.target<void()>()); 
+				return (callback.target<void>() == toCompare.target<void>()); 
 			}
 		);
 	}
 
-	void Renderer::callBack() {
-		defaultWindowPeriodicCallback();
-
+	void Renderer::callBack()  {
 		for (auto f : windowPeriodicCallbacks_) {
 			f();
 		}

@@ -49,9 +49,6 @@ namespace sge {
 			//Soft error - we can continue; although the GUI may look wrong
 			//Return the first texture
 			index = 0;
-
-			//DEBUG ONLY
-			assert(false);
 		}
 
 		//Calculate the UVs based on the num. of textures and index

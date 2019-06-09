@@ -126,9 +126,6 @@
     <ClInclude Include="ScapeGUITypes.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ScapeGUIWidgets.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="PackedTexture.h">
       <Filter>Header Files\Textures</Filter>
     </ClInclude>
@@ -137,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="FPSCamera.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScapeGUIWindowWidgets.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,9 +203,6 @@
     <ClCompile Include="ScapeGUIInit.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="ScapeGUIWidgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PackedTexture.cpp">
       <Filter>Source Files\Textures</Filter>
     </ClCompile>
@@ -214,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="FPSCamera.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScapeGUIWindowWidgets.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

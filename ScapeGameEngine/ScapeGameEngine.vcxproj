@@ -86,6 +86,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SGE_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\packages\glew-2.1.0\lib\Release\x64;..\packages\glfw.3.2.1.5\build\native\lib\static\v140\x64;..\packages\DevIL Windows SDK\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -136,7 +137,7 @@
     <ClInclude Include="ScapeGUIInit.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
     <ClInclude Include="ScapeGUITypes.h" />
-    <ClInclude Include="ScapeGUIWidgets.h" />
+    <ClInclude Include="ScapeGUIWindowWidgets.h" />
     <ClInclude Include="SGE.h" />
     <ClInclude Include="sgeheaders.h" />
     <ClInclude Include="Shader.h" />
@@ -167,7 +168,7 @@
     <ClCompile Include="ScapeGUI.cpp" />
     <ClCompile Include="ScapeGUIInit.cpp" />
     <ClCompile Include="ScapeGUIRendering.cpp" />
-    <ClCompile Include="ScapeGUIWidgets.cpp" />
+    <ClCompile Include="ScapeGUIWindowWidgets.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />

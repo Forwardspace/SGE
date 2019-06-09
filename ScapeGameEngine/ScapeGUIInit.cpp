@@ -1,5 +1,6 @@
 #include "ScapeGUIInit.h"
 #include "TextureManager.h"
+#include "UserInputManager.h"
 
 namespace sgeui {
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_) {
@@ -106,6 +107,20 @@ namespace sgeui {
 		glBindBuffer(GL_ARRAY_BUFFER, sge::BufferManager::VBO(sge::VBOType::VERTEX2D));
 		glVertexAttribPointer(0, 2 /* <- The important part */, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	}
+
+	void updateMouseDelta() {
+		static int prevX = 0, prevY = 0;
+		int mouseX = sge::UserInputManager::mouseX();
+		int mouseY = sge::UserInputManager::mouseY();
+
+		mouseDeltaX = mouseX - prevX;
+		mouseDeltaY = mouseY - prevY;
+
+		prevX = mouseX;
+		prevY = mouseY;
+	}
+
+	int mouseDeltaX = 0, mouseDeltaY = 0;
 
 	GLFWwindow* wind;
 	int windW, windH;

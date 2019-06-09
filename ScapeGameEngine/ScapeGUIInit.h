@@ -18,19 +18,15 @@ namespace sgeui {
 		};
 	}
 
-	/*namespace TextureType {
-		enum Enum {
-			THEME,
-			NORMAL,
-			PACKED,
-		};
-	}*/
-
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_);
 	void makeUIBase();
 	void loadResources();
 	void makeShaders();
+
 	void setVertexPtrs();
+	void updateMouseDelta();
+
+	extern int mouseDeltaX, mouseDeltaY;
 
 	extern GLFWwindow* wind;
 	extern int windW, windH;

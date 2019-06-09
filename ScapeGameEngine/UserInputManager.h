@@ -1,5 +1,6 @@
 #pragma once
 #include "stdheaders.h"
+#include "GLFWIOManager.h"
 
 namespace sge {
 	//Defines a mapping from specific keys to weights
@@ -15,15 +16,21 @@ namespace sge {
 		UserInputManager() = delete;	//Singleton
 		~UserInputManager() = delete;
 
+		static void update();
+
+		/////Keyboard/////
 		static float getAxis(std::string axisName);
 		static bool pressed(int keyCode);
 
 		static void setActiveMapping(UserInputMapping& mapping);
 
-		static void update();
-		static void endFrame();
+		/////Mouse/////
+		static int mouseX() { return GLFWIOManager::mouseX(); };
+		static int mouseY() { return GLFWIOManager::mouseY(); }
 	private:
 		static UserInputMapping& currentMapping_;
+
+		static void updateKeyboard();
 	};
 
 	extern UserInputMapping FreeCamControls;

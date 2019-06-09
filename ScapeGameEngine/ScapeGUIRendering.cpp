@@ -32,6 +32,16 @@ namespace sgeui {
 		}
 	}
 
+	void RenderableQuad::moveBy(int x, int y) {
+		blBound_ = { blBound_.x + (float)x / windW, blBound_.y + (float)y / windH };
+		urBound_ = { urBound_.x + (float)x / windW, urBound_.y + (float)y / windH };
+
+		//Forward the change to all children
+		for (auto& child : children) {
+			child->moveBy(x, y);
+		}
+	}
+
 	//Set UVs of a rect to either (if upper) the upper half of the texture
 	//or (if not upper) the bottom half.
 	void halveUVs(RenderableQuad* r, bool upper) {

@@ -16,11 +16,11 @@ namespace sge {
 
 		//Configurable variables
 
-		static double mouseSensitivity;	//Default: 5
-		static double speed;			//Default: 0.1
+		static float mouseSensitivity;	//Default: 5
+		static float speed;			//Default: 0.1
 
 	private:
-		static double prevX;
-		static double prevY;
+		static float prevX;
+		static float prevY;
 	};
 }

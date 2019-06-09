@@ -9,7 +9,8 @@ namespace sge {
 			NORMAL,
 			HOVER,
 			CLICK,
-			DISABLED
+			DISABLED,
+			RELEASED
 		};
 	}
 

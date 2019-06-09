@@ -1,8 +1,6 @@
 #pragma once
 #include "stdheaders.h"
 
-#include "UserInputManager.h"
-
 namespace sge {
 	class GLFWIOManager {
 	public:
@@ -18,8 +16,8 @@ namespace sge {
 		static void init(GLFWwindow* wind);
 
 		//Getters
-		static double mouseX() { return mouseX_; }
-		static double mouseY() { return mouseY_; }
+		static int mouseX() { return mouseX_; }
+		static int mouseY() { return mouseY_; }
 		static bool mouseKeyStatus(int n) { return mouseKeyStatus_[n]; }
 		static bool isPressed(int key) { return keyStatus_[key]; }
 
@@ -41,7 +39,7 @@ namespace sge {
 		static std::wstring textBuffer_;
 
 		//Mouse stuff
-		static double mouseX_, mouseY_;
+		static int mouseX_, mouseY_;
 		//Stores true if the mouse key at some location is pressed
 		static std::array<bool, 8> mouseKeyStatus_;
 		//Stores true if the key at some location is pressed
