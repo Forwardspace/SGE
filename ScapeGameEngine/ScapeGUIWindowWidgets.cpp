@@ -59,8 +59,10 @@ namespace sgeui {
 			//Relocate the parent Window to the mouse location
 			//as long as the mouse button is held down
 			//(move the Window)
-			//Also, correct the GLFW coordinates
+			//Also, convert the GLFW coordinates to SGEUI coordinates
 			parent->moveBy(mouseDeltaX * 2, -mouseDeltaY * 2);
+
+			pushWindowOnTop(static_cast<Window*>(parent));
 		}
 	}
 
@@ -117,6 +119,25 @@ namespace sgeui {
 		}
 
 		return false;
+	}
+
+	void pushWindowOnTop(Window* target) {
+		if (windows.back() != target) {
+			//Target is not on top
+
+			Window* top = windows.back();
+			auto targetLocation = std::find(windows.begin(), windows.end(), target);
+			
+			if (targetLocation == std::end(windows)) {
+				throw std::runtime_error("Target Window* is not in windows vector! Use linux?");
+			}
+
+			targetLocation[0] = top;
+			windows.back() = target;
+
+			top->focused = false;
+			target->focused = true;
+		}
 	}
 
 	void WindowHelper::updateCloseButton() {

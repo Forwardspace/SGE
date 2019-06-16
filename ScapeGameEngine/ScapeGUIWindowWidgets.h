@@ -55,4 +55,6 @@ namespace sgeui {
 	//in the rectangle described by bl, ur
 	//and the left mouse button is clicked
 	ClickState::Enum getClickState(Point2D bl, Point2D ur, bool& awaitingButtonRelease, bool draggable);
+	//Swapps target with the window on top of the windows vector.
+	void pushWindowOnTop(Window* target);
 }

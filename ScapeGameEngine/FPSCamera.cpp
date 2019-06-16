@@ -20,9 +20,6 @@ namespace sge {
 	void FPSCamera::update() {
 		Camera* maincam = Renderer::currentCamera();
 
-		float mouseSensitivity = 5.0f;
-		float speed = 0.1f;
-
 		float mY = sge::GLFWIOManager::mouseX();
 		float deltaY = mY - prevY;
 		deltaY *= (1 / mouseSensitivity);

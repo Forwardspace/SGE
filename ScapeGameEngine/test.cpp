@@ -34,7 +34,7 @@ void mainTest() {
 	auto bW = new sgeui::Window(350, 400, 500, 500);
 
 	//sge::FPSCamera::enable();
-	//sge::FPSCamera::speed = 0.5f;
+	//sge::FPSCamera::speed = 0.01f;
 
 	float x = 1;
 
