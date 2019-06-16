@@ -31,7 +31,7 @@ void mainTest() {
 	sge::Renderer::setCurrentCamera(&maincam);
 
 	auto aW = new sgeui::Window(400, 400, 10, 10);
-	auto bW = new sgeui::Window(350, 400, 500, 500);
+	auto bW = new sgeui::Window(350, 400, -100, 100);
 
 	//sge::FPSCamera::enable();
 	//sge::FPSCamera::speed = 0.01f;

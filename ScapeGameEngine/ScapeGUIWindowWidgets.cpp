@@ -21,6 +21,10 @@ namespace sgeui {
 		Point2D ur = { { (float)(xPos + w) / windW }, { (float)yPos / windH } };
 		Point2D bannerBl = { bl.x, { (float)(yPos - bannerHeight) / windH }};
 
+		//Set the bl and ur bound to aid with collision detection
+		blBound_ = bl;
+		urBound_ = ur;
+
 		//Generate the banner with a fixed height
 		//Use the upper half of the texture
 		WindowBanner* banner = new WindowBanner(bannerBl, ur);
@@ -37,8 +41,8 @@ namespace sgeui {
 		WindowHelper* wh = new WindowHelper(bannerBl, ur);
 
 		//Add them sorted by depth (no depth testing, remember)
-		addChild(surface);
 		addChild(banner);
+		addChild(surface);
 		addChild(wh);
 	}
 
@@ -63,6 +67,12 @@ namespace sgeui {
 			parent->moveBy(mouseDeltaX * 2, -mouseDeltaY * 2);
 
 			pushWindowOnTop(static_cast<Window*>(parent));
+
+			for (Window* w : windows) {
+				if (collide(w, static_cast<Window*>(parent))) {
+					std::cout << "collision" << std::endl;
+				}
+			}
 		}
 	}
 
@@ -119,6 +129,27 @@ namespace sgeui {
 		}
 
 		return false;
+	}
+
+	bool collide(Window* w1, Window* w2) {
+		if (w1 == w2) {
+			//A window can't collide with itself
+			return false;
+		}
+
+		//Check if one Window is to the left of the other
+		if (w1->ur().x < w2->bl().x || w2->ur().x < w1->bl().x) {
+			//That means they do not collide.
+			return false;
+		}
+
+		//Is one on top of the other (vertically)?
+		if (w1->ur().y < w2->bl().y || w2->ur().y < w1->ur().y) {
+			//Then they also do not collide
+			return false;
+		}
+
+		return true;
 	}
 
 	void pushWindowOnTop(Window* target) {

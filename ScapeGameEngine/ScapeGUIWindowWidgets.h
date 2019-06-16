@@ -51,6 +51,9 @@ namespace sgeui {
 	//Returns true if the mouse position is
 	//in the rectangle described by bl, ur
 	bool hit(Point2D bl, Point2D ur);
+	//Returns true if the rectangle (bl, ur) of w1
+	//and the rectangle (bl, ur) of w2 share any point
+	bool collide(Window* w1, Window* w2);
 	//Returns true if the mouse position is
 	//in the rectangle described by bl, ur
 	//and the left mouse button is clicked

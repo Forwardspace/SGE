@@ -1,1 +1,8 @@
-﻿
+﻿  ScapeGUIRendering.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\minwindef.h(130,1): warning C4005:  'APIENTRY': macro redefinition
+  ScapeGUIWindowWidgets.cpp
+C:\Users\Juraj\source\repos\SGE\packages\glfw.3.2.1.5\build\native\include\GLFW\glfw3.h(98): message :  see previous definition of 'APIENTRY'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\shared\minwindef.h(130,1): warning C4005:  'APIENTRY': macro redefinition
+  Generating Code...
+C:\Users\Juraj\source\repos\SGE\packages\glfw.3.2.1.5\build\native\include\GLFW\glfw3.h(98): message :  see previous definition of 'APIENTRY'
+  ScapeGameEngine.vcxproj -> C:\Users\Juraj\Source\Repos\SGE\x64\Debug\ScapeGameEngine.exe
