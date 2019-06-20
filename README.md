@@ -27,6 +27,4 @@ I am currently working on:
 - A functional editor (don't hold your breath)
 
 ### Installation
-
 Check out the Installation Page in the documentation.
-
