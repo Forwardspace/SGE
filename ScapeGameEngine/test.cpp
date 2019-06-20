@@ -12,8 +12,6 @@ void mainTest() {
 
 	sge::StaticObject pallet(".\\models\\pallet.obj");
 	sge::StaticObject pallet2(".\\models\\pallet.obj");
-	sge::Renderer::registerObject(pallet);
-	sge::Renderer::registerObject(pallet2);
 
 	pallet2.setPos(0, 0.18, 0);
 	pallet2.setRot(0, 30, 0);
@@ -33,8 +31,8 @@ void mainTest() {
 	auto aW = new sgeui::Window(400, 400, 10, 10);
 	auto bW = new sgeui::Window(350, 400, -100, 100);
 
-	//sge::FPSCamera::enable();
-	//sge::FPSCamera::speed = 0.01f;
+	sge::FPSCamera::enable();
+	sge::FPSCamera::speed = 0.01f;
 
 	float x = 1;
 

@@ -9,14 +9,17 @@ namespace sge {
 	}
 
 	StaticObject::StaticObject(Mesh& msh) {
+		Renderer::registerObject(this);
 		objectMesh_ = msh;
 	}
 
 	StaticObject::StaticObject(fs::path filename) {
+		Renderer::registerObject(this);
 		objectMesh_ = Mesh(filename);
 	}
 
 	StaticObject::~StaticObject() {
+		Renderer::removeObject(this);
 	}
 
 	void StaticObject::clampAngles() {
@@ -53,6 +56,10 @@ namespace sge {
 	}
 
 	void StaticObject::render() {
+		if (!renderObject) {
+			return;
+		}
+
 		//First get the model-view-projection matrix
 		auto MVP = getMVP();
 

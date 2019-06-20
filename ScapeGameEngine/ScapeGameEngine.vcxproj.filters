@@ -132,11 +132,11 @@
     <ClInclude Include="UserInputManager.h">
       <Filter>Header Files\Management</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScapeGUIWindowWidgets.h">
       <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,14 +206,14 @@
     <ClCompile Include="UserInputManager.cpp">
       <Filter>Source Files\Management</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScapeGUIWindowWidgets.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\packages\glad\src\glad.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
