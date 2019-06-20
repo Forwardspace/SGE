@@ -9,14 +9,17 @@ namespace sge {
 	}
 
 	StaticObject::StaticObject(Mesh& msh) {
+		Renderer::registerObject(this);
 		objectMesh_ = msh;
 	}
 
 	StaticObject::StaticObject(fs::path filename) {
+		Renderer::registerObject(this);
 		objectMesh_ = Mesh(filename);
 	}
 
 	StaticObject::~StaticObject() {
+		Renderer::removeObject(this);
 	}
 
 	void StaticObject::clampAngles() {
@@ -53,14 +56,16 @@ namespace sge {
 	}
 
 	void StaticObject::render() {
+		if (!renderObject) {
+			return;
+		}
+
 		//First get the model-view-projection matrix
 		auto MVP = getMVP();
 
 		//Hand it over to the shader
 		ShaderManager::bindMVP(MVP);
 		ShaderManager::bindSamplerTexUnit(0);
-
-		auto e1 = glGetError();
 
 		//Bind the assigned texture for the shader
 		if (!useDefaultTexture) {
@@ -88,9 +93,8 @@ namespace sge {
 			GL_STATIC_DRAW
 		);
 
-		auto e2 = glGetError();
-
 		//Give the indices used to draw said raw vertices
+		//The index array is bound at the start of the frame
 		glBufferData(
 			GL_ELEMENT_ARRAY_BUFFER,
 			objectMesh_.IndArrayPtr()->size() * sizeof(SGE_INDEX_TYPE),

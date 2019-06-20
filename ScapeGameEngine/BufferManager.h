@@ -14,6 +14,7 @@ namespace sge {
 	namespace VBOType {
 		enum  Enum {
 			VERTEX,
+			VERTEX2D,
 			UV
 		};
 	}

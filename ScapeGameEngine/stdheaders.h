@@ -8,7 +8,10 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <utility>
+#include <array>
 #include <queue>
+#include <stack>
 #include <functional>
 #include <initializer_list>
 #include <filesystem>
@@ -16,6 +19,7 @@
 namespace fs = std::experimental::filesystem;
 
 #include <cmath>
+#include <ctime>
 
 //GL-related
 #define GLFW_INCLUDE_NONE

@@ -29,6 +29,8 @@ namespace sge {
 
 		ObjectType::Enum type() { return type_; }
 
+		//If false, the object should not be rendered
+		bool renderObject = true;
 	protected:
 		float posX_ = 0, posY_ = 0, posZ_ = 0;
 		float scaleX_ = 1, scaleY_ = 1, scaleZ_ = 1;

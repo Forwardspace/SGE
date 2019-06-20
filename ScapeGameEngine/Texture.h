@@ -1,22 +1,21 @@
 #pragma once
 #include "stdheaders.h"
 
-#ifndef SGE_TEXTURE_COLOUR_FORMAT
-#define SGE_TEXTURE_COLOUR_FORMAT GL_BGRA
-#endif
-
 namespace sge {
 	class Texture {
 	public:
 		Texture();
 		~Texture();
 		//Load from file
-		Texture(std::string filename);
+		Texture(fs::path filename);
+		//Load from array
+		Texture(GLubyte* data, int w, int h, GLenum format);
 
 		GLuint handle() { return handle_; }
 
-	private:
-		void makeTexture(GLubyte* data);
+	protected:
+		void makeTexture(GLubyte* data, GLenum format);
+		void loadFromFile(fs::path filename);
 
 		GLuint handle_ = NULL;
 		int w_, h_;

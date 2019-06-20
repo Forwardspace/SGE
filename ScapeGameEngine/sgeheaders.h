@@ -8,3 +8,8 @@
 #include "VertexShader.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
+#include "GLFWIOManager.h"
+
+#include "FPSCamera.h"
+
+#include "ScapeGUI.h"

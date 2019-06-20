@@ -10,21 +10,23 @@ namespace sge {
 	GLFWwindow* Renderer::wind_ = nullptr;
 	Camera* Renderer::currentCamera_;
 
+	double deltaTime;
+
 	///////////////////
 	///// Objects /////
 	///////////////////
 
-	void Renderer::registerObject(Object& obj) {
-		objectList_.push_back(&obj);
+	void Renderer::registerObject(Object* obj) {
+		objectList_.push_back(obj);
 	}
 
-	void Renderer::removeObject(Object& obj) {
+	void Renderer::removeObject(Object* obj) {
 		int index = 0;
 
 		//Search for obj in objectList and remove
 		//the first reference to it.
 		for (int i = 0; i < objectList_.size(); i++) {
-			if (objectList_[i] == &obj) {
+			if (objectList_[i] == obj) {
 				index = i;
 			}
 		}
@@ -35,6 +37,16 @@ namespace sge {
 	///////////////////
 	///// Drawing /////
 	///////////////////
+
+	//Calculate deltaTime each frame
+	std::clock_t timer;
+	void startTimer() {
+		timer = std::clock();
+	}
+
+	void endTimer() {
+		deltaTime = (std::clock() - timer) / (double)CLOCKS_PER_SEC;
+	}
 
 	std::deque<Object*> Renderer::objectList_;
 
@@ -90,6 +102,14 @@ namespace sge {
 	}
 
 	void finalizeFrame(GLFWwindow* window) {
+		//Update the GUI (has to be done last not to be overlapped with any vertices)
+		sgeui::update();
+
+		//Update the UserInputManager
+		//It has to be updated last because of the
+		//mouse delta calculation
+		UserInputManager::update();
+
 		glfwSwapBuffers(window);
 		clearScreen();
 
@@ -98,8 +118,6 @@ namespace sge {
 	}
 
 	void Renderer::renderFrame() {
-		callBack();
-
 		startDrawing(objectList_);
 
 		//Draw all registered Objects
@@ -108,6 +126,8 @@ namespace sge {
 		}
 
 		finalizeFrame(wind_);
+
+		callBack();
 	}
 
 	void Renderer::updateProjectionMatrix(float FoV, float NCP, float FCP) {
@@ -156,6 +176,10 @@ namespace sge {
 		//Projection matrix is inited here with some defaults
 		updateProjectionMatrix(85, 0.1f, 1000);
 
+		///////////////////////////////
+		/////ACTUAL INITIALIZATION/////
+		///////////////////////////////
+
 		//Initialize various libraries
 		ilInit();
 		iluInit();
@@ -164,6 +188,11 @@ namespace sge {
 		//Internal managers
 		TextureManager::init();
 		IOManager::init();
+		GLFWIOManager::init(wind_);
+		//GUI
+		sgeui::init(sge::Renderer::wind(), w_, h_);
+
+		windowPeriodicCallbacks_.push_back(defaultWindowPeriodicCallback);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -187,19 +216,14 @@ namespace sge {
 	void Renderer::removeWindowCallback(std::function<void()> callback) {
 		windowPeriodicCallbacks_.remove_if(
 			[callback](std::function<void()> toCompare) {
-				return (callback.target<void()>() == toCompare.target<void()>()); 
+				return (callback.target<void>() == toCompare.target<void>()); 
 			}
 		);
 	}
 
-	void Renderer::callBack() {
-		if (windowPeriodicCallbacks_.size() == 0) {
-			defaultWindowPeriodicCallback();
-		}
-		else {
-			for (auto f : windowPeriodicCallbacks_) {
-				f();
-			}
+	void Renderer::callBack()  {
+		for (auto f : windowPeriodicCallbacks_) {
+			f();
 		}
 	}
 

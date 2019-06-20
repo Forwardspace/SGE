@@ -10,6 +10,8 @@ namespace sge {
 
 		//Called internally
 		static void setActive(ShaderProgram& sh);
+		static void pushActive(ShaderProgram& newActive);
+		static void popActive();
 		//Binds the MVP uniform to the bound shader
 		static void bindMVP(glm::mat4x4 MVP);
 
@@ -17,5 +19,6 @@ namespace sge {
 	
 	private:
 		static ShaderProgram* boundShader_;
+		static std::stack<ShaderProgram*> shaderStack;
 	};
 }

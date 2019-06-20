@@ -19,6 +19,9 @@ namespace sge {
 		void setPos(float posX, float posY, float posZ);
 		void setRot(float rotX, float rotY, float rotZ);
 
+		glm::vec3 pos() { return glm::vec3(posX_, posY_, posZ_); }
+		glm::vec3 rot() { return glm::vec3(rotX_, rotY_, rotZ_); }
+
 		~Camera();
 	private:
 		glm::mat4x4 makeViewMatrix();
