@@ -4,3 +4,8 @@ plugins:
     project: ScapeGameEngine.sln
     language: c++
     inconclusive: false
+    checks:
+      unusedFunction:
+        enabled: false
+      uninitMemberVar:
+        enabled: false

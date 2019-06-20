@@ -14,8 +14,8 @@ namespace sge {
 
 	void Camera::setTransform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale) {
 		posX_ = pos.x; posY_ = pos.y; posZ_ = pos.z;
-		rotX_ = rot.x; posY_ = rot.y; posZ_ = rot.z;
-		scaleX_ = scale.x; posY_ = scale.y; posZ_ = scale.z;
+		rotX_ = rot.x; rotY_ = rot.y; rotZ_ = rot.z;
+		scaleX_ = scale.x; scaleY_ = scale.y; scaleZ_ = scale.z;
 
 		transformNeedsUpdating = true;
 	}
