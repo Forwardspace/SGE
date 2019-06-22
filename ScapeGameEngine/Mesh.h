@@ -4,14 +4,14 @@
 #include "IOManager.h"
 
 namespace sge {
-	struct  Vertex3D {
+	struct Vertex3D {
 		Vertex3D(GLfloat X, GLfloat Y) { x = X; y = Y; }
 		Vertex3D(GLfloat X, GLfloat Y, GLfloat Z) { x = X; y = Y; z = Z; }
 		Vertex3D(aiVector3D aiv3d) { x = aiv3d.x; y = aiv3d.y; z = aiv3d.z; }
 		GLfloat x = 0, y = 0, z = 0;
 	};
 
-	struct  Vertex2D {
+	struct Vertex2D {
 		Vertex2D(GLfloat X, GLfloat Y) { x = X; y = Y; }
 		Vertex2D(Vertex3D v3d) { x = v3d.x; y = v3d.y; /* Ignore Z */ }
 		Vertex2D(aiVector3D aiv3d) { x = aiv3d.x; y = aiv3d.y; /* Ignore Z */ }
@@ -28,8 +28,8 @@ namespace sge {
 		IndexArray* IndArrayPtr() { return &IndArray_; }
 		TexCoordArray* TexCoordArrayPtr() { return &TCArray_; }
 
-		void setVertArrayPtr(VertexArray va) { VertArray_ = va; }
-		void setIndArrayPtr(IndexArray ia) { IndArray_ = ia; }
+		void setVertArray(VertexArray va) { VertArray_ = va; }
+		void setIndArray(IndexArray ia) { IndArray_ = ia; }
 		void setTexCoordArray(TexCoordArray ta) { TCArray_ = ta; }
 
 		void appendMeshData(const aiScene* scene, aiMesh* mesh);

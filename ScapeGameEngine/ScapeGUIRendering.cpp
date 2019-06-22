@@ -138,4 +138,8 @@ namespace sgeui {
 		auto a = glGetError();
 		sge::ShaderManager::popActive();
 	}
+
+	std::array<glm::vec2, 4> quadUVsFromTwoPoints(glm::vec2 bl, glm::vec2 ur) {
+		return { bl, ur, { bl.x, ur.y }, { ur.x, bl.y } };
+	}
 }

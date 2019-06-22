@@ -3,7 +3,7 @@ Object: .h, .cpp
 
 class Object
 ------------
-The Object class is a base class for the StaticObject class, and contains all of the information needed to describe an object in 3D space, *minus the actual vertex data*.
+The Object class is a base class for the :doc:`StaticObject <staticobject>` class, and contains all of the information needed to describe an object in 3D space, *minus the actual vertex data*.
 The actual data is stored differently based on the object's type.
 
 The class stores a 4x4 model matrix, which is recalculated when any of the Object's attributes are changed. The matrix is not available externally.

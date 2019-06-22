@@ -10,3 +10,4 @@ ScapeGameEngine/x64
 *.ilk
 *.idb
 *.pdb
+/SGETest

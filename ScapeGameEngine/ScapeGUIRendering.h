@@ -67,4 +67,5 @@ namespace sgeui {
 	);
 
 	void halveUVs(RenderableQuad* r, bool upper = false);
+	std::array<glm::vec2, 4> quadUVsFromTwoPoints(glm::vec2 bl, glm::vec2 ur);
 }

@@ -30,7 +30,7 @@ namespace sge {
 		//UV coords are... hmmmmmm... interesting
 		if (!(mesh->HasTextureCoords(0))) {
 			//Nope
-			throw std::runtime_error("Mesh has no tex coords! Coord progression?");
+			throw std::runtime_error("Mesh has no tex coords! Coord progression error?");
 		}
 		TCArray_ = std::vector<Vertex2D>(
 			&mesh->mTextureCoords[0][0],

@@ -10,9 +10,9 @@ Now you've got a functional and up-to-date version of SGE.
 Example Code
 ------------
 
-If you open the file "test.cpp", you'll se the ``main()`` function.
-The code here sets up SGE by calling ``sge::Renderer::init(...)`` and creating two StaticObjects. It then sets their position and rotation.
-It creates a ShaderProgram, before finally creating a wooden Texture and assigning it to the two Objects.
+If you open the file "test.cpp", you'll see the ``main()`` function.
+The code here sets up SGE by calling ``sge::Renderer::init(...)`` and creating two :doc:`StaticObjects <../classes/objects/staticobject>`. It then sets their position and rotation.
+It creates a :doc:`ShaderProgram <../classes/shaders/shaderprogram>`, before finally creating a wooden :doc:`Texture <../classes/textures/texture>` and assigning it to the two Objects.
 
 (currently, there is also some GUI code here; the GUI is in development - you can ignore it for now)
 
@@ -26,14 +26,14 @@ You may be wondering how to create your own games/programs.
 First off, include the ``SGE.h`` header.
 
 Everything SGE provides is placed in the aptly named ``sge`` namespace (except GUI, which is in the ``sgeui`` namespace).
-Before using anything from that namespaces, call
+Before using anything from those namespaces, call
 ::
 	sge::Renderer::init(int w, int h, std::string title, bool fullscreen);
 
 function, which will initialize SGE and open a window.
 
-When creating 3D objects, (currently) you have only one option: StaticObject.
-To create a StaticObject from a file, call
+When creating 3D objects, (currently) you have only one option: :doc:`StaticObject <../classes/objects/staticobject>`.
+To create a :doc:`StaticObject <../classes/objects/staticobject>` from a file, call
 ::
 	sge::StaticObject::StaticObject(fs::path filename);
 
@@ -42,7 +42,7 @@ To create a StaticObject from a file, call
 
 This will load the model from ``filename`` and prepare it for rendering.
 
-StaticObject supports model loading through Assimp - therefore supporting most model file formats.
+:doc:`StaticObject <../classes/objects/staticobject>` supports model loading through Assimp - therefore supporting most model file formats.
 Ones tested by me are .obj and .fbx.
 
 If you don't want an object to render, set the renderObject flag to false.
@@ -56,14 +56,14 @@ Set it back to true if you want to render it again.
 
 	  TODO: create a default ShaderProgram to allow users to skip this step
 
-A Camera has to be created to describe the positon and rotation of the viewer:
+A :doc:`Camera <../classes/objects/camera>` has to be created to describe the positon and rotation of the viewer:
 ::
 	sge::Camera::Camera();
 
 	//eg.
 	auto camera = sge::Camera();
 
-The Camera then has to be set as the current one in sge::Renderer:
+The :doc:`Camera <../classes/objects/camera>` then has to be set as the current one in Renderer:
 ::
 	sge::Renderer::setCurrentCamera(camera);
 
@@ -95,3 +95,5 @@ Putting it all together, it could look something like:
 		sge::Renderer::renderFrame();
 	}
 	...
+
+.. seealso:: :doc:`Renderer <../classes/renderer>`

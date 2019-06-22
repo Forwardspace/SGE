@@ -6,3 +6,4 @@ Classes
 
 	*
 	objects/Objects
+	textures/Textures

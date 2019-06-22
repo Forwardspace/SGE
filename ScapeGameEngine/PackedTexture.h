@@ -27,6 +27,4 @@ namespace sge {
 		//An ordered list of stored textures
 		std::vector<PackedTextureType::Enum> types;
 	};
-
-	std::array<glm::vec2, 4> quadUVsFromTwoPoints(glm::vec2 bl, glm::vec2 ur);
 }

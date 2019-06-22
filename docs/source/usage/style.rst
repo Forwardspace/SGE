@@ -5,7 +5,7 @@ We have STANDARDS here! To better understand existing code and contribute by add
 
 Brackets/Parentheses
 --------------------
-The opening bracket is placed on the same line as the declaration requiring it.
+The opening bracket is placed on the same line as the expression requiring it.
 
 Example:
 ::
@@ -15,7 +15,7 @@ Example:
 
 	class FooBar {
 		...
-	}
+	};
 
 Variable naming
 ---------------
@@ -30,7 +30,7 @@ Example:
 	class ... {
 		int fooBar_ = 3;
 		...
-	}
+	};
 
 Classes
 -------
@@ -47,7 +47,27 @@ Example:
 		...
 	private:
 		...
+	};
+
+Enums
+-----
+
+All enums are declared inside a namespace with the enum's name under an enum named ``Enum``.
+
+Example:
+::
+	//enum Foo
+	namespace Foo {
+		enum Enum {
+			FOO,
+			BAR
+		};
 	}
+
+	//To use it
+	Foo::Enum bar = Foo::BAR;
+
+This is done to avoid polluting the surrounding namespaces.
 
 ---------------------------------------
 
