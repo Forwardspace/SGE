@@ -49,5 +49,9 @@ namespace sge {
 			//Update it to 0
 			mouseKeyStatus_[button] = false;
 		}
+
+		if (button == sgeui::defaultInteractMouseButton) {
+			sgeui::updateClickStates();
+		}
 	}
 }

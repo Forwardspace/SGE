@@ -18,9 +18,9 @@ namespace sgeui {
 	void RenderableQuad::render() {
 		//First render this object
 		update();
-		if (render_) {
-			auto tx = 
-				packedTexture_ ? packedTextures[textureIndex_] : textures[textureIndex_];
+		if (renderRenderable) {
+			auto tx = packedTexture_ ? packedTextures[textureIndex_] : textures[textureIndex_];
+
 			renderQuad(blBound_, urBound_, UVblBound_, UVurBound_, tx, x_, y_);
 		}
 
@@ -33,12 +33,22 @@ namespace sgeui {
 	}
 
 	void RenderableQuad::moveBy(int x, int y) {
-		blBound_ = { blBound_.x + (float)x / windW, blBound_.y + (float)y / windH };
-		urBound_ = { urBound_.x + (float)x / windW, urBound_.y + (float)y / windH };
+		x_ += x;
+		y_ += y;
 
 		//Forward the change to all children
 		for (auto& child : children) {
 			child->moveBy(x, y);
+		}
+	}
+
+	void RenderableQuad::moveTo(int x, int y) {
+		x_ = x;
+		y_ = y;
+
+		//Forward the change to all children
+		for (auto& child : children) {
+			child->moveTo(x, y);
 		}
 	}
 

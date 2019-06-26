@@ -28,16 +28,19 @@ void mainTest() {
 	sge::Camera maincam(0, 0.5, 1.8);
 	sge::Renderer::setCurrentCamera(&maincam);
 
-	auto aW = new sgeui::Window(400, 400, 10, 10);
+	auto aW = new sgeui::Window(500, 500, 10, 10);
 	auto bW = new sgeui::Window(350, 400, -100, 100);
+	
+	auto snap = new sgeui::WindowSnapArea({ -1, -1 }, { -0.5, -0.5 }, 500, 500, 0, 0);
 
-	sge::FPSCamera::enable();
-	sge::FPSCamera::speed = 0.01f;
+	//sge::FPSCamera::enable();
+	//sge::FPSCamera::speed = 0.01f;
 
 	float x = 1;
 
 	while (true) {
 		sge::Renderer::renderFrame();
+		//snap->update();
 
 		x += 0.01;
 	}

@@ -15,7 +15,7 @@ namespace sgeui {
 		RenderableQuad() {}
 
 		void setPos(int x, int y) { x_ = x; y_ = y; }
-		glm::vec2 getPos() { return glm::vec2(x_, y_); }
+		std::pair<int, int> getPos() { return std::pair<int, int>(x_, y_); }
 
 		void setTextureIndex(int index) { textureIndex_ = index; }
 		void setPacked(bool packed) { packedTexture_ = packed; }
@@ -31,7 +31,9 @@ namespace sgeui {
 
 		void render();
 		virtual void update() {}
+
 		void moveBy(int x, int y);
+		void moveTo(int x, int y);
 
 		int textureIndex() { return textureIndex_; }
 
@@ -43,13 +45,12 @@ namespace sgeui {
 		bool focused() { return focused_; }
 	
 		//These variables are primarily externally used
-		bool awaitingButtonRelease = false;
 		bool draggable = false;
+		bool renderRenderable = true;
 	protected:
 		int textureIndex_ = defaultTheme;
 		bool packedTexture_ = false;
 
-		bool render_ = true;
 		bool focused_ = true;
 
 		std::vector<RenderableQuad*> children;
