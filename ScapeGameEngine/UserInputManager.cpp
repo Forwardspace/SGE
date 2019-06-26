@@ -1,6 +1,7 @@
 #include "UserInputManager.h"
 
 #include "GLFWIOManager.h"
+#include "ScapeGUIMouseState.h"
 
 namespace sge {
 	UserInputMapping& UserInputManager::currentMapping_ = FreeCamControls;

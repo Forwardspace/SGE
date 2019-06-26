@@ -135,6 +135,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ScapeGUI.h" />
     <ClInclude Include="ScapeGUIInit.h" />
+    <ClInclude Include="ScapeGUIMouseState.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
     <ClInclude Include="ScapeGUITypes.h" />
     <ClInclude Include="ScapeGUIWindowWidgets.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ScapeGUI.cpp" />
     <ClCompile Include="ScapeGUIInit.cpp" />
+    <ClCompile Include="ScapeGUIMouseState.cpp" />
     <ClCompile Include="ScapeGUIRendering.cpp" />
     <ClCompile Include="ScapeGUIWindowWidgets.cpp" />
     <ClCompile Include="Shader.cpp" />

@@ -1,5 +1,7 @@
 #include "GLFWIOManager.h"
 
+#include "ScapeGUIMouseState.h"
+
 namespace sge {
 	bool GLFWIOManager::storeText_ = false;
 	std::wstring GLFWIOManager::textBuffer_;
@@ -33,6 +35,9 @@ namespace sge {
 	void GLFWIOManager::cursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
 		mouseX_ = xpos;
 		mouseY_ = ypos;
+
+		//Update GUI
+		sgeui::updateClickStates();
 	}
 
 	void GLFWIOManager::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {

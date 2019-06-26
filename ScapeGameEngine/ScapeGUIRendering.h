@@ -25,6 +25,7 @@ namespace sgeui {
 
 		void addChild(RenderableQuad* c);
 		void removeChild(RenderableQuad* c);
+		std::vector<RenderableQuad*> getChildren() { return children; }
 
 		RenderableQuad* getParent() { return parent; }
 
@@ -36,16 +37,20 @@ namespace sgeui {
 
 		void setBounds(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; }
 		void setUVBounds(Point2D bl, Point2D ur) { UVblBound_ = bl, UVurBound_ = ur; }
+
+		//Set if this renderable is focused and forward the change to all children
+		void setFocused(bool focus) { focused_ = focus; for (auto child : children) { child->setFocused(focus); } }
+		bool focused() { return focused_; }
 	
 		//These variables are primarily externally used
 		bool awaitingButtonRelease = false;
 		bool draggable = false;
-		bool focused = true;
 	protected:
 		int textureIndex_ = defaultTheme;
 		bool packedTexture_ = false;
 
 		bool render_ = true;
+		bool focused_ = true;
 
 		std::vector<RenderableQuad*> children;
 		RenderableQuad* parent = nullptr;

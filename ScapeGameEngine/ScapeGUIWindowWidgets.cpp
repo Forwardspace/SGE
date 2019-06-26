@@ -1,12 +1,15 @@
 #include "ScapeGUIWindowWidgets.h"
 
+#include "ScapeGUIMouseState.h"
+
+#include "PackedTexture.h"
+#include "UserInputManager.h"
+
 namespace sgeui {
 	Window::Window() {
 	}
 
 	int bannerHeight = 50;
-
-	int defaultInteractMouseButton = GLFW_MOUSE_BUTTON_1;
 
 	sgeui::Window::Window(int w, int h, int xPos, int yPos) {
 		w_ = w;
@@ -58,7 +61,7 @@ namespace sgeui {
 	///////////////////////////////////
 
 	void WindowBanner::update() {
-		ClickState::Enum state = getClickState(blBound_, urBound_, awaitingButtonRelease, draggable);
+		ClickState::Enum state = getClickState(this);
 		if (state == ClickState::CLICK_AND_DRAG) {
 			//Relocate the parent Window to the mouse location
 			//as long as the mouse button is held down
@@ -68,9 +71,13 @@ namespace sgeui {
 
 			pushWindowOnTop(static_cast<Window*>(parent));
 
+			focused_ = true;
+
+			//Check if any window is below the current one
+			//If so, make it unfocused to prevent mouse clicks
 			for (Window* w : windows) {
 				if (collide(w, static_cast<Window*>(parent))) {
-					std::cout << "collision" << std::endl;
+					w->setFocused(false);
 				}
 			}
 		}
@@ -138,13 +145,13 @@ namespace sgeui {
 		}
 
 		//Check if one Window is to the left of the other
-		if (w1->ur().x < w2->bl().x || w2->ur().x < w1->bl().x) {
+		if (w1->ur().x <= w2->bl().x || w2->ur().x <= w1->bl().x) {
 			//That means they do not collide.
 			return false;
 		}
 
 		//Is one on top of the other (vertically)?
-		if (w1->ur().y < w2->bl().y || w2->ur().y < w1->ur().y) {
+		if (w1->ur().y <= w2->bl().y || w2->ur().y <= w1->bl().y) {
 			//Then they also do not collide
 			return false;
 		}
@@ -165,9 +172,6 @@ namespace sgeui {
 
 			targetLocation[0] = top;
 			windows.back() = target;
-
-			top->focused = false;
-			target->focused = true;
 		}
 	}
 
@@ -175,12 +179,7 @@ namespace sgeui {
 		//Update the UVs based on state
 		sge::PackedTexture* tex = packedTextures[children[0]->textureIndex()];
 
-		ClickState::Enum state = getClickState(
-			children[0]->bl(),
-			children[0]->ur(),
-			children[0]->awaitingButtonRelease,
-			children[0]->draggable
-		);
+		ClickState::Enum state = getClickState(children[0]);
 
 		if (state == ClickState::CLICKED) {
 			//Delete the parent window
@@ -190,49 +189,5 @@ namespace sgeui {
 
 		std::array<glm::vec2, 2> UVs = getUVsFromState(state, tex);
 		children[0]->setUVBounds({ UVs[0].x, UVs[0].y }, { UVs[1].x, UVs[1].y });
-	}
-
-	ClickState::Enum getClickState(Point2D bl, Point2D ur, bool& awaitingButtonRelease, bool draggable) {
-		if (awaitingButtonRelease) {
-			if (hit(bl, ur)) {
-				if (!sge::GLFWIOManager::mouseKeyStatus(defaultInteractMouseButton)) {
-					//The mouse button was previously pressed and, 
-					//now, released
-					return ClickState::CLICKED;
-					awaitingButtonRelease = false;
-				}
-				else if (draggable) {
-					return ClickState::CLICK_AND_DRAG;
-				}
-			}
-			else {
-				if (draggable) {
-					//The drag state should continue until
-					//the mouse key has been released
-					if (sge::GLFWIOManager::mouseKeyStatus(defaultInteractMouseButton)) {
-						return ClickState::CLICK_AND_DRAG;
-					}
-					else {
-						awaitingButtonRelease = false;
-					}
-				}
-				else {
-					awaitingButtonRelease = false;
-				}
-			}
-		}
-		else {
-			if (hit(bl, ur)) {
-				if (sge::GLFWIOManager::mouseKeyStatus(defaultInteractMouseButton)) {
-					awaitingButtonRelease = true;
-					return ClickState::AWAITING_BUTTON_RELEASE;
-				}
-				else {
-					return ClickState::HOVER;
-				}
-			}
-		}
-
-		return ClickState::NONE;
 	}
 }

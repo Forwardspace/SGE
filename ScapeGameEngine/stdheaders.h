@@ -21,6 +21,8 @@ namespace fs = std::experimental::filesystem;
 #include <cmath>
 #include <ctime>
 
+#include <Windows.h>
+
 //GL-related
 #define GLFW_INCLUDE_NONE
 #include <GLFW\glfw3.h>

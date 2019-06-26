@@ -2,9 +2,6 @@
 #include "ScapeGUIRendering.h"
 #include "ScapeGUIInit.h"
 
-#include "PackedTexture.h"
-#include "UserInputManager.h"
-
 namespace sgeui {
 	extern int windW, windH;
 
@@ -38,26 +35,12 @@ namespace sgeui {
 
 	extern std::vector<Window*> windows;
 
-	namespace ClickState {
-		enum Enum {
-			NONE,
-			HOVER,
-			CLICKED,
-			AWAITING_BUTTON_RELEASE,
-			CLICK_AND_DRAG
-		};
-	}
-
 	//Returns true if the mouse position is
 	//in the rectangle described by bl, ur
 	bool hit(Point2D bl, Point2D ur);
 	//Returns true if the rectangle (bl, ur) of w1
 	//and the rectangle (bl, ur) of w2 share any point
 	bool collide(Window* w1, Window* w2);
-	//Returns true if the mouse position is
-	//in the rectangle described by bl, ur
-	//and the left mouse button is clicked
-	ClickState::Enum getClickState(Point2D bl, Point2D ur, bool& awaitingButtonRelease, bool draggable);
 	//Swapps target with the window on top of the windows vector.
 	void pushWindowOnTop(Window* target);
 }
