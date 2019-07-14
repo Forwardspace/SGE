@@ -1,15 +1,37 @@
 #pragma once
-#include "ScapeGUIRendering.h"
+#include "ScapeGUIComponent.h"
 #include "ScapeGUIInit.h"
 
 namespace sgeui {
 	extern int windW, windH;
-	//From ...MouseState.cpp
+	extern int defaultInteractMouseButton;
+
+	class WindowResizeEvent : public Event {
+	public:
+		WindowResizeEvent(int newX, int newY) : newX(newX), newY(newY) {}
+		int newX, newY;
+	};
+
+	class Window : public RenderableComponent {
+	public:
+		Window();
+		Window(int w, int h, int xPos, int yPos);
+
+		void setSize(int w, int h);
+		inline Pair<int, int> getSize() { return { w_, h_ }; }
+
+		bool handleEvent(WindowResizeEvent e, Component* source = nullptr);
+	
+	private:
+		int w_ = 0; h_ = 0;
+	};
+
+	/*//From ...MouseState.cpp
 	extern RenderableQuad* draggedRenderable;
 
 	extern int defaultInteractMouseButton;
 
-	class Window : public RenderableQuad{
+	class Window : public RenderableComponent {
 	public:
 		Window();
 		Window(int w, int h, int xPos, int yPos);
@@ -22,7 +44,7 @@ namespace sgeui {
 		int h_ = 0, w_ = 0;
 	};
 	
-	class WindowBanner : public RenderableQuad {
+	class WindowBanner : public RenderableComponent {
 	public:
 		WindowBanner() { draggable = true; }
 		WindowBanner(Point2D bl, Point2D ur) { blBound_ = bl; urBound_ = ur; draggable = true; }
@@ -30,7 +52,7 @@ namespace sgeui {
 	};
 
 	//That thing with the close button in the top right
-	class WindowHelper : public RenderableQuad {
+	class WindowHelper : public RenderableComponent {
 	public:
 		WindowHelper(Point2D bl, Point2D ur);
 
@@ -66,4 +88,5 @@ namespace sgeui {
 	bool collide(RenderableQuad* r1, RenderableQuad* r2);
 	//Swapps target with the window on top of the windows vector.
 	void pushWindowOnTop(Window* target);
+	*/
 }

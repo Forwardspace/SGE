@@ -25,7 +25,7 @@ namespace sge {
 		static void setActiveMapping(UserInputMapping& mapping);
 
 		/////Mouse/////
-		static int mouseX() { return GLFWIOManager::mouseX(); };
+		static int mouseX() { return GLFWIOManager::mouseX(); }
 		static int mouseY() { return GLFWIOManager::mouseY(); }
 	private:
 		static UserInputMapping& currentMapping_;

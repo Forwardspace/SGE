@@ -1,113 +1,24 @@
 #include "ScapeGUIRendering.h"
 
 namespace sgeui {
-	void RenderableQuad::addChild(RenderableQuad* c) {
-		children.push_back(c);
-		c->parent = this;
-	}
-
-	void RenderableQuad::removeChild(RenderableQuad* c) {
-		for (int i = 0; i < children.size(); i++) {
-			if (c == children[i]) {
-				children[i]->parent = nullptr; //Abandon the child
-				children.erase(children.begin() + i);
-			}
-		}
-	}
-
-	void RenderableQuad::render() {
-		//First render this object
-		update();
-		if (renderRenderable) {
-			auto tx = packedTexture_ ? packedTextures[textureIndex_] : textures[textureIndex_];
-
-			renderQuad(blBound_, urBound_, UVblBound_, UVurBound_, tx, x_, y_);
-		}
-
-		//Then render all the children
-		if (children.size() > 0) {
-			for (auto child : children) {
-				child->render();
-			}
-		}
-	}
-
-	void RenderableQuad::moveBy(int x, int y) {
-		x_ += x;
-		y_ += y;
-
-		//Forward the change to all children
-		for (auto& child : children) {
-			child->moveBy(x, y);
-		}
-	}
-
-	void RenderableQuad::moveTo(int x, int y) {
-		x_ = x;
-		y_ = y;
-
-		//Forward the change to all children
-		for (auto& child : children) {
-			child->moveTo(x, y);
-		}
-	}
-
-	//Set UVs of a rect to either (if upper) the upper half of the texture
-	//or (if not upper) the bottom half.
-	void halveUVs(RenderableQuad* r, bool upper) {
-		if (upper) {
-			r->setUVBounds({ 0, 0.5 }, { 1, 1 });
-		}
-		else {
-			r->setUVBounds({ 0, 0.5 }, { 1, 0.5 });
-		}
-	}
-
-	const char* translate_uniform = "translate";
-
-	void renderQuad(
-		Point2D bl,
-		Point2D ur,
-		Point2D UVbl,
-		Point2D UVur,
-		sge::Texture* tx,
-		int xP,
-		int yP
-	) {
+	void setupShadersForRendering(TextureResource* tx) {
 		//Similar to sge::StaticObject::render
 		//Activate the GUI shader program, bind the texture
 		sge::ShaderManager::pushActive(GUIShaderProgram);
 		sge::ShaderManager::bindSamplerTexUnit(0);
 
-		sge::TextureManager::bindTexture(tx);
+		sge::TextureManager::bindTexture(tx->get());
+	}
 
-		//Convert pixel coords to ratios
-		float x = (float)xP / windW;
-		float y = (float)yP / windH;
+	char* translate_uniform_name = "translate";
 
-		//This will generate a rectangle bounded
-		//by these points
-		PointArray pa = { { bl.x, bl.y }, { ur.x, ur.y }, { bl.x, ur.y }, { ur.x, bl.y } };
-		IndexArray ia = { 0, 3, 2, 3, 1, 2 };
-		UVArray ua = { { UVbl.x, UVbl.y }, { UVur.x, UVur.y }, { UVbl.x, UVur.y }, { UVur.x, UVbl.y } };
-
-		//Generate the translate matrix (no need for
-		//the whole MVP matrix
-		glm::mat4x4 translate = { 
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			x, y, 0, 1
-		};
-		
-		//Give it to the shader (manually set the
-		//translate uniform in the shader)
+	void sendMatrixToShaders(glm::mat4x4& translate) {
 		GLint translate_uniform_location = glGetUniformLocation(
 			GUIShaderProgram.handle(),
-			translate_uniform
+			translate_uniform_name
 		);
 		if (translate_uniform_location < 0) {
-			throw std::runtime_error("GUI: Can't find translate uniform location!");
+			throw std::runtime_error("GUI Error: Can't find translate uniform location!");
 		}
 
 		glUniformMatrix4fv(
@@ -115,6 +26,58 @@ namespace sgeui {
 			1, GL_FALSE,
 			&translate[0][0]
 		);
+	}
+
+	//Convert pixel coords to OpenGL screen-space coords
+	inline float pxToSS(int px, int dim) {
+		return 2.0f * (px + 0.5f) / dim - 1.0f;
+	}
+
+	#define PTOSX(x) pxToSS(x, windW)
+	#define PTOSY(y) pxToSS(y, windH)
+
+	void Renderer::renderQuad(RedrawEvent re, RenderableComponent* comp) {
+		glGetError();
+		//Quite similar to sge::StaticObject::render
+
+		//Activate the GUI shader program, bind the texture
+		setupShadersForRendering(comp->textureResource());
+
+		auto pos = comp->pos();
+		auto dim = comp->dimensions();
+
+		auto uv = comp->uvBounds();
+
+		//Convert pixel coords to screen-space ratios
+		float x = PTOSX(pos.x);
+		float y = PTOSY(pos.y);
+
+		Point2D bl = { PTOSX(x), PTOSY(y + dim.second) };
+		Point2D ur = { PTOSX(x + dim.first), PTOSY(y) };
+
+		//This will generate a rectangle bounded
+		//by these points
+		PointArray pa = { { bl.x, bl.y }, { ur.x, ur.y }, { bl.x, ur.y }, { ur.x, bl.y } };
+		IndexArray ia = { 0, 3, 2, 3, 1, 2 };
+		UVArray ua = {
+			{ uv.first.x, uv.first.y },
+			{ uv.second.x, uv.second.y },
+			{ uv.first.x, uv.second.y },
+			{ uv.second.x, uv.first.y }
+		};
+
+		//Generate the translate matrix (no need for
+		//the whole MVP matrix
+		glm::mat4x4 translate = {
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			x, y, 0, 1
+		};
+
+		//Give it to the shader (manually set the
+		//translate uniform in the shader)
+		sendMatrixToShaders(translate);
 
 		//Now for the buffers:
 		//UVs
@@ -142,14 +105,15 @@ namespace sgeui {
 			GL_STATIC_DRAW
 		);
 
-		auto b = glGetError();
 		//And finally, issue the draw command:
 		glDrawElements(GL_TRIANGLES, (GLsizei)(ia.size()), GL_UNSIGNED_INT, (void*)0);
-		auto a = glGetError();
-		sge::ShaderManager::popActive();
-	}
 
-	std::array<glm::vec2, 4> quadUVsFromTwoPoints(glm::vec2 bl, glm::vec2 ur) {
-		return { bl, ur, { bl.x, ur.y }, { ur.x, bl.y } };
+		sge::ShaderManager::popActive();
+
+		auto e = glGetError();
+		if (e != 0) {
+			//Something's wrong
+			std::cout << "glGetError() returned non-zero in renderQuad(): errno " << e << "!\n";
+		}
 	}
 }

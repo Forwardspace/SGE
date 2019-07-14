@@ -1,11 +1,16 @@
 #include "ScapeGUI.h"
 
 namespace sgeui {
+	const extern int numMouseButtons;
+
+	extern int mousePosX, mousePosY;
+	extern std::array<bool, 8> mouseButtons;
+
 	void init(GLFWwindow* wind, int w, int h) { 
 		initSGEUI(wind, w, h);
 	}
 
-	void update() {
+	void render() {
 		//Disable depth and culling and enable transparency
 		glDisable(GL_CULL_FACE);
 		glDisable(GL_DEPTH_TEST);
@@ -36,6 +41,21 @@ namespace sgeui {
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
+	}
+
+	void onMousePosUpdate(int mouseX, int mouseY) {
+		mousePosX = mouseX;
+		mousePosY = mouseY;
+
+		//Update the internal states of all Components
+		updateStateOnMousePosChange(mouseX, mouseY);
+	}
+	
+	void onMouseButtonUpdate(int key, bool pressed) {
+		mouseButtons[key] = pressed;
+
+		//Update all of the positions, relations and states of all Components
+		updateStateOnMouseButtonChange(key, pressed);
 	}
 
 	std::vector<Window*> windows;

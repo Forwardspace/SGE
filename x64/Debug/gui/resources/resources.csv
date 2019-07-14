@@ -8,7 +8,7 @@ bck_bluish_gray.png, 2,
 END_THEMES,
 
 #Default theme is black (the first one)
-DEFAULT_THEME, 0,
+DEFAULT_THEME, 2,
 
 #Additional textures here on out
 ADDITIONAL_TEXTURES,

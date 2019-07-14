@@ -9,7 +9,18 @@ namespace sgeui {
 	Window::Window() {
 	}
 
-	int bannerHeight = 50;
+	void Window::setSize(int w, int h) {
+		w_ = w;
+		h_ = h;
+
+		raiseEvent(WindowResizeEvent(w, h), this);
+	}
+
+	bool Window::handleEvent(WindowResizeEvent e, Component* source) {
+		return forwardEventToChildren<WindowResizeEvent>(e, source);
+	}
+
+	/*int bannerHeight = 50;
 
 	sgeui::Window::Window(int w, int h, int xPos, int yPos) {
 		w_ = w;
@@ -265,4 +276,5 @@ namespace sgeui {
 		std::array<glm::vec2, 2> UVs = getUVsFromState(state, tex);
 		children[0]->setUVBounds({ UVs[0].x, UVs[0].y }, { UVs[1].x, UVs[1].y });
 	}
+	*/
 }

@@ -134,6 +134,7 @@
     <ClInclude Include="PackedTexture.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ScapeGUI.h" />
+    <ClInclude Include="ScapeGUIComponent.h" />
     <ClInclude Include="ScapeGUIInit.h" />
     <ClInclude Include="ScapeGUIMouseState.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="PackedTexture.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ScapeGUI.cpp" />
+    <ClCompile Include="ScapeGUIComponent.cpp" />
     <ClCompile Include="ScapeGUIInit.cpp" />
     <ClCompile Include="ScapeGUIMouseState.cpp" />
     <ClCompile Include="ScapeGUIRendering.cpp" />

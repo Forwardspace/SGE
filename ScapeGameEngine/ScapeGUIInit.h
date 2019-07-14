@@ -18,6 +18,19 @@ namespace sgeui {
 		};
 	}
 
+	struct TextureResource {
+		virtual sge::Texture* get() {}
+	};
+
+	struct StaticTextureResource {
+		inline sge::Texture* get() { return texture; }
+
+	private:
+		sge::Texture* texture;
+	};
+
+	using Theme = TextureResource;
+
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_);
 	void makeUIBase();
 	void loadResources();
@@ -31,9 +44,7 @@ namespace sgeui {
 	extern GLFWwindow* wind;
 	extern int windW, windH;
 
-	extern std::map<int, sge::Texture*> textures;
-	extern std::map<int, sge::PackedTexture*> packedTextures;
-	extern int defaultTheme;
+	extern Theme defaultTheme;
 	
 	extern sge::ShaderProgram GUIShaderProgram;
 }
