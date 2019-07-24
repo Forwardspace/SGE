@@ -8,9 +8,6 @@ namespace sge {
 
 		static const aiScene* sceneFromFile(fs::path filename);
 		static aiMesh* firstMeshFromScene(const aiScene* scene);
-		
-		//Loads simple CSV files into a vector
-		static std::vector<std::string> stringVecFromCSV(fs::path filename);
 
 		//Singleton
 		IOManager() = delete;

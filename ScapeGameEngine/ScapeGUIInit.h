@@ -18,21 +18,7 @@ namespace sgeui {
 		};
 	}
 
-	struct TextureResource {
-		virtual sge::Texture* get() {}
-	};
-
-	struct StaticTextureResource {
-		inline sge::Texture* get() { return texture; }
-
-	private:
-		sge::Texture* texture;
-	};
-
-	using Theme = TextureResource;
-
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_);
-	void makeUIBase();
 	void loadResources();
 	void makeShaders();
 
@@ -46,5 +32,5 @@ namespace sgeui {
 
 	extern Theme defaultTheme;
 	
-	extern sge::ShaderProgram GUIShaderProgram;
+	extern sge::ShaderProgram* GUIShaderProgram;
 }

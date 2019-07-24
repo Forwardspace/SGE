@@ -4,10 +4,10 @@ namespace sgeui {
 	void setupShadersForRendering(TextureResource* tx) {
 		//Similar to sge::StaticObject::render
 		//Activate the GUI shader program, bind the texture
-		sge::ShaderManager::pushActive(GUIShaderProgram);
+		sge::ShaderManager::pushActive(*GUIShaderProgram);
 		sge::ShaderManager::bindSamplerTexUnit(0);
 
-		sge::TextureManager::bindTexture(tx->get());
+		sge::TextureManager::bindTexture(tx? tx->get() : nullptr);
 	}
 
 	char* translate_uniform_name = "translate";

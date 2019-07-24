@@ -10,25 +10,37 @@ namespace sge {
 
 		//Load the accompanying csv file
 		fs::path csvPath = path.parent_path() / (path.stem().string() + ".csv");
-		auto vec = IOManager::stringVecFromCSV(csvPath);
+		auto xml = ParsedXML(csvPath);
 
-		//Parse it to convert to Enum
-		for (auto& texType : vec) {
-			if (texType == "NORMAL") {
+		auto root = xml.findNode("textureTypes");
+		if (!root) {
+			//Not correctly formated xml document
+			throw std::runtime_error("Incorrectly formatted XML document. Fix ur docs.");
+		}
+
+		//Translate all types in the XML document
+		//into PackedTextureType::Enum values
+		auto currentType = root->first_node("type");
+		while (currentType) {
+			std::string type = currentType->value();
+
+			if (type == "NORMAL") {
 				types.push_back(PackedTextureType::Enum::NORMAL);
 			}
-			else if (texType == "HOVER") {
+			else if (type == "HOVER") {
 				types.push_back(PackedTextureType::Enum::HOVER);
 			}
-			else if (texType == "CLICK") {
+			else if (type == "CLICK") {
 				types.push_back(PackedTextureType::Enum::CLICK);
 			}
-			else if (texType == "DISABLED") {
+			else if (type == "DISABLED") {
 				types.push_back(PackedTextureType::Enum::DISABLED);
 			}
 			else {
-				throw std::runtime_error("Error: undefined CSV value encountered! Don't mess with CSVs!");
+				throw std::runtime_error("Error: undefined XML value encountered! Don't mess with XMLs!");
 			}
+
+			currentType = currentType->next_sibling("type");
 		}
 	}
 

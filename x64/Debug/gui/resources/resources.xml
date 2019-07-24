@@ -1,0 +1,19 @@
+<!--Defines all of the files to be included for SGEUI-->
+
+<!--First, the themes-->
+<resources>
+  <themes>
+	  <theme name="black">bck_black.png</theme>
+	  <theme name="white">bck_white.png</theme>
+	  <theme name="bluish_gray">bck_bluish_gray.png</theme>
+
+	  <!--Default theme is black-->
+  	  <defaultTheme>black</defaultTheme>
+  </themes>
+
+  <!--Additional textures here on out-->
+  <textures>
+	  <!--The button texture-->
+	  <texture name="close_button_tex">close_button_packed.png</texture>
+  </textures>
+</resources>

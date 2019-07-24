@@ -26,10 +26,10 @@ namespace sge {
 			throw std::runtime_error(log);
 		}
 
-		//Done, set it as currently active
-		//ShaderManager::setActive(*this);
+		//Done set it as currently active
 	}
 
 	ShaderProgram::~ShaderProgram() {
+		glDeleteProgram(handle_);
 	}
 }

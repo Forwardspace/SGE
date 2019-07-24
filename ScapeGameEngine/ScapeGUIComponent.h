@@ -40,12 +40,13 @@ namespace sgeui {
 		inline void setUvBounds(Point2D bl, Point2D ur) { uvBl_ = bl; uvUr_ = ur; }
 		inline Pair<Point2D, Point2D> uvBounds() { return { uvBl_, uvUr_ }; }
 		///
-		inline void addChild(Component& child);
-		inline void removeChild(Component& child);
-		inline std::vector<Component&> children() { return children_; }
+		inline void addChild(Component* child);
+		inline void removeChild(Component* child);
+		inline std::vector<Component*> children() { return children_; }
 
 		//How does this component interact with input
 		InteractionDescriptor intDesc;
+
 	protected:
 		const bool isQuad = true;
 
@@ -56,12 +57,12 @@ namespace sgeui {
 		int x_, y_;
 		Point2D	uvBl_, uvUr_;
 
-		std::vector<Component&> children_;
+		std::vector<Component*> children_;
 
 		template<class EventType>
 		inline bool forwardEventToChildren(EventType t, Component* s) {
 			for (auto child : children_) {
-				if (!child.handleEvent(t, s)) {
+				if (!child->handleEvent(t, s)) {
 					return false;
 				}
 
@@ -72,10 +73,8 @@ namespace sgeui {
 
 	class RenderableComponent : public Component {
 	public:
-		RenderableComponent(int x, int y, int width, int height, TextureResource* rsc) {
-			x_ = x; y_ = y; width_ = width, height_ = height;
-			rsc = rsc;
-		}
+		RenderableComponent(int x, int y, int width, int height, TextureResource* rsc) : 
+			Component(x, y, width, height), rsc_(rsc) {}
 		RenderableComponent() {}
 
 		bool handleEvent(Event e, Component* source);
@@ -86,7 +85,7 @@ namespace sgeui {
 
 		inline bool render(Component* source = nullptr) { return handleEvent(RedrawEvent(true, false), source); }
 
-	private:
+	protected:
 		TextureResource* rsc_ = nullptr;
 	};
 

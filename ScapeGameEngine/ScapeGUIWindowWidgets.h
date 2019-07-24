@@ -14,16 +14,25 @@ namespace sgeui {
 
 	class Window : public RenderableComponent {
 	public:
-		Window();
-		Window(int w, int h, int xPos, int yPos);
+		Window() {}
+		Window(int w, int h, int xPos, int yPos) : RenderableComponent(xPos, yPos, w, h, nullptr);
+
+		~Window();
 
 		void setSize(int w, int h);
-		inline Pair<int, int> getSize() { return { w_, h_ }; }
+		inline Pair<int, int> getSize() { return { width_, height_ }; }
 
 		bool handleEvent(WindowResizeEvent e, Component* source = nullptr);
-	
-	private:
-		int w_ = 0; h_ = 0;
+	};
+
+	class WindowBanner : public RenderableComponent {
+	public:
+		WindowBanner(int w, int h, int xPos, int yPos);
+	};
+
+	class WindowSurface : public RenderableComponent {
+	public:
+		WindowSurface(int w, int h, int xPos, int yPos);
 	};
 
 	/*//From ...MouseState.cpp

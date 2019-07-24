@@ -144,6 +144,12 @@
     <ClInclude Include="ScapeGUIComponent.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="ParsedXML.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="ScapeGUITextures.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -226,6 +232,12 @@
     </ClCompile>
     <ClCompile Include="ScapeGUIComponent.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ParsedXML.cpp">
+      <Filter>Source Files\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="ScapeGUITextures.h">
+      <Filter>Header Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

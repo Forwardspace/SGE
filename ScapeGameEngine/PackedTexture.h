@@ -1,7 +1,7 @@
 #pragma once
 #include "stdheaders.h"
 #include "Texture.h"
-#include "IOManager.h"
+#include "ParsedXML.h"
 
 namespace sge {
 	namespace PackedTextureType {

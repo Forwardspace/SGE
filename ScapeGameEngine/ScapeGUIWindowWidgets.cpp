@@ -9,15 +9,48 @@ namespace sgeui {
 	Window::Window() {
 	}
 
+	int bannerHeight = 40;	//px
+
+	Window::Window(int w, int h, int xPos, int yPos) : RenderableComponent(xPos, yPos, w, h, nullptr) {
+		//Create the window, composed of a banner and surface
+		
+		//Minimum height and width is 100 pixels
+		if (w < 100) {
+			w = 100;
+		}
+		if (h < 100) {
+			h = 100;
+		}
+
+		auto surface = new WindowSurface(w, h - bannerHeight, xPos, yPos + bannerHeight);
+		addChild(surface);
+
+		auto banner = new WindowBanner(w, bannerHeight, xPos, yPos);
+		addChild(banner);
+	}
+
+	Window::~Window() {
+		for (auto& child : children_) {
+			delete& child;
+		}
+	}
+
 	void Window::setSize(int w, int h) {
-		w_ = w;
-		h_ = h;
+		width_ = w;
+		height_ = h;
 
 		raiseEvent(WindowResizeEvent(w, h), this);
 	}
 
 	bool Window::handleEvent(WindowResizeEvent e, Component* source) {
 		return forwardEventToChildren<WindowResizeEvent>(e, source);
+	}
+
+	WindowBanner::WindowBanner(int w, int h, int xPos, int yPos) {
+		
+	}
+
+	WindowSurface::WindowSurface(int w, int h, int xPos, int yPos) {
 	}
 
 	/*int bannerHeight = 50;
@@ -277,4 +310,5 @@ namespace sgeui {
 		children[0]->setUVBounds({ UVs[0].x, UVs[0].y }, { UVs[1].x, UVs[1].y });
 	}
 	*/
+
 }

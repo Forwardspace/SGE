@@ -41,3 +41,6 @@ namespace fs = std::experimental::filesystem;
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
+
+//XML
+#include <rapidxml\rapidxml.hpp>

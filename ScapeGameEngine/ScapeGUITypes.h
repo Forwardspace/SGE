@@ -26,14 +26,33 @@ namespace sgeui {
 	};
 
 	struct TextureResource {
-		virtual void get() {}
+		virtual sge::Texture* get() { return nullptr; }
+
+		virtual ~TextureResource() {}
 	};
 
-	struct StaticTextureResource {
-		inline sge::Texture* get() { return texture; }
+	struct StaticTextureResource : public TextureResource {
+	public:
+		StaticTextureResource(sge::Texture* t, std::string name) : texture_(t), name_(name) { }
+		StaticTextureResource(fs::path p, std::string name) : name_(name) { texture_ = new sge::Texture(p); }
+
+		inline sge::Texture* get() { return texture_; }
+		inline std::string name() { return name_; }
+
+		virtual ~StaticTextureResource() { delete texture_; }
 
 	private:
-		sge::Texture* texture;
+		sge::Texture* texture_;
+		std::string name_;
+	};
+
+	struct ThemeTextureResource : public StaticTextureResource {
+	public:
+		ThemeTextureResource(sge::Texture* t, std::string name) : StaticTextureResource(t, name) { }
+		ThemeTextureResource(fs::path p, std::string name) : StaticTextureResource(p, name) { }
+
+	private:
+		std::string name_ = "";
 	};
 
 	using Theme = TextureResource;

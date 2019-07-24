@@ -1,6 +1,9 @@
 #include "ScapeGUIInit.h"
 #include "TextureManager.h"
 #include "UserInputManager.h"
+#include "ParsedXML.h"
+
+#include "ScapeGUITextures.h"
 
 namespace sgeui {
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_) {
@@ -8,10 +11,6 @@ namespace sgeui {
 		windW = w_;
 		windH = h_;
 
-		makeUIBase();
-	}
-
-	void makeUIBase() {
 		loadResources();
 		makeShaders();
 	}
@@ -23,72 +22,74 @@ namespace sgeui {
 	std::map<int, sge::PackedTexture*> packedTextures;
 	int defaultTheme;
 
-	//Load the window themes
-	//(loop over the rest until END_THEMES is encountered)
-	void loadThemes(int &i, std::vector<std::string> &rDef) {
-		for (i++; i < rDef.size(); i++) {
-			if (rDef[i] == "END_THEMES") {
-				if (textures.size() == 0) {
-					throw std::runtime_error("Invalid GUI Resource Definition file (themeTextures empty)!");
-				}
-				return;
-			}
-
-			sge::Texture* temp = new sge::Texture(resourcesRoot / rDef[i]);
-			textures[std::stoi(rDef[++i])] = temp;
+	inline void assertNodeNotNull(rapidxml::xml_node<>* node, std::string nodeName) {
+		if (!node) {
+			throw std::runtime_error("Error: No root '" + nodeName + "' tag in XML resource definition file!");
 		}
 	}
 
-	void loadtextures(int &i, std::vector<std::string>& rDef) {
-		for (i++; i < rDef.size(); i++) {
-			if (rDef[i] == "END_ADDITIONAL_TEXTURES") {
-				if (textures.size() == 0 && packedTextures.size() == 0) {
-					throw std::runtime_error("Invalid GUI Resource Definition file (textures empty)");
-				}
-				return;
+	void loadThemes(rapidxml::xml_node<>* root) {
+		auto themes = root->first_node("themes");
+		assertNodeNotNull(themes, "themes");
+
+		//Load all themes inide <theme> tags
+		//example theme declaration: <theme name="my_theme">theme.png</theme>
+		auto nextTheme = themes->first_node("theme");
+		while (nextTheme) {
+			if (nextTheme->first_attribute()->name() != "name") {
+				throw std::runtime_error("Theme attribute name is not 'name'!");
 			}
-			else if (rDef[i] == "PACKED") {
-				//Contains multiple textures in one file
-				i++;
-				sge::PackedTexture* temp = new sge::PackedTexture(resourcesRoot / rDef[i]);
-				packedTextures[std::stoi(rDef[++i])] = temp;
+			std::string name = nextTheme->first_attribute()->value();
+
+			ThemeTextureResource* rsc = new ThemeTextureResource(nextTheme->value(), name);
+			TextureManager::add(rsc);
+
+			nextTheme = nextTheme->next_sibling("theme");
+		}
+	}
+
+	void loadTextures(rapidxml::xml_node<>* root) {
+		auto textures = root->first_node("textures");
+		assertNodeNotNull(textures, "textures");
+
+		//Load the rest of the required textures similarly
+		auto nextTexture = textures->first_node("texture");
+		while (nextTexture) {
+			if (nextTexture->first_attribute()->name() != "name") {
+				throw std::runtime_error("Texture attribute name is not 'name'!");
 			}
-			else {
-				sge::Texture* temp = new sge::Texture(resourcesRoot / rDef[i]);
-				textures[std::stoi(rDef[++i])] = temp;
-			}
+			std::string name = nextTexture->first_attribute()->value();
+			sge::PackedTexture* tex = new sge::PackedTexture(nextTexture->value());
+
+			StaticTextureResource* rsc = new ThemeTextureResource(tex, name);
+			TextureManager::add(rsc);
+
+			nextTexture = nextTexture->next_sibling("texture");
 		}
 	}
 
 	void loadResources() {
-		std::vector<std::string> rDef = sge::IOManager::stringVecFromCSV(resourceDefinitionsFilename);
+		sge::ParsedXML rsc(resourceDefinitionsFilename);
 
-		if (rDef.size() == 0) {
-			throw std::runtime_error("rDef size 0! rTFM > 0!");
-		}
+		auto root = rsc["resources"];
+		assertNodeNotNull(root, "resources");
 
-		for (int i = 0; i < rDef.size(); i++) {
-			if (rDef[i] == "THEMES") {
-				loadThemes(i, rDef);
-			}
-			else if (rDef[i] == "DEFAULT_THEME") {
-				i++;
-				defaultTheme = std::stoi(rDef[i]);
-			}
-			else if (rDef[i] == "ADDITIONAL_TEXTURES") {
-				loadtextures(i, rDef);
-			}
-		}
+		loadThemes(root);
+		loadTextures(root);
+
+		if (!root->first_attribute("defaultTheme"))
 	}
 
 	void terminate() {
-		for (auto& pair : textures) {
+		/*for (auto& pair : textures) {
 			//Ignore the key, delete the value
 			delete pair.second;
 		}
 		for (auto& pair : packedTextures) {
 			delete pair.second;
-		}
+		}*/
+
+		delete GUIShaderProgram;
 	}
 
 	const fs::path quadVSShFilename = "gui\\shaders\\quadvs.shader";
@@ -98,7 +99,7 @@ namespace sgeui {
 		sge::VertexShader quadVS(quadVSShFilename);
 		sge::FragmentShader quadFS(quadFSShFilename);
 
-		sge::ShaderProgram quadShader({ quadVS, quadFS });
+		sge::ShaderProgram* quadShader = new sge::ShaderProgram({ quadVS, quadFS });
 		GUIShaderProgram = quadShader;
 	}
 
@@ -124,5 +125,5 @@ namespace sgeui {
 
 	GLFWwindow* wind;
 	int windW, windH;
-	sge::ShaderProgram GUIShaderProgram;
+	sge::ShaderProgram* GUIShaderProgram;
 }
