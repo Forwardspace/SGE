@@ -5,8 +5,5 @@
 #include "ScapeGUIInit.h"
 
 namespace sgeui {
-	class Renderer {
-	public:
-		void renderQuad(RedrawEvent re, RenderableComponent* comp);
-	};
+	void renderQuad(RedrawEvent re, RenderableComponent* comp);
 }

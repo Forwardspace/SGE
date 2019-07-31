@@ -103,7 +103,7 @@ namespace sge {
 
 	void finalizeFrame(GLFWwindow* window) {
 		//Update the GUI (has to be done last not to be overlapped with any vertices)
-		sgeui::update();
+		sgeui::render();
 
 		//Update the UserInputManager
 		//It has to be updated last because of the

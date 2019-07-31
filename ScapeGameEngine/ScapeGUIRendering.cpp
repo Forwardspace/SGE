@@ -14,7 +14,7 @@ namespace sgeui {
 
 	void sendMatrixToShaders(glm::mat4x4& translate) {
 		GLint translate_uniform_location = glGetUniformLocation(
-			GUIShaderProgram.handle(),
+			GUIShaderProgram->handle(),
 			translate_uniform_name
 		);
 		if (translate_uniform_location < 0) {
@@ -28,15 +28,7 @@ namespace sgeui {
 		);
 	}
 
-	//Convert pixel coords to OpenGL screen-space coords
-	inline float pxToSS(int px, int dim) {
-		return 2.0f * (px + 0.5f) / dim - 1.0f;
-	}
-
-	#define PTOSX(x) pxToSS(x, windW)
-	#define PTOSY(y) pxToSS(y, windH)
-
-	void Renderer::renderQuad(RedrawEvent re, RenderableComponent* comp) {
+	void renderQuad(RedrawEvent re, RenderableComponent* comp) {
 		glGetError();
 		//Quite similar to sge::StaticObject::render
 
@@ -48,17 +40,13 @@ namespace sgeui {
 
 		auto uv = comp->uvBounds();
 
-		//Convert pixel coords to screen-space ratios
-		float x = PTOSX(pos.x);
-		float y = PTOSY(pos.y);
-
-		Point2D bl = { PTOSX(x), PTOSY(y + dim.second) };
-		Point2D ur = { PTOSX(x + dim.first), PTOSY(y) };
+		Point2D bl = { 0, dim.second };
+		Point2D ur = { dim.first, 0 };
 
 		//This will generate a rectangle bounded
 		//by these points
 		PointArray pa = { { bl.x, bl.y }, { ur.x, ur.y }, { bl.x, ur.y }, { ur.x, bl.y } };
-		IndexArray ia = { 0, 3, 2, 3, 1, 2 };
+		const IndexArray ia = { 0, 3, 2, 3, 1, 2 };
 		UVArray ua = {
 			{ uv.first.x, uv.first.y },
 			{ uv.second.x, uv.second.y },
@@ -66,18 +54,24 @@ namespace sgeui {
 			{ uv.second.x, uv.first.y }
 		};
 
+		//Generate the orthographic projection matrix (projects screen space to normalized coords)
+		auto ortho = glm::ortho(0.f, (float)windW, (float)windH, 0.f, -1.f, 1.f);
+
 		//Generate the translate matrix (no need for
-		//the whole MVP matrix
+		//the whole MVP matrix, no scaling or rotation)
 		glm::mat4x4 translate = {
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			x, y, 0, 1
+			1,	   0,     0, 0,
+			0,	   1,     0, 0,
+			0,	   0,     1, 0,
+			pos.x, pos.y, 0, 1
 		};
+
+		//Combine them...
+		ortho *= translate;
 
 		//Give it to the shader (manually set the
 		//translate uniform in the shader)
-		sendMatrixToShaders(translate);
+		sendMatrixToShaders(ortho);
 
 		//Now for the buffers:
 		//UVs

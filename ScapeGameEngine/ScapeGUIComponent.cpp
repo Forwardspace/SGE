@@ -1,19 +1,6 @@
 #include "ScapeGUIComponent.h"
 
 namespace sgeui {
-	bool Component::handleEvent(Event e, Component* source) {
-		return forwardEventToChildren(e, source);
-	}
-
-	void Component::raiseEvent(Event t, Component* s) {
-		if (s == nullptr) {
-			throw std::runtime_error("Error: raiseEvent(t == nullptr, ...). Wait. That's illegal.");
-		}
-		else {
-			s->handleEvent(t, this);
-		}
-	}
-
 	void Component::moveTo(int x, int y) {
 		x_ = x;
 		y_ = y;
@@ -32,10 +19,6 @@ namespace sgeui {
 		}
 	}
 
-	inline void Component::addChild(Component* child) {
-		children_.push_back(child);
-	}
-
 	inline void Component::removeChild(Component* child) {
 		auto pos = std::find(children_.begin(), children_.end(), child);
 		if (pos != std::end(children_)) {
@@ -43,16 +26,13 @@ namespace sgeui {
 		}
 	}
 
-	///
+	bool forwardEventToChildren(Component* c, Event& e) {
+		for (auto& child : c->children_) {
+			if (!RAISE_EVENT(child, e)) {
+				return false;
+			}
+		}
 
-	bool RenderableComponent::handleEvent(Event r, Component* source) {
-		return forwardEventToChildren<Event>(r, source);
-	}
-
-	bool RenderableComponent::handleEvent(RedrawEvent r, Component* source) {
-		//Draw this on the screen
-		masterHandleEvent<RedrawEvent>(r, this);
-
-		return forwardEventToChildren<RedrawEvent>(r, source);
+		return true;
 	}
 }

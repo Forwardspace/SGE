@@ -1,1 +1,5 @@
-﻿  PackedTexture.cpp
+﻿  test.cpp
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\test.cpp(16,27): warning C4305:  'argument': truncation from 'double' to 'float'
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\test.cpp(28,34): warning C4305:  'argument': truncation from 'double' to 'float'
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\test.cpp(44,12): warning C4305:  '+=': truncation from 'double' to 'float'
+  ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\SGE\x64\Debug\ScapeGameEngine.exe

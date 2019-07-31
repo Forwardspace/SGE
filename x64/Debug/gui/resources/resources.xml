@@ -14,6 +14,6 @@
   <!--Additional textures here on out-->
   <textures>
 	  <!--The button texture-->
-	  <texture name="close_button_tex">close_button_packed.png</texture>
+	  <texture name="close_button_tex" packed="true">close_button_packed.png</texture>
   </textures>
 </resources>

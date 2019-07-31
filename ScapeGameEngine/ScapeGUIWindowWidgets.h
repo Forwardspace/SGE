@@ -1,6 +1,7 @@
 #pragma once
 #include "ScapeGUIComponent.h"
 #include "ScapeGUIInit.h"
+#include "EventHandling.h"
 
 namespace sgeui {
 	extern int windW, windH;
@@ -8,31 +9,43 @@ namespace sgeui {
 
 	class WindowResizeEvent : public Event {
 	public:
-		WindowResizeEvent(int newX, int newY) : newX(newX), newY(newY) {}
+		WindowResizeEvent(int newX, int newY) : newX(newX), newY(newY) { REGISTER_EVENT(WindowResizeEvent) }
 		int newX, newY;
 	};
 
-	class Window : public RenderableComponent {
+	class Window : public Component {
 	public:
-		Window() {}
-		Window(int w, int h, int xPos, int yPos) : RenderableComponent(xPos, yPos, w, h, nullptr);
+		Window(int w, int h, int xPos, int yPos);
 
 		~Window();
 
 		void setSize(int w, int h);
 		inline Pair<int, int> getSize() { return { width_, height_ }; }
 
-		bool handleEvent(WindowResizeEvent e, Component* source = nullptr);
+		EVENT_HANDLER(WindowResize, {
+			return true;
+		});
 	};
 
+	extern std::vector<Window*> windows;
+
+	//The toolbar (without the toolbar)
 	class WindowBanner : public RenderableComponent {
 	public:
 		WindowBanner(int w, int h, int xPos, int yPos);
 	};
 
+	//The actual main portion of the window
 	class WindowSurface : public RenderableComponent {
 	public:
 		WindowSurface(int w, int h, int xPos, int yPos);
+	};
+
+	//The thing with the close, minimize and maximize buttons
+	class WindowHelper : public Component {
+	public:
+		//x, y is the ur point of the Window
+		WindowHelper(int x, int y);
 	};
 
 	/*//From ...MouseState.cpp

@@ -4,7 +4,7 @@
 
 #include "GLFWIOManager.h"
 
-namespace sgeui {
+/*namespace sgeui {
 	int defaultInteractMouseButton = GLFW_MOUSE_BUTTON_1;
 	RenderableQuad* affectedRQ = nullptr;
 	ClickState::Enum clickState = ClickState::NONE;
@@ -136,4 +136,4 @@ namespace sgeui {
 			return ClickState::NONE;
 		}
 	}
-}
+}*/

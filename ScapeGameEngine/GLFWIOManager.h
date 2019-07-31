@@ -1,6 +1,12 @@
 #pragma once
 #include "stdheaders.h"
 
+namespace sgeui {
+	extern void onMousePosUpdate(int posX, int posY);
+	extern void onMouseButtonUpdate(int button, bool pressed);
+	extern int defaultInteractMouseButton;
+}
+
 namespace sge {
 	class GLFWIOManager {
 	public:

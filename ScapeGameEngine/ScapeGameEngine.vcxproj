@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="EventHandling.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="GLFWIOManager.h" />
@@ -139,7 +140,7 @@
     <ClInclude Include="ScapeGUIInit.h" />
     <ClInclude Include="ScapeGUIMouseState.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
-    <ClInclude Include="ScapeGUITextures.cpp" />
+    <ClCompile Include="ScapeGUITextures.cpp" />
     <ClInclude Include="ScapeGUITypes.h" />
     <ClInclude Include="ScapeGUIWindowWidgets.h" />
     <ClInclude Include="SGE.h" />
@@ -175,7 +176,7 @@
     <ClCompile Include="ScapeGUIInit.cpp" />
     <ClCompile Include="ScapeGUIMouseState.cpp" />
     <ClCompile Include="ScapeGUIRendering.cpp" />
-    <ClCompile Include="ScapeGUITextures.h" />
+    <ClInclude Include="ScapeGUITextures.h" />
     <ClCompile Include="ScapeGUIWindowWidgets.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />

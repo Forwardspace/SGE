@@ -30,7 +30,7 @@ namespace sgeui {
 	extern GLFWwindow* wind;
 	extern int windW, windH;
 
-	extern Theme defaultTheme;
+	extern Theme* defaultTheme;
 	
 	extern sge::ShaderProgram* GUIShaderProgram;
 }

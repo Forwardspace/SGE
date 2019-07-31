@@ -1,5 +1,5 @@
 #include "ScapeGUIInit.h"
-#include "TextureManager.h"
+//#include "TextureManager.h"
 #include "UserInputManager.h"
 #include "ParsedXML.h"
 
@@ -16,11 +16,11 @@ namespace sgeui {
 	}
 
 	const fs::path resourcesRoot = "gui\\resources";
-	const fs::path resourceDefinitionsFilename = resourcesRoot / "resources.csv";
+	const fs::path resourceDefinitionsFilename = resourcesRoot / "resources.xml";
 
 	std::map<int, sge::Texture*> textures;
 	std::map<int, sge::PackedTexture*> packedTextures;
-	int defaultTheme;
+	Theme* defaultTheme;
 
 	inline void assertNodeNotNull(rapidxml::xml_node<>* node, std::string nodeName) {
 		if (!node) {
@@ -36,16 +36,24 @@ namespace sgeui {
 		//example theme declaration: <theme name="my_theme">theme.png</theme>
 		auto nextTheme = themes->first_node("theme");
 		while (nextTheme) {
-			if (nextTheme->first_attribute()->name() != "name") {
+			if (nextTheme->first_attribute()->name() != std::string("name")) {
 				throw std::runtime_error("Theme attribute name is not 'name'!");
 			}
 			std::string name = nextTheme->first_attribute()->value();
 
-			ThemeTextureResource* rsc = new ThemeTextureResource(nextTheme->value(), name);
+			ThemeTextureResource* rsc = new ThemeTextureResource(resourcesRoot/nextTheme->value(), name);
 			TextureManager::add(rsc);
 
 			nextTheme = nextTheme->next_sibling("theme");
 		}
+
+		auto defaultThemeNode = themes->first_node("defaultTheme");
+
+		if (!defaultThemeNode) {
+			throw std::runtime_error("Error: no defaultTheme tag in XML resource definition file!");
+		}
+
+		defaultTheme = TextureManager::getTheme(defaultThemeNode->value());
 	}
 
 	void loadTextures(rapidxml::xml_node<>* root) {
@@ -55,14 +63,31 @@ namespace sgeui {
 		//Load the rest of the required textures similarly
 		auto nextTexture = textures->first_node("texture");
 		while (nextTexture) {
-			if (nextTexture->first_attribute()->name() != "name") {
-				throw std::runtime_error("Texture attribute name is not 'name'!");
+			//First check for the required name attribute
+			if (!nextTexture->first_attribute("name")) {
+				throw std::runtime_error("No attribute 'name' in texture: XML resource definition file!");
 			}
-			std::string name = nextTexture->first_attribute()->value();
-			sge::PackedTexture* tex = new sge::PackedTexture(nextTexture->value());
+			std::string name = nextTexture->first_attribute("name")->value();
 
-			StaticTextureResource* rsc = new ThemeTextureResource(tex, name);
-			TextureManager::add(rsc);
+			//Next, for the optional packed attribute (if value == "true", the texture is a packed one)
+			if (
+				nextTexture->first_attribute("packed") != nullptr &&
+				nextTexture->first_attribute("packed")->value() == std::string("true")
+			) {
+
+				sge::PackedTexture* tex = new sge::PackedTexture(resourcesRoot/nextTexture->value());
+				StaticTextureResource* rsc = new StaticTextureResource(tex, name);
+
+				TextureManager::add(rsc);
+			}
+			else {
+				//Nope, just a regular texture
+
+				sge::Texture* tex = new sge::Texture(resourcesRoot/nextTexture->value());
+				StaticTextureResource* rsc = new StaticTextureResource(tex, name);
+
+				TextureManager::add(rsc);
+			}
 
 			nextTexture = nextTexture->next_sibling("texture");
 		}
@@ -76,8 +101,6 @@ namespace sgeui {
 
 		loadThemes(root);
 		loadTextures(root);
-
-		if (!root->first_attribute("defaultTheme"))
 	}
 
 	void terminate() {

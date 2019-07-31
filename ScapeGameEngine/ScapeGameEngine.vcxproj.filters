@@ -147,8 +147,11 @@
     <ClInclude Include="ParsedXML.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
-    <ClInclude Include="ScapeGUITextures.cpp">
-      <Filter>Source Files\GUI</Filter>
+    <ClInclude Include="ScapeGUITextures.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandling.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,9 +227,6 @@
     <ClCompile Include="..\packages\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCamera.cpp">
-      <Filter>Source Files\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="ScapeGUIMouseState.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
@@ -236,8 +236,11 @@
     <ClCompile Include="ParsedXML.cpp">
       <Filter>Source Files\IO</Filter>
     </ClCompile>
-    <ClCompile Include="ScapeGUITextures.h">
-      <Filter>Header Files\GUI</Filter>
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ScapeGUITextures.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

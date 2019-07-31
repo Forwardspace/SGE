@@ -8,11 +8,11 @@ namespace sge {
 		//Load the whole sprite sheet
 		loadFromFile(path);
 
-		//Load the accompanying csv file
-		fs::path csvPath = path.parent_path() / (path.stem().string() + ".csv");
+		//Load the accompanying xml file
+		fs::path csvPath = path.parent_path() / (path.stem().string() + ".xml");
 		auto xml = ParsedXML(csvPath);
 
-		auto root = xml.findNode("textureTypes");
+		auto root = xml["textureTypes"];
 		if (!root) {
 			//Not correctly formated xml document
 			throw std::runtime_error("Incorrectly formatted XML document. Fix ur docs.");

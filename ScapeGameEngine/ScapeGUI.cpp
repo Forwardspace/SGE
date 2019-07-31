@@ -1,13 +1,36 @@
 #include "ScapeGUI.h"
+#include "ScapeGUIInit.h"
 
 namespace sgeui {
 	const extern int numMouseButtons;
+	std::array<bool, numMouseButtons> mouseButtons;
 
-	extern int mousePosX, mousePosY;
-	extern std::array<bool, 8> mouseButtons;
+	MASTER_LISTENER;
 
-	void init(GLFWwindow* wind, int w, int h) { 
+	MASTER_EVENT_HANDLER(Redraw, {
+			if (!event->target) {
+				//Well, there's really nothing to draw, is there?
+				throw std::runtime_error("Error: GUI RedrawEvent target is nullptr at the time of handling!");
+			}
+			if (event->target->intDesc.render) {
+				if (event->calleeIsQuad) {
+					renderQuad(*event, event->target);
+				}
+				else {
+					//renderWeirdlyShapedComponent(...);
+				}
+			}
+
+			return true;
+	});
+
+	int defaultInteractMouseButton = GLFW_MOUSE_BUTTON_1;
+	int mousePosX = 0, mousePosY = 0;
+
+	void init(GLFWwindow* wind, int w, int h) {
 		initSGEUI(wind, w, h);
+
+		MASTER_HANDLES_EVENT(Redraw);
 	}
 
 	void render() {
@@ -16,26 +39,15 @@ namespace sgeui {
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		setVertexPtrs();
 		updateMouseDelta();
 
 		//Recursively render all elements
 		bool render = true;
 		int i = 0;
-		while (render) {
-			size_t size = windows.size();
-			if (i >= size) {
-				break;
-			}
-
-			windows[i]->render();
-
-			//Check if a window has been removed
-			if (!(windows.size() < size)) {
-				//It hasn't, continue
-				i++;
-			}
+		for (auto w : windows) {
+			RAISE_EVENT(w, RedrawEvent(true, false));
 		}
 
 		glEnable(GL_CULL_FACE);
@@ -48,15 +60,13 @@ namespace sgeui {
 		mousePosY = mouseY;
 
 		//Update the internal states of all Components
-		updateStateOnMousePosChange(mouseX, mouseY);
+		//updateStateOnMousePosChange(mouseX, mouseY);
 	}
-	
+
 	void onMouseButtonUpdate(int key, bool pressed) {
 		mouseButtons[key] = pressed;
 
 		//Update all of the positions, relations and states of all Components
-		updateStateOnMouseButtonChange(key, pressed);
+		//updateStateOnMouseButtonChange(key, pressed);
 	}
-
-	std::vector<Window*> windows;
 }

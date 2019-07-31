@@ -5,6 +5,7 @@ namespace sge {
 	}
 
 	Texture::~Texture() {
+		glDeleteTextures(1, &handle_);
 	}
 
 	Texture::Texture(fs::path filename) {

@@ -1,18 +1,19 @@
 #include "ScapeGUIWindowWidgets.h"
 
 #include "ScapeGUIMouseState.h"
+#include "ScapeGUITextures.h"
 
 #include "PackedTexture.h"
 #include "UserInputManager.h"
 
 namespace sgeui {
-	Window::Window() {
-	}
+	std::vector<Window*> windows;
 
-	int bannerHeight = 40;	//px
+	int bannerHeight = 30;	//px
 
-	Window::Window(int w, int h, int xPos, int yPos) : RenderableComponent(xPos, yPos, w, h, nullptr) {
+	Window::Window(int w, int h, int xPos, int yPos) : Component(xPos, yPos, w, h) {
 		//Create the window, composed of a banner and surface
+		windows.push_back(this);
 		
 		//Minimum height and width is 100 pixels
 		if (w < 100) {
@@ -22,7 +23,7 @@ namespace sgeui {
 			h = 100;
 		}
 
-		auto surface = new WindowSurface(w, h - bannerHeight, xPos, yPos + bannerHeight);
+		auto surface = new WindowSurface(w, h - bannerHeight, xPos, yPos + bannerHeight / 2);
 		addChild(surface);
 
 		auto banner = new WindowBanner(w, bannerHeight, xPos, yPos);
@@ -36,21 +37,58 @@ namespace sgeui {
 	}
 
 	void Window::setSize(int w, int h) {
-		width_ = w;
-		height_ = h;
-
-		raiseEvent(WindowResizeEvent(w, h), this);
+		RAISE_EVENT(this, WindowResizeEvent(w, h), this);
 	}
 
-	bool Window::handleEvent(WindowResizeEvent e, Component* source) {
-		return forwardEventToChildren<WindowResizeEvent>(e, source);
+	constexpr std::pair<Point2D, Point2D> getBannerUV() {
+		//Avoid the edges; we need a uniform colour
+		return { { 0.05, 0.05 }, { 0.95, 0.45 } };
 	}
 
-	WindowBanner::WindowBanner(int w, int h, int xPos, int yPos) {
+	constexpr std::pair<Point2D, Point2D> getSurfaceUV() {
+		return { { 0.05, 0.55 }, { 0.95, 0.95 } };
+	}
+
+	WindowBanner::WindowBanner(int w, int h, int xPos, int yPos) 
+		: RenderableComponent(xPos, yPos, w, h, defaultTheme) {
+
+		//The texture for the banner is in the bottom half of the theme texture
+		std::tie(uvBl_, uvUr_) = getBannerUV();
+
+		//The window banner also contains a window helper
+		Point2D ur = { xPos + w, yPos };
+		auto wh = new WindowHelper(ur.x, ur.y);
+		addChild(wh);
+	}
+
+	WindowSurface::WindowSurface(int w, int h, int xPos, int yPos)
+		: RenderableComponent(xPos, yPos, w, h, defaultTheme) {
 		
+		//The texture for the surface, on the other hand, is in the bottom half
+		std::tie(uvBl_, uvUr_) = getSurfaceUV();
 	}
 
-	WindowSurface::WindowSurface(int w, int h, int xPos, int yPos) {
+	const std::string closeButtonTexture = "close_button_tex";
+	WindowHelper::WindowHelper(int x, int y) : Component(0, 0, x, y) {
+
+		auto closeButtonTex = TextureManager::get(closeButtonTexture);
+		if (!closeButtonTex) {
+			std::cout << "CRITICAL ERROR: Unable to load " << closeButtonTex << std::endl;
+			throw std::runtime_error("CRITICAL ERROR: unable to load texture");
+		}
+
+		auto packedCloseButtonTex = dynamic_cast<sge::PackedTexture*>(closeButtonTex->get());
+
+		RenderableComponent* closeButton = new RenderableComponent(
+			x - bannerHeight,
+			y,
+			bannerHeight,
+			bannerHeight,
+			closeButtonTex
+		);
+		closeButton->setUvBounds(packedCloseButtonTex->unpackTexture(sge::PackedTextureType::NORMAL));
+
+		addChild(closeButton);
 	}
 
 	/*int bannerHeight = 50;

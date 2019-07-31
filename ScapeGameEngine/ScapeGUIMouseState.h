@@ -1,7 +1,7 @@
 #pragma once
 #include "ScapeGUI.h"
 
-namespace sgeui {
+/*namespace sgeui {
 	namespace ClickState {
 		enum Enum {
 			NONE,
@@ -21,4 +21,4 @@ namespace sgeui {
 	//////
 
 	extern int defaultInteractMouseButton;
-}
+}*/

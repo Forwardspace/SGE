@@ -20,8 +20,8 @@ namespace sge {
 		//Find any node named "s" in the root node
 		rapidxml::xml_node<>* operator[](std::string s) { return doc_->first_node(s.c_str()); }
 		//Find any node named "s"
-		rapidxml::xml_node<>* findNodeFrom(std::string s, rapidxml::xml_node<>* target);
-		rapidxml::xml_node<>* findNode(std::string s) { return findNodeFrom(s, doc_->first_node()); }
+		//rapidxml::xml_node<>* findNodeFrom(std::string s, rapidxml::xml_node<>* target);
+		//rapidxml::xml_node<>* findNode(std::string s) { return findNodeFrom(s, doc_->first_node()); }
 
 	private:
 		rapidxml::xml_document<>* doc_;
