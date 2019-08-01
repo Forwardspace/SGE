@@ -4,15 +4,13 @@
 #include "ParsedXML.h"
 
 namespace sge {
-	namespace PackedTextureType {
-		enum Enum {
-			NORMAL,
-			HOVER,
-			CLICK,
-			DISABLED,
-			RELEASED
-		};
-	}
+	enum class PackedTextureType {
+		NORMAL,
+		HOVER,
+		CLICK,
+		DISABLED,
+		RELEASED
+	};
 
 	class PackedTexture : public Texture {
 	public:
@@ -22,9 +20,9 @@ namespace sge {
 
 		//Provided with the type of the texture you want,
 		//this returns { bl, ur } UV coords
-		std::array<glm::vec2, 2> unpackTexture(PackedTextureType::Enum type);
+		std::array<glm::vec2, 2> unpackTexture(PackedTextureType type);
 	private:
 		//An ordered list of stored textures
-		std::vector<PackedTextureType::Enum> types;
+		std::vector<PackedTextureType> types;
 	};
 }

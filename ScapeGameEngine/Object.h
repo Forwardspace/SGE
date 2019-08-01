@@ -3,13 +3,12 @@
 
 namespace sge {
 	//Matches VAOType
-	namespace ObjectType {
-		enum  Enum {
-			STATIC,
-			DYNAMIC,
-			GENERIC
-		};
-	}
+	enum class ObjectType {
+		STATIC,
+		DYNAMIC,
+		INSTANCED,
+		GENERIC
+	};
 
 	//A base for all other objects.
 	//Don't use this for rendering;
@@ -24,10 +23,9 @@ namespace sge {
 		void setPos(float x, float y, float z) { posX_ = x; posY_ = y; posZ_ = z; transformNeedsUpdating = true; }
 		void setRot(float x, float y, float z) { rotX_ = x; rotY_ = y; rotZ_ = z; transformNeedsUpdating = true; }
 
-		//I'm going to regret this...
 		virtual void render() = 0;
 
-		ObjectType::Enum type() { return type_; }
+		ObjectType type() { return type_; }
 
 		//If false, the object should not be rendered
 		bool renderObject = true;
@@ -40,6 +38,6 @@ namespace sge {
 
 		bool transformNeedsUpdating = true;
 
-		const ObjectType::Enum type_ = ObjectType::GENERIC;
+		const ObjectType type_ = ObjectType::GENERIC;
 	};
 }

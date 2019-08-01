@@ -22,6 +22,8 @@ namespace sgeui {
 		void setSize(int w, int h);
 		inline Pair<int, int> getSize() { return { width_, height_ }; }
 
+		void close();
+
 		EVENT_HANDLER(WindowResize, {
 			return true;
 		});
@@ -32,20 +34,61 @@ namespace sgeui {
 	//The toolbar (without the toolbar)
 	class WindowBanner : public RenderableComponent {
 	public:
-		WindowBanner(int w, int h, int xPos, int yPos);
+		WindowBanner(int w, int h, int xPos, int yPos, Window* parent);
+
+	private:
+		Window* parent_;
 	};
 
 	//The actual main portion of the window
 	class WindowSurface : public RenderableComponent {
 	public:
-		WindowSurface(int w, int h, int xPos, int yPos);
+		WindowSurface(int w, int h, int xPos, int yPos, Window* parent);
+
+	private:
+		Window* parent_;
 	};
 
 	//The thing with the close, minimize and maximize buttons
 	class WindowHelper : public Component {
 	public:
 		//x, y is the ur point of the Window
-		WindowHelper(int x, int y);
+		WindowHelper(int x, int y, Window* parent);
+
+	private:
+		Window* parent_;
+	};
+
+	class CloseButton : public RenderableComponent {
+	public:
+		CloseButton(int x, int y, Window* parent);
+
+		inline auto unpackByStaticCasting(sge::PackedTextureType t) {
+			setUvBounds(static_cast<sge::PackedTexture*>(rsc_->get())->unpackTexture(t));
+		}
+		EVENT_HANDLER(Click, {
+			//Close the parent Window
+			parent_->close();
+			return true;
+		});
+		EVENT_HANDLER(Hover, {
+			if (event->target != this) { return true; }
+
+			state_ = sge::PackedTextureType::HOVER;
+			unpackByStaticCasting(state_);
+			return true;
+		});
+		EVENT_HANDLER(HoverLost, {
+			if (event->target != this) { return true; }
+
+			state_ = sge::PackedTextureType::NORMAL;
+			unpackByStaticCasting(state_);
+			return true;
+		});
+
+	private:
+		Window* parent_;
+		sge::PackedTextureType state_ = sge::PackedTextureType::NORMAL;
 	};
 
 	/*//From ...MouseState.cpp

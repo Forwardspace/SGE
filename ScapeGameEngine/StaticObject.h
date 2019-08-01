@@ -34,6 +34,6 @@ namespace sge {
 		Texture objectTexture_;
 		bool useDefaultTexture = true;
 
-		const ObjectType::Enum type_ = ObjectType::STATIC;
+		const ObjectType type_ = ObjectType::STATIC;
 	};
 }

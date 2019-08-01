@@ -47,26 +47,11 @@ namespace sgeui {
 		bool render = true;
 		int i = 0;
 		for (auto w : windows) {
-			RAISE_EVENT(w, RedrawEvent(true, false));
+			RAISE_EVENT(w, new RedrawEvent(true, false));
 		}
 
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
-	}
-
-	void onMousePosUpdate(int mouseX, int mouseY) {
-		mousePosX = mouseX;
-		mousePosY = mouseY;
-
-		//Update the internal states of all Components
-		//updateStateOnMousePosChange(mouseX, mouseY);
-	}
-
-	void onMouseButtonUpdate(int key, bool pressed) {
-		mouseButtons[key] = pressed;
-
-		//Update all of the positions, relations and states of all Components
-		//updateStateOnMouseButtonChange(key, pressed);
 	}
 }

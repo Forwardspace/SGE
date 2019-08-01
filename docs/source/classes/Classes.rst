@@ -7,3 +7,4 @@ Classes
 	*
 	objects/Objects
 	textures/Textures
+	misc/Miscellaneous

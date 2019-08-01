@@ -65,6 +65,7 @@ namespace sgeui {
 	using IndexArray = std::vector<GLuint>;
 	using UVArray = PointArray;
 
+	class Component;
 	class RenderableComponent;
 
 	///// EVENTS ////
@@ -78,8 +79,19 @@ namespace sgeui {
 		RenderableComponent* target;
 	};
 
-	struct FocusedEvent : public Event { FocusedEvent() { REGISTER_EVENT(FocusedEvent) } };
-	struct UnfocusedEvent : public Event { UnfocusedEvent() { REGISTER_EVENT(UnfocusedEvent) } };
+	struct FocusEvent : public Event { FocusEvent() { REGISTER_EVENT(FocusEvent) } };
+	struct UnfocusEvent : public Event { UnfocusEvent() { REGISTER_EVENT(UnfocusEvent) } };
+
+	struct HoverEvent : public Event { 
+		HoverEvent(Component* c) : target(c) { REGISTER_EVENT(HoverEvent); } 
+	
+		Component* target;
+	};
+	struct HoverLostEvent : public Event {
+		HoverLostEvent(Component* c) : target(c) { REGISTER_EVENT(HoverLostEvent); }
+
+		Component* target;
+	};
 
 	struct MouseDownEvent : public Event {
 		MouseDownEvent(int x, int y) : mX(x), mY(y) { REGISTER_EVENT(MouseDownEvent) }
@@ -92,13 +104,13 @@ namespace sgeui {
 		int mX, mY;
 	};
 
-	struct ClickedEvent : public Event {
-		ClickedEvent(int x, int y) : mX(x), mY(y) { REGISTER_EVENT(ClickedEvent) }
+	struct ClickEvent : public Event {
+		ClickEvent(int x, int y) : mX(x), mY(y) { REGISTER_EVENT(ClickEvent) }
 		//Mouse pos when the click happened
 		int mX, mY;
 	};
-	struct DraggedEvent : public Event {
-		DraggedEvent(int x, int y) : newX(x), newY(y) { REGISTER_EVENT(DraggedEvent) }
+	struct DragEvent : public Event {
+		DragEvent(int x, int y) : newX(x), newY(y) { REGISTER_EVENT(DragEvent) }
 		//The new position
 		int newX, newY;
 	};

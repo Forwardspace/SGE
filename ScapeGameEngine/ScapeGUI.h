@@ -18,6 +18,6 @@ namespace sgeui {
 	void init(GLFWwindow* wind, int w, int h);
 	void render();
 
-	void onMousePosUpdate(int posX, int posY);
-	void onMouseButtonUpdate(int button, bool pressed);
+	extern void onMousePosUpdate(int posX, int posY);
+	extern void onMouseButtonUpdate(int button, bool pressed);
 }

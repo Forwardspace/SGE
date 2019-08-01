@@ -19,22 +19,22 @@ namespace sge {
 		}
 
 		//Translate all types in the XML document
-		//into PackedTextureType::Enum values
+		//into PackedTextureType values
 		auto currentType = root->first_node("type");
 		while (currentType) {
 			std::string type = currentType->value();
 
 			if (type == "NORMAL") {
-				types.push_back(PackedTextureType::Enum::NORMAL);
+				types.push_back(PackedTextureType::NORMAL);
 			}
 			else if (type == "HOVER") {
-				types.push_back(PackedTextureType::Enum::HOVER);
+				types.push_back(PackedTextureType::HOVER);
 			}
 			else if (type == "CLICK") {
-				types.push_back(PackedTextureType::Enum::CLICK);
+				types.push_back(PackedTextureType::CLICK);
 			}
 			else if (type == "DISABLED") {
-				types.push_back(PackedTextureType::Enum::DISABLED);
+				types.push_back(PackedTextureType::DISABLED);
 			}
 			else {
 				throw std::runtime_error("Error: undefined XML value encountered! Don't mess with XMLs!");
@@ -47,7 +47,7 @@ namespace sge {
 	PackedTexture::~PackedTexture() {
 	}
 
-	std::array<glm::vec2, 2> PackedTexture::unpackTexture(PackedTextureType::Enum type) {
+	std::array<glm::vec2, 2> PackedTexture::unpackTexture(PackedTextureType type) {
 		int index = -1;
 		//First search the types vector for the first of type
 		for (int i = 0; i < types.size(); i++) {

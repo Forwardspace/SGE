@@ -9,7 +9,7 @@
 namespace sgeui {
 	std::vector<Window*> windows;
 
-	int bannerHeight = 30;	//px
+	int bannerHeight = 27;	//px
 
 	Window::Window(int w, int h, int xPos, int yPos) : Component(xPos, yPos, w, h) {
 		//Create the window, composed of a banner and surface
@@ -23,10 +23,10 @@ namespace sgeui {
 			h = 100;
 		}
 
-		auto surface = new WindowSurface(w, h - bannerHeight, xPos, yPos + bannerHeight / 2);
+		auto surface = new WindowSurface(w, h - bannerHeight, xPos, yPos + bannerHeight / 2, this);
 		addChild(surface);
 
-		auto banner = new WindowBanner(w, bannerHeight, xPos, yPos);
+		auto banner = new WindowBanner(w, bannerHeight, xPos, yPos, this);
 		addChild(banner);
 	}
 
@@ -37,7 +37,14 @@ namespace sgeui {
 	}
 
 	void Window::setSize(int w, int h) {
-		RAISE_EVENT(this, WindowResizeEvent(w, h), this);
+		RAISE_EVENT(this, new WindowResizeEvent(w, h));
+	}
+
+	void Window::close() {
+		//Erase this from windows
+		windows.erase(std::find(windows.begin(), windows.end(), this));
+
+		this->~Window();
 	}
 
 	constexpr std::pair<Point2D, Point2D> getBannerUV() {
@@ -49,46 +56,43 @@ namespace sgeui {
 		return { { 0.05, 0.55 }, { 0.95, 0.95 } };
 	}
 
-	WindowBanner::WindowBanner(int w, int h, int xPos, int yPos) 
-		: RenderableComponent(xPos, yPos, w, h, defaultTheme) {
+	WindowBanner::WindowBanner(int w, int h, int xPos, int yPos, Window* parent) 
+		: RenderableComponent(xPos, yPos, w, h, defaultTheme), parent_(parent) {
 
 		//The texture for the banner is in the bottom half of the theme texture
 		std::tie(uvBl_, uvUr_) = getBannerUV();
 
 		//The window banner also contains a window helper
 		Point2D ur = { xPos + w, yPos };
-		auto wh = new WindowHelper(ur.x, ur.y);
+		auto wh = new WindowHelper(ur.x, ur.y, parent);
 		addChild(wh);
 	}
 
-	WindowSurface::WindowSurface(int w, int h, int xPos, int yPos)
-		: RenderableComponent(xPos, yPos, w, h, defaultTheme) {
+	WindowSurface::WindowSurface(int w, int h, int xPos, int yPos, Window* parent)
+		: RenderableComponent(xPos, yPos, w, h, defaultTheme), parent_(parent) {
 		
 		//The texture for the surface, on the other hand, is in the bottom half
 		std::tie(uvBl_, uvUr_) = getSurfaceUV();
 	}
 
-	const std::string closeButtonTexture = "close_button_tex";
-	WindowHelper::WindowHelper(int x, int y) : Component(0, 0, x, y) {
-
-		auto closeButtonTex = TextureManager::get(closeButtonTexture);
-		if (!closeButtonTex) {
-			std::cout << "CRITICAL ERROR: Unable to load " << closeButtonTex << std::endl;
-			throw std::runtime_error("CRITICAL ERROR: unable to load texture");
-		}
-
-		auto packedCloseButtonTex = dynamic_cast<sge::PackedTexture*>(closeButtonTex->get());
-
-		RenderableComponent* closeButton = new RenderableComponent(
-			x - bannerHeight,
-			y,
-			bannerHeight,
-			bannerHeight,
-			closeButtonTex
-		);
-		closeButton->setUvBounds(packedCloseButtonTex->unpackTexture(sge::PackedTextureType::NORMAL));
-
+	WindowHelper::WindowHelper(int x, int y, Window* parent) : Component(0, 0, x, y), parent_(parent) {
+		CloseButton* closeButton = new CloseButton(x - bannerHeight, y, parent);
 		addChild(closeButton);
+	}
+
+	const std::string closeButtonTexture = "close_button_tex";
+
+	CloseButton::CloseButton(int x, int y, Window* parent) : 
+		RenderableComponent(x, y, bannerHeight, bannerHeight, TextureManager::get(closeButtonTexture)), parent_(parent) {
+
+		unpackByStaticCasting(sge::PackedTextureType::NORMAL);
+
+		intDesc.isClickable = true;
+		intDesc.isHoverable = true;
+
+		HANDLES_EVENT(Click);
+		HANDLES_EVENT(Hover);
+		HANDLES_EVENT(HoverLost);
 	}
 
 	/*int bannerHeight = 50;
@@ -168,7 +172,7 @@ namespace sgeui {
 	///////////////////////////////////
 
 	void WindowBanner::update() {
-		ClickState::Enum state = getClickState(this);
+		ClickState state = getClickState(this);
 		if (state == ClickState::CLICK_AND_DRAG) {
 			//Relocate the parent Window to the mouse location
 			//as long as the mouse button is held down
@@ -257,7 +261,7 @@ namespace sgeui {
 
 	////////////////////////////////////
 
-	std::array<glm::vec2, 2> getUVsFromState(ClickState::Enum state, sge::PackedTexture* tex) {
+	std::array<glm::vec2, 2> getUVsFromState(ClickState state, sge::PackedTexture* tex) {
 		if (state == ClickState::CLICKED) {
 			return tex->unpackTexture(sge::PackedTextureType::RELEASED);
 		}
@@ -336,7 +340,7 @@ namespace sgeui {
 		//Update the UVs based on state
 		sge::PackedTexture* tex = packedTextures[children[0]->textureIndex()];
 
-		ClickState::Enum state = getClickState(children[0]);
+		ClickState state = getClickState(children[0]);
 
 		if (state == ClickState::CLICKED) {
 			//Delete the parent window

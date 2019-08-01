@@ -90,29 +90,31 @@ struct Event {
 
 class EventHandler {
 public:
-	EventHandler(std::function<bool(Event&)> ftc) : forwardToChildren(ftc) {}
+	EventHandler(std::function<bool(Event*)> ftc) : forwardToChildren(ftc) {}
 
 	inline void handles(std::string e, std::function<EVENT_HANDLER_SIG> h) { handlers[e] = h; }
 	inline void doesNotHandle(std::string e) { handlers[e] = nullptr; }
 
 	//Look up the handler for the event and call it if it exists
-	inline bool handle(Event& e) {
-		auto& a = handlers[e.name];
+	inline bool handle(Event* e) {
+		auto& a = handlers[e->name];
 
 		bool res = true;
 		if (a) {
 			//Yes, it exists; call it
-			res = a(&e);
+			res = a(e);
 		}
 
 		//(forwardToChildren can also be nullptr)
 		if (forwardToChildren && !forwardToChildren(e)) {
 			return false;
 		}
+
+		delete e;
 		return res;
 	}
 
 private:
 	std::map<std::string, std::function<EVENT_HANDLER_SIG>> handlers;
-	std::function<bool(Event&)> forwardToChildren;
+	std::function<bool(Event*)> forwardToChildren;
 };

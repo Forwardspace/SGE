@@ -2,11 +2,11 @@
 
 namespace sge {
 	GLuint BufferManager::EAB_ = NULL;
-	std::map<int, GLuint> BufferManager::VBOs_;
-	std::map<int, GLuint> BufferManager::FBOs_;
-	std::map<int, GLuint> BufferManager::VAOs_;
+	std::map<VBOType, GLuint> BufferManager::VBOs_;
+	std::map<FBOType, GLuint> BufferManager::FBOs_;
+	std::map<VAOType, GLuint> BufferManager::VAOs_;
 
-	GLuint BufferManager::VAO(VAOType::Enum type) {
+	GLuint BufferManager::VAO(VAOType type) {
 		if (VAOs_[type] == NULL) {
 			//No VAO bound, make one
 			GLuint VAO = NULL;
@@ -23,7 +23,7 @@ namespace sge {
 		return VAOs_[type];
 	}
 
-	GLuint BufferManager::VBO(VBOType::Enum type) {
+	GLuint BufferManager::VBO(VBOType type) {
 		if (VBOs_[type] == NULL) {
 			//No VBO found, make one
 			GLuint VBO = NULL;
@@ -56,7 +56,7 @@ namespace sge {
 		return EAB_;
 	}
 
-	GLuint BufferManager::FBO(FBOType::Enum type) {
+	GLuint BufferManager::FBO(FBOType type) {
 		if (FBOs_[type] == NULL) {
 			//No FBO found, make one
 			GLuint newFBO = NULL;

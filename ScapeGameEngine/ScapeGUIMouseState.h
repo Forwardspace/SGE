@@ -1,24 +1,11 @@
 #pragma once
 #include "ScapeGUI.h"
 
-/*namespace sgeui {
-	namespace ClickState {
-		enum Enum {
-			NONE,
-			HOVER,
-			CLICKED,
-			AWAITING_BUTTON_RELEASE,
-			CLICK_AND_DRAG
-		};
-	}
+namespace sgeui {
+	extern Component* affectedComponent;
 
-	void updateClickStates();
-	ClickState::Enum getClickState(RenderableQuad* rq);
-
-	//////
-	extern RenderableQuad* affectedRQ;
-	extern ClickState::Enum clickState;
-	//////
+	extern void onMousePosUpdate(int posX, int posY);
+	extern void onMouseButtonUpdate(int button, bool pressed);
 
 	extern int defaultInteractMouseButton;
-}*/
+}

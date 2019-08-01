@@ -2,12 +2,119 @@
 #include "ScapeGUIRendering.h"
 #include "ScapeGUIWindowWidgets.h"
 
-#include "GLFWIOManager.h"
+#include "UserInputManager.h"
+
+namespace sgeui {
+	Component* affectedComponent = nullptr;
+
+	bool mouseIsInArea(Component* c) {
+		const Point2D bl = { c->pos().x, c->pos().y + c->dimensions().second };
+		const Point2D ur = { c->pos().x + c->dimensions().first, c->pos().y  };
+
+		const int mX = mousePosX;
+		const int mY = mousePosY;
+
+		if (mX > bl.x && mX < ur.x) {
+			if (mY < bl.y && mY > ur.y) {
+				//We've got a hit!
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	inline void sendHoverLostEvent() {
+		if (!affectedComponent) {
+			return;
+		}
+
+		RAISE_EVENT(affectedComponent, new HoverLostEvent(affectedComponent));
+		affectedComponent->intDesc.hovered = false;
+
+		affectedComponent = nullptr;
+	}
+
+	bool checkChildrenOnMousePosChange(int mouseX, int mouseY, Component* w) {
+		bool retval = false;
+		//Starting from the back, check if any of the window's children
+		//are affected
+		for (auto comp = w->children_.rbegin(); comp < w->children_.rend(); comp++) {
+			if (mouseIsInArea(*comp)) {
+				//The mouse is in the area of the component;
+				//Recursively narrow down the affected components
+				if (!checkChildrenOnMousePosChange(mouseX, mouseY, *comp)) {
+					//Ok, nothing further found, this is the affected one
+
+					if (!(*comp)->intDesc.render) {
+						//...except it isn't, because it's not even visible
+						continue;
+					}
+
+					//First notify the previously hovered component that it is not being
+					//hovered anymore
+					if (affectedComponent && affectedComponent != *comp) {
+						sendHoverLostEvent();
+					}
+
+					//Now notify the new one
+					affectedComponent = *comp;
+					affectedComponent->intDesc.hovered = true;
+					
+					RAISE_EVENT(affectedComponent, new HoverEvent(affectedComponent));
+
+					retval = true;
+				}
+			}
+		}
+
+		return retval;
+	}
+
+	void updateStateOnMousePosChange(int mouseX, int mouseY) {
+		//Starting from the back (from the front of the screen)
+		//check the first component that is affected
+
+		for (auto windIt = windows.rbegin(); windIt < windows.rend(); windIt++) {
+			if (mouseIsInArea(*windIt)) {
+				//The affected component is in this window
+
+				if (!checkChildrenOnMousePosChange(mouseX, mouseY, *windIt)) {
+					//None was found
+					if (!affectedComponent) {
+						return;
+					}
+
+					sendHoverLostEvent();
+				}
+				return;
+			}
+		}
+
+		//Absolutely nothing is being hovered
+		sendHoverLostEvent();
+	}
+
+	void onMousePosUpdate(int mouseX, int mouseY) {
+		mousePosX = mouseX;
+		mousePosY = mouseY;
+
+		//Update the internal states of all Components
+		updateStateOnMousePosChange(mouseX, mouseY);
+	}
+
+	void onMouseButtonUpdate(int key, bool pressed) {
+		mouseButtons[key] = pressed;
+
+		//Update all of the positions, relations and states of all Components
+		//updateStateOnMouseButtonChange(key, pressed);
+	}
+}
 
 /*namespace sgeui {
 	int defaultInteractMouseButton = GLFW_MOUSE_BUTTON_1;
 	RenderableQuad* affectedRQ = nullptr;
-	ClickState::Enum clickState = ClickState::NONE;
+	ClickState clickState = ClickState::NONE;
 
 	inline bool mouseClicked() {
 		return sge::GLFWIOManager::mouseKeyStatus(defaultInteractMouseButton);
@@ -24,7 +131,7 @@
 		static bool awaitingButtonRelease = false;
 
 		bool hits = hit(rq->bl(), rq->ur());
-		ClickState::Enum currentState = ClickState::NONE;
+		ClickState currentState = ClickState::NONE;
 
 		if (!rq->renderRenderable) {
 			//Invisible renderables are not affected
@@ -128,7 +235,7 @@
 		}
 	}
 
-	ClickState::Enum getClickState(RenderableQuad* rq) {
+	ClickState getClickState(RenderableQuad* rq) {
 		if (affectedRQ == rq) {
 			return clickState;
 		}

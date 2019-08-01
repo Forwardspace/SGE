@@ -11,7 +11,7 @@
 
 namespace sgeui {
 	class Component;
-	bool forwardEventToChildren(Component* c, Event& e);
+	bool forwardEventToChildren(Component* c, Event* e);
 
 	struct InteractionDescriptor {
 		bool render = true;
@@ -19,7 +19,9 @@ namespace sgeui {
 		bool isClickable = false;
 		bool isDraggable = false;
 
+		//These are primarily for ...MouseState.cpp
 		bool mouseIsDown = false;
+		bool hovered = false;
 	};
 
 	class Component {
@@ -62,7 +64,8 @@ namespace sgeui {
 
 		std::vector<Component*> children_;
 
-		friend bool forwardEventToChildren(Component* c, Event& e);
+		friend bool forwardEventToChildren(Component* c, Event* e);
+		friend bool checkChildrenOnMousePosChange(int mouseX, int mouseY, Component* w);
 	};
 
 	class RenderableComponent : public Component {
@@ -71,13 +74,15 @@ namespace sgeui {
 			Component(x, y, width, height), rsc_(rsc) {
 			
 			HANDLES_EVENT(Redraw);
+
+			intDesc.render = true;
 		}
 		///
 		EVENT_HANDLER(Redraw, {
 			//Draw this on the screen
 			event->calleeIsQuad = true;
 			event->target = this;
-			RAISE_MASTER_EVENT(*event);
+			RAISE_MASTER_EVENT(event);
 
 			return true;
 		});
@@ -85,9 +90,7 @@ namespace sgeui {
 		inline void setTextureResource(TextureResource* rsc) { rsc_ = rsc; }
 		inline TextureResource* textureResource() { return rsc_; }
 		///
-		inline bool render(Component* source = nullptr) { return RAISE_EVENT(this, RedrawEvent(true, true)); }
-
-		InteractionDescriptor intDesc;
+		inline bool render(Component* source = nullptr) { return RAISE_EVENT(this, new RedrawEvent(true, true)); }
 
 	protected:
 		TextureResource* rsc_ = nullptr;

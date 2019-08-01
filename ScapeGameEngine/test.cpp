@@ -8,7 +8,7 @@ int main() {
 #else
 void mainTest() {
 #endif
-	sge::Renderer::init(1200, 1000, "A SGE Test", false);
+	sge::Renderer::init(1024, 768, "A SGE Test", false);
 
 	sge::StaticObject pallet(".\\models\\pallet.obj");
 	sge::StaticObject pallet2(".\\models\\pallet.obj");
@@ -28,8 +28,8 @@ void mainTest() {
 	sge::Camera maincam(0, 0.5, 1.8);
 	sge::Renderer::setCurrentCamera(&maincam);
 
-	auto aW = new sgeui::Window(500, 500, 150, 10);
-	//auto bW = new sgeui::Window(350, 400, -100, 100);
+	auto aW = new sgeui::Window(250, 250, 150, 10);
+	auto bW = new sgeui::Window(350, 400, 500, 100);
 	
 	//auto snap = new sgeui::WindowSnapArea({ -1, -1 }, { -0.5, -0.5 }, 500, 500, 0, 0);
 

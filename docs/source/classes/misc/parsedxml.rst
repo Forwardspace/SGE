@@ -1,8 +1,8 @@
 ParsedXML
 =========
 
-This class manages an instance of the rapidxml::xmldocument<> class.
-As such, it provides a way to access keys and values inide an XML document.
+This class is a wrapper around the ``rapidxml::xmldocument<>`` class.
+As such, it provides a way to parse and, more importantly, access an XML document.
 
 How to use it?
 --------------
@@ -26,4 +26,4 @@ Find nodes anywhere from root down:
 
 	auto myNode = myXMLDoc.findNode("Brightness");
 
-..note:: For information on accessing and manipulating nodes, see http://rapidxml.sourceforge.net/manual.html
+.. note:: For information on accessing and manipulating nodes, see http://rapidxml.sourceforge.net/manual.html
