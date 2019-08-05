@@ -4,8 +4,15 @@
 
 #include "UserInputManager.h"
 
+//Note: because this is state-heavy code, I chose to use very descriptive names when
+//naming functions and variables.
+
 namespace sgeui {
 	Component* affectedComponent = nullptr;
+
+	//Store it seperately because dragging can occur outside of 
+	//boundaries of components
+	Component* draggedComponent = nullptr;
 
 	bool mouseIsInArea(Component* c) {
 		const Point2D bl = { c->pos().x, c->pos().y + c->dimensions().second };
@@ -17,7 +24,7 @@ namespace sgeui {
 		if (mX > bl.x && mX < ur.x) {
 			if (mY < bl.y && mY > ur.y) {
 				//We've got a hit!
-				return true;
+				return true;  
 			}
 		}
 
@@ -29,25 +36,25 @@ namespace sgeui {
 			return;
 		}
 
-		RAISE_EVENT(affectedComponent, new HoverLostEvent(affectedComponent));
+		RAISE_EVENT(affectedComponent, new HoverLostEvent());
 		affectedComponent->intDesc.hovered = false;
 
 		affectedComponent = nullptr;
 	}
 
-	bool checkChildrenOnMousePosChange(int mouseX, int mouseY, Component* w) {
+	bool checkChildrenOnMousePosChange(int mouseX, int mouseY, Component* c) {
 		bool retval = false;
 		//Starting from the back, check if any of the window's children
 		//are affected
-		for (auto comp = w->children_.rbegin(); comp < w->children_.rend(); comp++) {
-			if (mouseIsInArea(*comp)) {
+		for (auto comp = c->children_.rbegin(); comp < c->children_.rend(); comp++) {
+			if (mouseIsInArea(*comp) || !(*comp)->intDesc.render) {		//Ignore the position of non-renderable components
 				//The mouse is in the area of the component;
 				//Recursively narrow down the affected components
 				if (!checkChildrenOnMousePosChange(mouseX, mouseY, *comp)) {
 					//Ok, nothing further found, this is the affected one
 
-					if (!(*comp)->intDesc.render) {
-						//...except it isn't, because it's not even visible
+					if (!(*comp)->intDesc.render || !(*comp)->intDesc.isHoverable) {
+						//...except it isn't, because it's not visible or hoverable
 						continue;
 					}
 
@@ -61,9 +68,14 @@ namespace sgeui {
 					affectedComponent = *comp;
 					affectedComponent->intDesc.hovered = true;
 					
-					RAISE_EVENT(affectedComponent, new HoverEvent(affectedComponent));
+					if (affectedComponent->intDesc.isHoverable) {
+						RAISE_EVENT(affectedComponent, new HoverEvent());
 
-					retval = true;
+						retval = true;
+					}
+				}
+				else {
+					return true;
 				}
 			}
 		}
@@ -95,9 +107,65 @@ namespace sgeui {
 		sendHoverLostEvent();
 	}
 
+	void updateDraggedStateOnMousePosChange(int mouseX, int mouseY) {
+		if (draggedComponent) {
+			RAISE_EVENT(draggedComponent, new DragEvent(mousePosX, mousePosY));
+		}
+	}
+
+	void updateOnInteractDown() {
+		//No need to loop through all components; only update the affected one
+		if (affectedComponent) {
+			if (affectedComponent->intDesc.mouseIsDown) {
+				//Mouse is already down; nothing to do
+				return;
+			}
+			affectedComponent->intDesc.mouseIsDown = true;
+			
+			if (affectedComponent->intDesc.isDraggable) {
+				RAISE_EVENT(affectedComponent, new DragStartEvent(mousePosX, mousePosY));
+				draggedComponent = affectedComponent;
+			}
+			else {
+				//Just raise a normal mouse down event
+				RAISE_EVENT(affectedComponent, new MouseDownEvent(mousePosX, mousePosY));
+			}
+		}
+	}
+
+	void updateOnInteractUp() {
+		draggedComponent = nullptr;
+
+		if (affectedComponent) {
+			if (!affectedComponent->intDesc.mouseIsDown) {
+				//Again, nothing to do
+				return;
+			}
+			else {
+				//Mouse was down, now it's up: we've got a click (or a drag end)!
+				affectedComponent->intDesc.mouseIsDown = false;
+
+				if (affectedComponent->intDesc.isClickable) {
+					RAISE_EVENT(affectedComponent, new ClickEvent(mousePosX, mousePosY));
+				}
+			}
+		}
+	}
+
+	void updateStateOnInteractButtonChange(bool pressed) {
+		if (pressed) {
+			updateOnInteractDown();
+		}
+		else {
+			updateOnInteractUp();
+		}
+	}
+
 	void onMousePosUpdate(int mouseX, int mouseY) {
 		mousePosX = mouseX;
 		mousePosY = mouseY;
+
+		updateDraggedStateOnMousePosChange(mouseX, mouseY);
 
 		//Update the internal states of all Components
 		updateStateOnMousePosChange(mouseX, mouseY);
@@ -106,8 +174,9 @@ namespace sgeui {
 	void onMouseButtonUpdate(int key, bool pressed) {
 		mouseButtons[key] = pressed;
 
-		//Update all of the positions, relations and states of all Components
-		//updateStateOnMouseButtonChange(key, pressed);
+		if (key == defaultInteractMouseButton) {
+			updateStateOnInteractButtonChange(pressed);
+		}
 	}
 }
 

@@ -83,14 +83,10 @@ namespace sgeui {
 	struct UnfocusEvent : public Event { UnfocusEvent() { REGISTER_EVENT(UnfocusEvent) } };
 
 	struct HoverEvent : public Event { 
-		HoverEvent(Component* c) : target(c) { REGISTER_EVENT(HoverEvent); } 
-	
-		Component* target;
+		HoverEvent() { REGISTER_EVENT(HoverEvent); } 
 	};
 	struct HoverLostEvent : public Event {
-		HoverLostEvent(Component* c) : target(c) { REGISTER_EVENT(HoverLostEvent); }
-
-		Component* target;
+		HoverLostEvent() { REGISTER_EVENT(HoverLostEvent); }
 	};
 
 	struct MouseDownEvent : public Event {
@@ -109,9 +105,15 @@ namespace sgeui {
 		//Mouse pos when the click happened
 		int mX, mY;
 	};
+	
+	struct DragStartEvent : public Event {
+		DragStartEvent(int x, int y) : oldX(x), oldY(y) { REGISTER_EVENT(DragStartEvent) }
+		//The starting mouse position
+		int oldX, oldY;
+	};
 	struct DragEvent : public Event {
 		DragEvent(int x, int y) : newX(x), newY(y) { REGISTER_EVENT(DragEvent) }
-		//The new position
+		//The new mouse position
 		int newX, newY;
 	};
 

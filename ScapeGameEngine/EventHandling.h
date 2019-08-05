@@ -77,13 +77,19 @@
 #define MASTER_DOES_NOT_HANDLE(eventName) \
 	masterEH.doesNotHandle(PRE_STRINGIFY_IND(PRE_CONCAT(eventName, Event)))
 
-#define RAISE_EVENT(object, event) object->EH.handle(event)
-#define RAISE_MASTER_EVENT(event) masterEH.handle(event)
+//Call this with a new Event allocated from the heap
+#define RAISE_EVENT(object, event) object->EH.raise((void*)object, event)
+#define RAISE_MASTER_EVENT(event) masterEH.raise(nullptr, event)
+
+//Call this without creating a new Event
+#define FORWARD_EVENT(object, event) object->EH.handle(event)
+#define FORWARD_MASTER_EVENT(event) masterEH.handle(event);
 
 #define EVENT_HANDLER_SIG bool(Event*)
 
 struct Event {
 	std::string name = "Event";
+	void* target;
 
 	virtual ~Event() = default;
 };
@@ -110,7 +116,15 @@ public:
 			return false;
 		}
 
+		return res;
+	}
+
+	inline bool raise(void* target, Event* e) {
+		e->target = target;
+
+		bool res = handle(e);
 		delete e;
+
 		return res;
 	}
 

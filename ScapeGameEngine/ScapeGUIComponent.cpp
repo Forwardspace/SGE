@@ -28,7 +28,7 @@ namespace sgeui {
 
 	bool forwardEventToChildren(Component* c, Event* e) {
 		for (auto& child : c->children_) {
-			if (!RAISE_EVENT(child, e)) {
+			if (!FORWARD_EVENT(child, e)) {
 				return false;
 			}
 		}

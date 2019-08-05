@@ -12,6 +12,8 @@ namespace sgeui {
 	int bannerHeight = 27;	//px
 
 	Window::Window(int w, int h, int xPos, int yPos) : Component(xPos, yPos, w, h) {
+		HANDLES_EVENT(WindowResize);
+
 		//Create the window, composed of a banner and surface
 		windows.push_back(this);
 		
@@ -31,8 +33,11 @@ namespace sgeui {
 	}
 
 	Window::~Window() {
-		for (auto& child : children_) {
-			delete& child;
+		//Remove this window from windows
+		windows.erase(std::find(windows.begin(), windows.end(), this));
+
+		for (auto child : children_) {
+			delete child;
 		}
 	}
 
@@ -40,11 +45,8 @@ namespace sgeui {
 		RAISE_EVENT(this, new WindowResizeEvent(w, h));
 	}
 
-	void Window::close() {
-		//Erase this from windows
-		windows.erase(std::find(windows.begin(), windows.end(), this));
-
-		this->~Window();
+	void Window::scheduleClose() {
+		RAISE_MASTER_EVENT(new WindowShouldCloseEvent(this));
 	}
 
 	constexpr std::pair<Point2D, Point2D> getBannerUV() {
@@ -58,6 +60,8 @@ namespace sgeui {
 
 	WindowBanner::WindowBanner(int w, int h, int xPos, int yPos, Window* parent) 
 		: RenderableComponent(xPos, yPos, w, h, defaultTheme), parent_(parent) {
+		HANDLES_EVENT(DragStart);
+		HANDLES_EVENT(Drag);
 
 		//The texture for the banner is in the bottom half of the theme texture
 		std::tie(uvBl_, uvUr_) = getBannerUV();
@@ -66,6 +70,10 @@ namespace sgeui {
 		Point2D ur = { xPos + w, yPos };
 		auto wh = new WindowHelper(ur.x, ur.y, parent);
 		addChild(wh);
+
+		//Enable dragging the banner
+		intDesc.isDraggable = true;
+		intDesc.isHoverable = true;
 	}
 
 	WindowSurface::WindowSurface(int w, int h, int xPos, int yPos, Window* parent)
@@ -75,7 +83,7 @@ namespace sgeui {
 		std::tie(uvBl_, uvUr_) = getSurfaceUV();
 	}
 
-	WindowHelper::WindowHelper(int x, int y, Window* parent) : Component(0, 0, x, y), parent_(parent) {
+	WindowHelper::WindowHelper(int x, int y, Window* parent) : Component(0, 0, 0, 0), parent_(parent) {
 		CloseButton* closeButton = new CloseButton(x - bannerHeight, y, parent);
 		addChild(closeButton);
 	}
@@ -93,6 +101,23 @@ namespace sgeui {
 		HANDLES_EVENT(Click);
 		HANDLES_EVENT(Hover);
 		HANDLES_EVENT(HoverLost);
+	}
+
+	void swapWindowOnTop(Window* newOnTop) {
+		//Find the location of the new window on top
+		auto newLoc = std::find(windows.begin(), windows.end(), newOnTop);
+
+		if (newLoc == windows.end()) {
+			throw std::runtime_error("Error: window could not be found in windows!");
+		}
+
+		for (auto i = newLoc + 1; i < windows.end(); i++) {
+			//Swap this element with the previous one
+			auto prev = *(i - 1);
+			
+			*(i - 1) = *i;
+			*i = prev;
+		}
 	}
 
 	/*int bannerHeight = 50;

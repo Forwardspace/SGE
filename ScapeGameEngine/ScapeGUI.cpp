@@ -5,6 +5,8 @@ namespace sgeui {
 	const extern int numMouseButtons;
 	std::array<bool, numMouseButtons> mouseButtons;
 
+	Window* windowAboutToClose = nullptr;
+
 	MASTER_LISTENER;
 
 	MASTER_EVENT_HANDLER(Redraw, {
@@ -23,6 +25,14 @@ namespace sgeui {
 
 			return true;
 	});
+	MASTER_EVENT_HANDLER(WindowShouldClose, {
+		//Schedule the window to close ASAP
+		windowAboutToClose = event->window;
+		//Note: this is because the window cannot destruct
+		//itself; it would also destruct the currently executing
+		//lambda
+		return true;
+	});
 
 	int defaultInteractMouseButton = GLFW_MOUSE_BUTTON_1;
 	int mousePosX = 0, mousePosY = 0;
@@ -31,6 +41,15 @@ namespace sgeui {
 		initSGEUI(wind, w, h);
 
 		MASTER_HANDLES_EVENT(Redraw);
+		MASTER_HANDLES_EVENT(WindowShouldClose);
+	}
+
+	void deleteWindowAboutToClose() {
+		if (windowAboutToClose) {
+			windowAboutToClose->~Window();
+
+			windowAboutToClose = nullptr;
+		}
 	}
 
 	void render() {
@@ -42,6 +61,8 @@ namespace sgeui {
 
 		setVertexPtrs();
 		updateMouseDelta();
+
+		deleteWindowAboutToClose();
 
 		//Recursively render all elements
 		bool render = true;

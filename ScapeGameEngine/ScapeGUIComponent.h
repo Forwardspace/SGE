@@ -22,6 +22,7 @@ namespace sgeui {
 		//These are primarily for ...MouseState.cpp
 		bool mouseIsDown = false;
 		bool hovered = false;
+		bool dragged = false;
 	};
 
 	class Component {
@@ -79,10 +80,10 @@ namespace sgeui {
 		}
 		///
 		EVENT_HANDLER(Redraw, {
-			//Draw this on the screen
+			//Draw this renderable component on the screen
 			event->calleeIsQuad = true;
 			event->target = this;
-			RAISE_MASTER_EVENT(event);
+			FORWARD_MASTER_EVENT(event);
 
 			return true;
 		});

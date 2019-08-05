@@ -7,10 +7,19 @@ namespace sgeui {
 	extern int windW, windH;
 	extern int defaultInteractMouseButton;
 
+	extern int mousePosX, mousePosY;
+	class Window;
+
 	class WindowResizeEvent : public Event {
 	public:
 		WindowResizeEvent(int newX, int newY) : newX(newX), newY(newY) { REGISTER_EVENT(WindowResizeEvent) }
+
 		int newX, newY;
+	};
+	struct WindowShouldCloseEvent : public Event {
+		WindowShouldCloseEvent(Window* w) : window(w) { REGISTER_EVENT(WindowShouldCloseEvent) }
+		
+		Window* window;
 	};
 
 	class Window : public Component {
@@ -22,7 +31,7 @@ namespace sgeui {
 		void setSize(int w, int h);
 		inline Pair<int, int> getSize() { return { width_, height_ }; }
 
-		void close();
+		void scheduleClose();
 
 		EVENT_HANDLER(WindowResize, {
 			return true;
@@ -31,13 +40,48 @@ namespace sgeui {
 
 	extern std::vector<Window*> windows;
 
+	//This puts the window newOnTop on the back
+	//of windows, thus making it appear on top
+	//of all other windows
+	void swapWindowOnTop(Window* newOnTop);
+
 	//The toolbar (without the toolbar)
 	class WindowBanner : public RenderableComponent {
 	public:
 		WindowBanner(int w, int h, int xPos, int yPos, Window* parent);
 
+		EVENT_HANDLER(DragStart, {
+			if (event->target != this) {
+				return true;
+			}
+
+			//Put the parent window on top
+			swapWindowOnTop(parent_);
+
+			dragOriginX = prevDragX = event->oldX;
+			dragOriginY = prevDragY = event->oldY;
+			return true;
+		});
+		EVENT_HANDLER(Drag, {
+			if (event->target != this) {
+				return true;
+			}
+			//Calculate the delta between the mouse pos at the
+			//previous mouse movement and the current mouse pos
+			int deltaX = mousePosX - prevDragX;
+			int deltaY = mousePosY - prevDragY;
+
+			prevDragX = mousePosX;
+			prevDragY = mousePosY;
+
+			parent_->moveBy(deltaX, deltaY);
+			return true;
+		});
 	private:
 		Window* parent_;
+
+		int dragOriginX = 0, dragOriginY = 0;
+		int prevDragX = 0, prevDragY = 0;
 	};
 
 	//The actual main portion of the window
@@ -68,7 +112,7 @@ namespace sgeui {
 		}
 		EVENT_HANDLER(Click, {
 			//Close the parent Window
-			parent_->close();
+			parent_->scheduleClose();
 			return true;
 		});
 		EVENT_HANDLER(Hover, {
