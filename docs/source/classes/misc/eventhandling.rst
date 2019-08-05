@@ -55,11 +55,17 @@ Simply use the ``EVENT_HANDLER(x, y)`` macros in your class' body:
 	...
 	EVENT_HANDLER(MouseDown, {
 		event->something = Something();
-		doSomethingWith(event);
+		if (doSomethingWith(event)) {
+			return true;
+		}
+		return false
 	});
 
 You can see that the name of the handler consists of the name of the event it handles without the ``Event`` part at the end.
 For example, a handler that handles ``SomethingHappensEvent`` will pass the name ``SomethingHappens`` to ``EVENT_HANDLER(x, y)``.
+
+The handler itself returns a bool. Return true if you were able to handle the event (or if you ignored it). The return value will
+be forwarded back up as the return value of the ``RAISE_EVENT`` macro.
 
 Inside the macro's block, you now have access to a pointer pre-casted to the required derived Event class named ``event``;
 no need to ``dynamic_cast`` anything!
@@ -77,7 +83,7 @@ Raising Events
 
 Use the ``RAISE_EVENT(x, y)`` macro like so:
 ::
-	RAISE_EVENT(someObjectInstancePointer, MouseDown(132, 168));
+	RAISE_EVENT(someObjectInstancePointer, new MouseDown(132, 168));
 
 The first argument is the object instance you wish to send the event to, and the second is the event itself.
 

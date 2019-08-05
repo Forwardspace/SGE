@@ -35,8 +35,8 @@ void mainTest() {
 	
 	//auto snap = new sgeui::WindowSnapArea({ -1, -1 }, { -0.5, -0.5 }, 500, 500, 0, 0);
 
-	//sge::FPSCamera::enable();
-	//sge::FPSCamera::speed = 0.01f;
+	sge::FPSCamera::enable();
+	sge::FPSCamera::speed = 0.01f;
 
 	float x = 1;
 
