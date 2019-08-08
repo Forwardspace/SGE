@@ -3,6 +3,8 @@
 #include "Texture.h"
 #include "EventHandling.h"
 
+#define SGEUI_BUFFER_ID 1000
+
 namespace sgeui {
 	struct Point2D {
 		float x = 0, y = 0;

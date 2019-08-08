@@ -13,8 +13,8 @@ namespace sgeui {
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_);
 	void loadResources();
 	void makeShaders();
-
 	void setVertexPtrs();
+
 	void updateMouseDelta();
 
 	extern int mouseDeltaX, mouseDeltaY;

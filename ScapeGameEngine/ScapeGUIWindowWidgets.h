@@ -99,40 +99,10 @@ namespace sgeui {
 		//x, y is the ur point of the Window
 		WindowHelper(int x, int y, Window* parent);
 
-	private:
-		Window* parent_;
-	};
-
-	class CloseButton : public RenderableComponent {
-	public:
-		CloseButton(int x, int y, Window* parent);
-
-		inline auto unpackByStaticCasting(sge::PackedTextureType t) {
-			setUvBounds(static_cast<sge::PackedTexture*>(rsc_->get())->unpackTexture(t));
-		}
-		EVENT_HANDLER(Click, {
-			//Close the parent Window
-			parent_->scheduleClose();
-			return true;
-		});
-		EVENT_HANDLER(Hover, {
-			if (event->target != this) { return true; }
-
-			state_ = sge::PackedTextureType::HOVER;
-			unpackByStaticCasting(state_);
-			return true;
-		});
-		EVENT_HANDLER(HoverLost, {
-			if (event->target != this) { return true; }
-
-			state_ = sge::PackedTextureType::NORMAL;
-			unpackByStaticCasting(state_);
-			return true;
-		});
+		void closeParent();
 
 	private:
 		Window* parent_;
-		sge::PackedTextureType state_ = sge::PackedTextureType::NORMAL;
 	};
 
 	/*//From ...MouseState.cpp

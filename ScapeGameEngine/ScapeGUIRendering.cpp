@@ -1,6 +1,8 @@
 #include "ScapeGUIRendering.h"
 
 namespace sgeui {
+	extern GLuint buffs[3];
+
 	void setupShadersForRendering(TextureResource* tx) {
 		//Similar to sge::StaticObject::render
 		//Activate the GUI shader program, bind the texture
@@ -30,7 +32,11 @@ namespace sgeui {
 
 	void renderQuad(RedrawEvent re, RenderableComponent* comp) {
 		glGetError();
-		//Quite similar to sge::StaticObject::render
+
+		sge::BufferManager::bindVAO(SGEUI_BUFFER_ID);
+
+		//Todo: optimize using glBufferSubdata
+		//do not forget to resize the buffers optimally
 
 		//Activate the GUI shader program, bind the texture
 		setupShadersForRendering(comp->textureResource());
@@ -40,8 +46,8 @@ namespace sgeui {
 
 		auto uv = comp->uvBounds();
 
-		Point2D bl = { 0, dim.second };
-		Point2D ur = { dim.first, 0 };
+		Point2D bl = { 0, (float)dim.second };
+		Point2D ur = { (float)dim.first, 0 };
 
 		//This will generate a rectangle bounded
 		//by these points
@@ -73,34 +79,34 @@ namespace sgeui {
 		//translate uniform in the shader)
 		sendMatrixToShaders(ortho);
 
-		//Now for the buffers:
-		//UVs
-		glBindBuffer(GL_ARRAY_BUFFER, sge::BufferManager::VBO(sge::VBOType::UV));
-		glBufferData(
-			GL_ARRAY_BUFFER,
-			ua.size() * sizeof(Point2D),
-			ua.data(),
-			GL_STATIC_DRAW
-		);
+		//Now for the buffers. Note: ScapeGUI does not append data directly
+		//Because the efficiency benefit in this instance is not that significant
 		//Vertices
-		glBindBuffer(GL_ARRAY_BUFFER, sge::BufferManager::VBO(sge::VBOType::VERTEX2D));
-		glBufferData(
-			GL_ARRAY_BUFFER,
+		glNamedBufferData(
+			buffs[0],
 			pa.size() * sizeof(Point2D),
 			pa.data(),
 			GL_STATIC_DRAW
 		);
+		//Texture coords
+		glNamedBufferData(
+			buffs[1],
+			ua.size() * sizeof(Point2D),
+			ua.data(),
+			GL_STATIC_DRAW
+		);
 		//Indices
-		//The index array is already bound
-		glBufferData(
-			GL_ELEMENT_ARRAY_BUFFER,
-			ia.size() * sizeof(GLuint),
+		glNamedBufferData(
+			buffs[2],
+			6 * sizeof(GLuint),		//6 indices in total
 			ia.data(),
 			GL_STATIC_DRAW
 		);
 
+		auto a = glGetError();
+
 		//And finally, issue the draw command:
-		glDrawElements(GL_TRIANGLES, (GLsizei)(ia.size()), GL_UNSIGNED_INT, (void*)0);
+		glDrawElements(GL_TRIANGLES, (GLsizei)6, GL_UNSIGNED_INT, (void*)0);
 
 		sge::ShaderManager::popActive();
 

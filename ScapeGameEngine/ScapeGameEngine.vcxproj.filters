@@ -153,6 +153,9 @@
     <ClInclude Include="EventHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScapeGUIWidgets.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -240,6 +243,9 @@
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="ScapeGUITextures.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScapeGUIWidgets.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,7 +3,7 @@
 
 namespace sge {
 	//The most important purpose of Camera is
-	//stroing its view matrix (and therefore, its 
+	//storing its view matrix (and therefore, its 
 	//position and orientation)
 	class Camera {
 	public:

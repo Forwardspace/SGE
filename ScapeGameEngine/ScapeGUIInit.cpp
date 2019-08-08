@@ -1,5 +1,5 @@
 #include "ScapeGUIInit.h"
-//#include "TextureManager.h"
+#include "TextureManager.h"
 #include "UserInputManager.h"
 #include "ParsedXML.h"
 
@@ -13,6 +13,7 @@ namespace sgeui {
 
 		loadResources();
 		makeShaders();
+		setVertexPtrs();
 	}
 
 	const fs::path resourcesRoot = "gui\\resources";
@@ -126,10 +127,31 @@ namespace sgeui {
 		GUIShaderProgram = quadShader;
 	}
 
+	GLuint buffs[3];	//vertex, texCoord and index buffers
 	void setVertexPtrs() {
-		//Just configure the VBO to accept 2D coordinates (instead of 3D)
-		glBindBuffer(GL_ARRAY_BUFFER, sge::BufferManager::VBO(sge::VBOType::VERTEX2D));
+		sge::BufferManager::bindVAO(SGEUI_BUFFER_ID);
+
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+
+		//Note: do not use sge::BufferManager as we are not batching meshes together;
+		//create everything manually once and store it in the VAO
+
+		glGenBuffers(3, buffs);
+
+		//Configure the vertex buffer to accept 2d coordinates
+		glBindBuffer(GL_ARRAY_BUFFER, buffs[0]);
 		glVertexAttribPointer(0, 2 /* <- The important part */, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+		//The texture coordinate array is similar
+		glBindBuffer(GL_ARRAY_BUFFER, buffs[1]);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+		//While we're here, bind the element array buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffs[2]);
+
+		//The buffer data is supplied in the render() function, for now
+		glBindVertexArray(0);
 	}
 
 	void updateMouseDelta() {

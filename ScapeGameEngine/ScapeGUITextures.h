@@ -12,7 +12,7 @@ namespace sgeui {
 
 		static void add(sgeui::TextureResource* rsc) { globalTextures_.push_back(rsc); }
 		static void add(sgeui::ThemeTextureResource* rsc) 
-			{ globalThemeIndices_.push_back(globalTextures_.size()); globalTextures_.push_back(rsc); }
+			{ globalThemeIndices_.push_back((int)globalTextures_.size()); globalTextures_.push_back(rsc); }
 		static void remove(int index) { globalTextures_.erase(globalTextures_.begin() + index); }
 
 		static sgeui::TextureResource* get(int index) { return globalTextures_[index]; }

@@ -1,64 +1,40 @@
 #include "StaticObject.h"
+#include "BufferManager.h"
 
 #ifndef SGE_INDEX_TYPE
 #define SGE_INDEX_TYPE GL_UNSIGNED_INT
 #endif
 
 namespace sge {
-	StaticObject::StaticObject() {
-	}
-
 	StaticObject::StaticObject(Mesh& msh) {
+		type_ = ObjectType::STATIC;
+
 		Renderer::registerObject(this);
-		objectMesh_ = msh;
+
+		BufferTargetDescriptor td(BufferID{ (unsigned int)type_, BufferType::VBO, 0 }, BufferUsageType::STATIC);
+		objectMesh_ = msh.moveToVBOs(td);
 	}
 
 	StaticObject::StaticObject(fs::path filename) {
+		type_ = ObjectType::STATIC;
+
 		Renderer::registerObject(this);
-		objectMesh_ = Mesh(filename);
+		auto mesh = Mesh(filename);
+
+		BufferTargetDescriptor td(BufferID{ (unsigned int)type_, BufferType::VBO, 0 }, BufferUsageType::STATIC);
+		objectMesh_ = mesh.moveToVBOs(td);
 	}
 
 	StaticObject::~StaticObject() {
 		Renderer::removeObject(this);
 	}
 
-	void StaticObject::clampAngles() {
-		rotX_ = (float)fmod(rotX_, 360);
-		rotY_ = (float)fmod(rotY_, 360);
-		rotZ_ = (float)fmod(rotZ_, 360);
-	}
-
-	void StaticObject::updateModelMatrix() {
-		clampAngles();
-
-		//Generate the rotation matrix by succesive rotations on every axis.
-		glm::mat4x4 rotMat = glm::mat4x4(1);
-		rotMat = glm::rotate(rotMat, rotX_, glm::vec3(1, 0, 0));
-		rotMat = glm::rotate(rotMat, rotY_, glm::vec3(0, 1, 0));
-		rotMat = glm::rotate(rotMat, rotZ_, glm::vec3(0, 0, 1));
-
-		glm::mat4x4 transMat = glm::translate(glm::mat4x4(1), glm::vec3(posX_, posY_, posZ_));
-		glm::mat4x4 scaleMat = glm::scale(glm::mat4x4(1), glm::vec3(scaleX_, scaleY_, scaleZ_));
-
-		cachedMatrix_ = transMat * rotMat * scaleMat;
-	}
-
-	glm::mat4x4 StaticObject::getMVP() {
-		if (transformNeedsUpdating) {
-			transformNeedsUpdating = false;
-			updateModelMatrix();
-		}
-
-		glm::mat4x4 view = Renderer::currentCamera()->viewMatrix();
-		glm::mat4x4 projection = Renderer::projectionMatrix();
-
-		return projection * view * cachedMatrix_;
-	}
-
 	void StaticObject::render() {
 		if (!renderObject) {
 			return;
 		}
+
+		glGetError();
 
 		//First get the model-view-projection matrix
 		auto MVP = getMVP();
@@ -75,35 +51,32 @@ namespace sge {
 			TextureManager::bindTexture(nullptr);
 		}
 
-		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO(VBOType::UV));
-		//The UV data
-		glBufferData(
-			GL_ARRAY_BUFFER,
-			objectMesh_.TexCoordArrayPtr()->size() * sizeof(Vertex2D),
-			objectMesh_.TexCoordArrayPtr()->data(),
-			GL_STATIC_DRAW
+		//The correct VAO should already be bound
+
+		glDrawElementsBaseVertex(
+			GL_TRIANGLES,
+			(GLsizei)(objectMesh_.nIndices),
+			SGE_INDEX_TYPE,
+			(void*)objectMesh_.indStart,
+			objectMesh_.baseVtx
 		);
 
-		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO(VBOType::VERTEX));
-		//Give the raw vertices 
-		glBufferData(
-			GL_ARRAY_BUFFER,
-			objectMesh_.VertArrayPtr()->size() * sizeof(Vertex3D),
-			objectMesh_.VertArrayPtr()->data(),
-			GL_STATIC_DRAW
-		);
+		auto err = glGetError();
+		if (err) {
+			std::cout << "glGetError() returned non-zero in StaticObject::render(): " << err << "!" << std::endl;
+		}
+	}
 
-		//Give the indices used to draw said raw vertices
-		//The index array is bound at the start of the frame
-		glBufferData(
+	void StaticObject::setupVAO() {
+		BufferManager::bindVAO((unsigned int)type_);
+		//Make sure the VBOs are created
+		BufferManager::getBuffer({ (unsigned int)type_, BufferType::VBO, BufferSubtype::VERTEX });
+		BufferManager::getBuffer({ (unsigned int)type_, BufferType::VBO, BufferSubtype::TEXTURE });
+
+		//Also make sure the index buffer is created as well
+		glBindBuffer(
 			GL_ELEMENT_ARRAY_BUFFER,
-			objectMesh_.IndArrayPtr()->size() * sizeof(SGE_INDEX_TYPE),
-			objectMesh_.IndArrayPtr()->data(),
-			GL_STATIC_DRAW
+			BufferManager::getBuffer({ (unsigned int)type_, BufferType::EAB, BufferSubtype::INDEX })
 		);
-
-		//Finally, tell OpenGL to draw the indices (the last argument is the data offset from the beginning of
-		//the element buffer, 0 in our case)
-		glDrawElements(GL_TRIANGLES, (GLsizei)(objectMesh_.IndArrayPtr()->size()), SGE_INDEX_TYPE, (void*)0);
 	}
 }

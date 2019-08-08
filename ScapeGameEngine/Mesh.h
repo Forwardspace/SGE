@@ -22,6 +22,16 @@ namespace sge {
 	using IndexArray = std::vector<GLuint>;
 	using TexCoordArray = std::vector<Vertex2D>;
 
+	//Holds indexes to VBO data
+	struct MeshInVBOs {
+		unsigned int vertStart, vertEnd;
+		unsigned int indStart, indEnd;
+		unsigned int nIndices; //Total number of indices
+		unsigned int baseVtx; //The starting vertex in the vertex VBO
+		unsigned int texStart, texEnd;
+		unsigned int normalStart, normalEnd;	//Not used for now
+	};
+
 	class Mesh {
 	public:
 		VertexArray* VertArrayPtr() { return &VertArray_; }
@@ -33,6 +43,8 @@ namespace sge {
 		void setTexCoordArray(TexCoordArray ta) { TCArray_ = ta; }
 
 		void appendMeshData(const aiScene* scene, aiMesh* mesh);
+
+		MeshInVBOs moveToVBOs(BufferTargetDescriptor target);
 
 		Mesh();
 		Mesh(VertexArray va, IndexArray ia, TexCoordArray ta);

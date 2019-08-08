@@ -52,14 +52,6 @@ namespace sge {
 
 	std::queue<Object*> drawQueue;
 
-	void bindBuffers() {
-		//Bind common buffers
-		//For now, just use the static VAO
-		glBindVertexArray(BufferManager::VAO(VAOType::STATIC));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BufferManager::EAB());
-		//Other buffers are bound when used
-	}
-
 	void clearScreen() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -67,42 +59,35 @@ namespace sge {
 		glClearColor(0, 0, 0, 1);
 	}
 
-	void initAttribPtrs() {
-		//Enable the first vertex attribute array (0) that
-		//stores vertex locations.
-		glEnableVertexAttribArray(0);
-		//The second one stores texture UV vertices
-		glEnableVertexAttribArray(1);
-
-		//Describe the first attribute array
-		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO(VBOType::VERTEX));
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-		//See the OpenGL documentation for explanation, but basically
-		//0 - index, 3 - how many coordinates per vertex, GL_FLOAT - we're using floats
-		//GL_FALSE - the data is not normalized or anything, 0 - no space between vertices,
-		//(void*)0 offset to the first vertex; our data starts from the beginning, so 0
-
-		glBindBuffer(GL_ARRAY_BUFFER, BufferManager::VBO(VBOType::UV));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-		//Texture UV vertices have only two coordinates
-	}
+	bool firstDraw = true;
+	int previousObject = -1;
 
 	//Everything necessary for starting a new frame
 	void startDrawing(std::deque<Object*> objectList) {
 		drawQueue = std::queue<Object*>(objectList);
-
-		bindBuffers();
-		initAttribPtrs();
 	}
 
 	void drawNext() {
-		drawQueue.front()->render();
+		auto current = drawQueue.front();
+
+		if ((int)current->type() != previousObject) {
+			if (firstDraw) {
+				current->setupVAO();
+			}
+
+			//Bind the correct VAO
+			BufferManager::bindVAO((unsigned int)current->type());
+
+			previousObject = (int)current->type();
+		}
+
+		current->render();
 
 		drawQueue.pop();
 	}
 
 	void finalizeFrame(GLFWwindow* window) {
-		//Update the GUI (has to be done last not to be overlapped with any vertices)
+		//Update the GUI (has to be done last not to overlap with any vertices)
 		sgeui::render();
 
 		//Update the UserInputManager
@@ -113,8 +98,11 @@ namespace sge {
 		glfwSwapBuffers(window);
 		clearScreen();
 
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
+		if (firstDraw) {
+			firstDraw = false;
+		}
+
+		previousObject = -1;
 	}
 
 	void Renderer::renderFrame() {
@@ -195,6 +183,7 @@ namespace sge {
 		windowPeriodicCallbacks_.push_back(defaultWindowPeriodicCallback);
 
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
 		glDepthFunc(GL_LESS);
 	}
 

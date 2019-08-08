@@ -25,7 +25,7 @@ namespace sgeui {
 		bool dragged = false;
 	};
 
-	class Component {
+	class Component {	
 	public:
 		LISTENER;
 

@@ -6,6 +6,8 @@
 #include "PackedTexture.h"
 #include "UserInputManager.h"
 
+#include "ScapeGUIWidgets.h"
+
 namespace sgeui {
 	std::vector<Window*> windows;
 
@@ -83,24 +85,25 @@ namespace sgeui {
 		std::tie(uvBl_, uvUr_) = getSurfaceUV();
 	}
 
-	WindowHelper::WindowHelper(int x, int y, Window* parent) : Component(0, 0, 0, 0), parent_(parent) {
-		CloseButton* closeButton = new CloseButton(x - bannerHeight, y, parent);
-		addChild(closeButton);
-	}
-
 	const std::string closeButtonTexture = "close_button_tex";
 
-	CloseButton::CloseButton(int x, int y, Window* parent) : 
-		RenderableComponent(x, y, bannerHeight, bannerHeight, TextureManager::get(closeButtonTexture)), parent_(parent) {
+	void WindowHelper::closeParent() {
+		this->parent_->scheduleClose();
+	}
 
-		unpackByStaticCasting(sge::PackedTextureType::NORMAL);
+	WindowHelper::WindowHelper(int x, int y, Window* parent) : Component(0, 0, 0, 0), parent_(parent) {	
+		//A window helper consists of a close, minimize and maximize button.
+		//Add the close button now
 
-		intDesc.isClickable = true;
-		intDesc.isHoverable = true;
-
-		HANDLES_EVENT(Click);
-		HANDLES_EVENT(Hover);
-		HANDLES_EVENT(HoverLost);
+		Button* closeButton = new Button(
+			x - bannerHeight,
+			y,
+			bannerHeight,
+			bannerHeight,
+			TextureManager::get(closeButtonTexture),
+			std::bind(&WindowHelper::closeParent, this)
+		);
+		addChild(closeButton);
 	}
 
 	void swapWindowOnTop(Window* newOnTop) {

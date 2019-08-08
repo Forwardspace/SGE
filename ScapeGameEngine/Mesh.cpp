@@ -34,8 +34,48 @@ namespace sge {
 		}
 		TCArray_ = std::vector<Vertex2D>(
 			&mesh->mTextureCoords[0][0],
-			&mesh->mTextureCoords[0][mesh->mNumVertices - 1]
+			&mesh->mTextureCoords[0][mesh->mNumVertices]
 		);
+	}
+
+	MeshInVBOs Mesh::moveToVBOs(BufferTargetDescriptor target) {
+		MeshInVBOs m;
+
+		target.id.t = BufferType::VBO;
+
+		//Bind the correct VAO
+		BufferManager::bindVAO(target.id.id);
+
+		//Append each array to a separate buffer in that VAO, store the location in 'm'
+		target.id.subtype = BufferSubtype::VERTEX;
+		auto res = BufferManager::appendToBuffer(
+			target,
+			{ (unsigned int)(VertArray_.size() * sizeof(Vertex3D)), &VertArray_[0] }
+		);
+		m.vertStart = res.start;
+		m.vertEnd = res.end;
+
+		target.id.subtype = BufferSubtype::TEXTURE;
+		res = BufferManager::appendToBuffer(
+			target,
+			{ (unsigned int)(TCArray_.size() * sizeof(Vertex2D)), &TCArray_[0] }
+		);
+		m.texStart = res.start;
+		m.texEnd = res.end;
+
+		target.id.t = BufferType::EAB;
+		target.id.subtype = BufferSubtype::INDEX;
+		res = BufferManager::appendToBuffer(
+			target,
+			{ (unsigned int)(IndArray_.size() * sizeof(GLuint)), &IndArray_[0] }
+		);
+		m.indStart = res.start;
+		m.indEnd = res.end;
+
+		m.nIndices = (unsigned int)IndArray_.size();
+		m.baseVtx = m.vertStart / sizeof(Vertex3D);
+
+		return m;
 	}
 
 	Mesh::Mesh(fs::path filename) {

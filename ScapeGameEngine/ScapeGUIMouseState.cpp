@@ -147,6 +147,7 @@ namespace sgeui {
 
 				if (affectedComponent->intDesc.isClickable) {
 					RAISE_EVENT(affectedComponent, new ClickEvent(mousePosX, mousePosY));
+					RAISE_EVENT(affectedComponent, new MouseUpEvent(mousePosX, mousePosY));
 				}
 			}
 		}

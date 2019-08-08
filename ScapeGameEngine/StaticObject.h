@@ -17,23 +17,18 @@ namespace sge {
 		StaticObject(fs::path filename);
 		~StaticObject();
 
-		void setMesh(Mesh& mesh) { objectMesh_ = mesh; }
+		void setMesh(MeshInVBOs& mesh) { objectMesh_ = mesh; }
 		void setTexture(Texture& tex) { objectTexture_ = tex; useDefaultTexture = false; }
 
-		Mesh mesh() { return objectMesh_; }
+		MeshInVBOs mesh() { return objectMesh_; }
 		Texture texture() { return objectTexture_; }
 
 		void render();
-	
-	protected:
-		glm::mat4x4 getMVP();
-		void clampAngles();
-		void updateModelMatrix();
+		void setupVAO();
 
-		Mesh objectMesh_;
+	protected:
+		MeshInVBOs objectMesh_;
 		Texture objectTexture_;
 		bool useDefaultTexture = true;
-
-		const ObjectType type_ = ObjectType::STATIC;
 	};
 }

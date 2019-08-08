@@ -1,5 +1,13 @@
-﻿  test.cpp
-C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\test.cpp(18,27): warning C4305:  'argument': truncation from 'double' to 'float'
-C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\test.cpp(30,34): warning C4305:  'argument': truncation from 'double' to 'float'
-C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\test.cpp(46,12): warning C4305:  '+=': truncation from 'double' to 'float'
+﻿  ScapeGUIWidgets.cpp
+  ScapeGUIWindowWidgets.cpp
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(56,44): warning C4305:  'initializing': truncation from 'double' to 'float'
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(60,44): warning C4305:  'initializing': truncation from 'double' to 'float'
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(72,23): warning C4838:  conversion from 'int' to 'float' requires a narrowing conversion
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(72,23): warning C4244:  'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(72,28): warning C4838:  conversion from 'int' to 'float' requires a narrowing conversion
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(72,28): warning C4244:  'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(73,38): warning C4244:  'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWindowWidgets.cpp(73,32): warning C4244:  'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Juraj\source\repos\Forwardspace\SGE\ScapeGameEngine\ScapeGUIWidgets.h(42): warning C4715:  'sgeui::Button::MouseUpPreLambdaFunctionForm': not all control paths return a value
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\Source\Repos\Forwardspace\SGE\x64\Debug\ScapeGameEngine.exe

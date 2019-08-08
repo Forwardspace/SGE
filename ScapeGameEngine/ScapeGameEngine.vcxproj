@@ -142,6 +142,7 @@
     <ClInclude Include="ScapeGUIRendering.h" />
     <ClCompile Include="ScapeGUITextures.cpp" />
     <ClInclude Include="ScapeGUITypes.h" />
+    <ClInclude Include="ScapeGUIWidgets.h" />
     <ClInclude Include="ScapeGUIWindowWidgets.h" />
     <ClInclude Include="SGE.h" />
     <ClInclude Include="sgeheaders.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="ScapeGUIMouseState.cpp" />
     <ClCompile Include="ScapeGUIRendering.cpp" />
     <ClInclude Include="ScapeGUITextures.h" />
+    <ClCompile Include="ScapeGUIWidgets.cpp" />
     <ClCompile Include="ScapeGUIWindowWidgets.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
