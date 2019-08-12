@@ -17,6 +17,11 @@ namespace sge {
 
 		void setPos(float x, float y, float z) { posX_ = x; posY_ = y; posZ_ = z; transformNeedsUpdating = true; }
 		void setRot(float x, float y, float z) { rotX_ = x; rotY_ = y; rotZ_ = z; transformNeedsUpdating = true; }
+		void setScl(float x, float y, float z) { scaleX_ = x; scaleY_ = y; scaleZ_ = z; transformNeedsUpdating = true; }
+
+		glm::vec3 pos() { return { posX_, posY_, posZ_ }; }
+		glm::vec3 rot() { return { rotX_, rotY_, rotZ_ }; }
+		glm::vec3 scl() { return { scaleX_, scaleY_, scaleZ_ }; }
 
 		virtual void render() = 0;
 		virtual void setupVAO() = 0;

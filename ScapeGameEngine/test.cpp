@@ -2,8 +2,6 @@
 
 #include "FPSCamera.h"
 
-#include <random>
-
 //This is just a simple integration test
 //Of course, we can't define main when creating a
 //static library
@@ -11,10 +9,11 @@
 void offsetInstance(sge::StaticObjectInstance& inst) {
 	static int posX = 0;
 
-	int currPosRow = posX % 20;
-	int currPosColumn = posX / 20;
+	int currPosRow = posX % 20 + rand() * 0.005;
+	int currPosColumn = posX / 20 + rand() * 0.005;
 
 	inst.setPos(currPosRow, 0, currPosColumn);
+	inst.setRot(rand(), rand(), rand());
 
 	posX += 1;
 }
@@ -35,7 +34,7 @@ void mainTest() {
 
 	sge::InstancedStaticObject pallets(
 		palletMesh,
-		250,
+		1000,
 		offsetInstance
 	);
 
@@ -70,10 +69,15 @@ void mainTest() {
 	//auto snap = new sgeui::WindowSnapArea({ -1, -1 }, { -0.5, -0.5 }, 500, 500, 0, 0);
 
 	sge::FPSCamera::enable();
-	sge::FPSCamera::speed = 0.01f;
+	sge::FPSCamera::speed = 0.1f;
 
 	while (true) {
 		sge::Renderer::renderFrame();
+
+		pallets.transformInstances([](sge::StaticObjectInstance& inst) {
+			auto rot = inst.rot();
+			inst.setRot(rot.x + 0.01, rot.y + 0.01, rot.z + 0.01);
+		});
 	}
 
 	return 0;

@@ -9,6 +9,8 @@
 
 #include "Renderer.h"
 
+#include <future>
+
 #ifndef SGE_INDEX_TYPE
 #define SGE_INDEX_TYPE GL_UNSIGNED_INT
 #endif
@@ -61,8 +63,8 @@ namespace sge {
 
 		auto err = glGetError();
 		if (err) {
-			std::cout 
-				<< "glGetError() returned non-zero in InstancedStaticObject::render(): " 
+			std::cout
+				<< "glGetError() returned non-zero in InstancedStaticObject::render(): "
 				<< err << "!" << std::endl;
 		}
 	}
@@ -82,7 +84,7 @@ namespace sge {
 
 	InstancedStaticObject::InstancedStaticObject(fs::path filename, int numInstances, std::function<void(StaticObjectInstance&)> t) {
 		type_ = ObjectType::INSTANCED_STATIC;
-		
+
 		Mesh m(filename);
 		objectMesh_ = m.moveToVBOs({ { (unsigned int)type_, (BufferType)0, 0 }, BufferUsageType::STATIC });
 
@@ -117,7 +119,7 @@ namespace sge {
 
 	InstancedStaticObject::InstancedStaticObject() {
 		type_ = ObjectType::INSTANCED_STATIC;
-		Renderer::registerObject(this); 
+		Renderer::registerObject(this);
 	}
 
 	InstancedStaticObject::~InstancedStaticObject() {
@@ -157,7 +159,7 @@ namespace sge {
 
 	void InstancedStaticObject::attachInstance(StaticObjectInstance& instance) {
 		instances_.push_back(&instance);
-		
+
 		auto MVP = instance.getMVP();
 		appendInstanceData(MVP);
 	}
@@ -217,39 +219,20 @@ namespace sge {
 		GLfloat* pMatrixC4 = mapMatrixColumnVBOWrite(type_, MVP_ATTRIB_INDEX_START + 3);
 
 		int instanceNumber = 0;
-		for (auto& instance : instances_) {
+		//Either the projection or view matrix has been updated
+		//Recalculate all MVP matrices
+
+		for (auto instance : instances_) {
 			glm::mat4 mat = instance->getMVP();
 
-			if (Renderer::projOrViewJustUpdated()) {
-				//Either the projection or view matrix has been updated
-				//Recalculate all MVP matrices
+			if (Renderer::projOrViewJustUpdated() || instance->transformJustUpdated) {
+				//Copy the 4 matrix rows row-by-row
+				unsigned int offset = 4 * instanceNumber;
 
-				for (auto instance : instances_) {
-					//Copy the 4 matrix rows row-by-row
-					unsigned int offset = 4 * instanceNumber;
-
-					memcpyMatrixRow(pMatrixC1 + offset, &mat[0][0]);
-					memcpyMatrixRow(pMatrixC2 + offset, &mat[1][0]);
-					memcpyMatrixRow(pMatrixC3 + offset, &mat[2][0]);
-					memcpyMatrixRow(pMatrixC4 + offset, &mat[3][0]);
-				}
-			}
-			else {
-				//Loop through all instances and copy only those that
-				//have been changed
-
-				for (auto instance : instances_) {
-					if (instance->transformJustUpdated) {
-						//The transform changed; update it
-						//Copy the 4 matrix rows row-by-row
-						unsigned int offset = 4 * instanceNumber;
-
-						memcpyMatrixRow(pMatrixC1 + offset, &mat[0][0]);
-						memcpyMatrixRow(pMatrixC2 + offset, &mat[1][0]);
-						memcpyMatrixRow(pMatrixC3 + offset, &mat[2][0]);
-						memcpyMatrixRow(pMatrixC4 + offset, &mat[3][0]);
-					}
-				}
+				memcpyMatrixRow(pMatrixC1 + offset, &mat[0][0]);
+				memcpyMatrixRow(pMatrixC2 + offset, &mat[1][0]);
+				memcpyMatrixRow(pMatrixC3 + offset, &mat[2][0]);
+				memcpyMatrixRow(pMatrixC4 + offset, &mat[3][0]);
 			}
 
 			//else: The transform was the same as before; don't rewrite it
