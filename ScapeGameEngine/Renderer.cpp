@@ -17,7 +17,21 @@ namespace sge {
 	///////////////////
 
 	void Renderer::registerObject(Object* obj) {
-		objectList_.push_back(obj);
+		int idx = 0;
+
+		for (int i = 0; i < objectList_.size(); i++) {
+			if (objectList_[i]->type() == obj->type()) {
+				//Group the objects with same types in batches to reduce state changes
+				idx = i;
+			}
+		}
+
+		if (idx != 0) {
+			objectList_.insert(objectList_.begin() + idx, obj);
+		}
+		else {
+			objectList_.push_back(obj);
+		}
 	}
 
 	void Renderer::removeObject(Object* obj) {
@@ -37,6 +51,8 @@ namespace sge {
 	///////////////////
 	///// Drawing /////
 	///////////////////
+
+	bool Renderer::projOrViewJustUpdated_ = false;
 
 	//Calculate deltaTime each frame
 	std::clock_t timer;
@@ -68,6 +84,8 @@ namespace sge {
 	}
 
 	void drawNext() {
+		//This is the core rendering loop
+
 		auto current = drawQueue.front();
 
 		if ((int)current->type() != previousObject) {
@@ -106,6 +124,13 @@ namespace sge {
 	}
 
 	void Renderer::renderFrame() {
+		//Check if the view matrix has been updated
+		if (currentCamera_) {
+			if (currentCamera_->transformJustUpdated_) {
+				projOrViewJustUpdated_ = true;
+			}
+		}
+
 		startDrawing(objectList_);
 
 		//Draw all registered Objects
@@ -116,10 +141,14 @@ namespace sge {
 		finalizeFrame(wind_);
 
 		callBack();
+
+		projOrViewJustUpdated_ = false;
 	}
 
 	void Renderer::updateProjectionMatrix(float FoV, float NCP, float FCP) {
 		projectionMatrix_ = glm::perspective(glm::radians(FoV), float(w_) / float(h_), NCP, FCP);
+
+		projOrViewJustUpdated_ = true;
 	}
 
 	///////////////////
@@ -137,7 +166,7 @@ namespace sge {
 		}
 
 		glfwWindowHint(GLFW_SAMPLES, 4); //Antialiasing
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);  // yes, 3 and 2!!!
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

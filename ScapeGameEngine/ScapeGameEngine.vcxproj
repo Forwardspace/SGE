@@ -128,6 +128,7 @@
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="GLFWIOManager.h" />
+    <ClInclude Include="InstancedStaticObject.h" />
     <ClInclude Include="IOManager.h" />
     <ClInclude Include="libs.h" />
     <ClInclude Include="Mesh.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="ScapeGUIInit.h" />
     <ClInclude Include="ScapeGUIMouseState.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
+    <ClCompile Include="InstancedStaticObject.cpp" />
     <ClCompile Include="ScapeGUITextures.cpp" />
     <ClInclude Include="ScapeGUITypes.h" />
     <ClInclude Include="ScapeGUIWidgets.h" />

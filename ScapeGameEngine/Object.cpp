@@ -11,7 +11,12 @@ namespace sge {
 	glm::mat4x4 Object::getMVP() {
 		if (transformNeedsUpdating) {
 			transformNeedsUpdating = false;
+			transformJustUpdated = true;
+
 			updateModelMatrix();
+		}
+		else {
+			transformJustUpdated = false;
 		}
 
 		glm::mat4x4 view = Renderer::currentCamera()->viewMatrix();

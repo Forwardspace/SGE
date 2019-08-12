@@ -36,6 +36,9 @@ namespace sge {
 		glm::mat4x4 cachedMatrix_;
 
 		//We don't waste cycles here!
-		bool transformNeedsUpdating = true;
+		bool transformNeedsUpdating_ = true;
+		bool transformJustUpdated_ = false;
+
+		friend class Renderer;
 	};
 }

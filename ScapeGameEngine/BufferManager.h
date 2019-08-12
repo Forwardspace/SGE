@@ -39,7 +39,7 @@ namespace sge {
 		unsigned int subtype;
 	};
 
-	//Describes the target buffer and the usage of that buffer after appending
+	//Describes the target buffer and the usage of that buffer after its modification
 	struct BufferTargetDescriptor {
 		BufferTargetDescriptor(BufferID i, BufferUsageType bu) : id(i), usage(bu) {}
 
@@ -65,7 +65,7 @@ namespace sge {
 	public:
 		//Use this to get access to the required buffer
 		static GLuint getBuffer(BufferID bd);
-		
+
 		//Use this to get access to a specific VAO
 		//It will be created automatically if it doesn't
 		//already exist
@@ -75,7 +75,15 @@ namespace sge {
 		//The target buffer will be created automatically
 		//if it doesn't already exist
 		static BufferAppendResult appendToBuffer(BufferTargetDescriptor target, BufferDataDescriptor data);
-		
+		//Duplicate the data in the target buffer from dataStart to dataEnd
+		//The target buffer will NOT be created automatically, as 
+		//there would be no point in duplicating empty regions
+		static BufferAppendResult appendToBuffer(
+			BufferTargetDescriptor target,
+			unsigned int dataStart,
+			unsigned int dataEnd
+		);
+
 		BufferManager() = delete;	//Singleton
 		~BufferManager() = delete;
 

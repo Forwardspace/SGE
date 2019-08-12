@@ -4,9 +4,9 @@
 namespace sge {
 	enum class ObjectType {
 		STATIC,
-		DYNAMIC,
-		INSTANCED,
-		GENERIC
+		INSTANCED_STATIC,
+		GENERIC,
+		INSTANCE
 	};
 
 	//A base for all other objects.
@@ -37,6 +37,7 @@ namespace sge {
 		glm::mat4x4 cachedMatrix_;
 
 		bool transformNeedsUpdating = true;
+		bool transformJustUpdated = false;
 
 		ObjectType type_ = ObjectType::GENERIC;
 	};

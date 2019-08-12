@@ -6,6 +6,11 @@
 #endif
 
 namespace sge {
+	const fs::path vStaticShaderPath = ".\\shaders\\vs.shader";
+	const fs::path fStaticShaderPath = ".\\shaders\\fs.shader";
+
+	ShaderProgram* staticShader;
+
 	StaticObject::StaticObject(Mesh& msh) {
 		type_ = ObjectType::STATIC;
 
@@ -39,6 +44,9 @@ namespace sge {
 		//First get the model-view-projection matrix
 		auto MVP = getMVP();
 
+		//Replace the current shader with the correct one
+		ShaderManager::pushActive(*staticShader);
+		
 		//Hand it over to the shader
 		ShaderManager::bindMVP(MVP);
 		ShaderManager::bindSamplerTexUnit(0);
@@ -65,6 +73,8 @@ namespace sge {
 		if (err) {
 			std::cout << "glGetError() returned non-zero in StaticObject::render(): " << err << "!" << std::endl;
 		}
+
+		ShaderManager::popActive();
 	}
 
 	void StaticObject::setupVAO() {
@@ -78,5 +88,10 @@ namespace sge {
 			GL_ELEMENT_ARRAY_BUFFER,
 			BufferManager::getBuffer({ (unsigned int)type_, BufferType::EAB, BufferSubtype::INDEX })
 		);
+
+		//Load the shaders for this object group
+		VertexShader vStatic(vStaticShaderPath);
+		FragmentShader fStatic(fStaticShaderPath);
+		staticShader = new ShaderProgram({ vStatic, fStatic });
 	}
 }

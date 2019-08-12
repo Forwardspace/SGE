@@ -156,6 +156,9 @@
     <ClInclude Include="ScapeGUIWidgets.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="InstancedStaticObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -247,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="ScapeGUIWidgets.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancedStaticObject.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include "Renderer.h"
 #include "StaticObject.h"
+#include "InstancedStaticObject.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "FragmentShader.h"

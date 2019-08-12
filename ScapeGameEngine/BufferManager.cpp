@@ -5,7 +5,7 @@
 #define BUFFER_MIN_REALLOC_PREDICTION_TRESHOLD 3000
 #define BUFFER_MAX_REALLOC_PREDICTION_TRESHOLD 30000000	//30MB, enough for reallocation prediction to be irrelevant
 
-#define BUFFER_MULTITHREADING_THRESHOLD 10000
+//#define BUFFER_MULTITHREADING_THRESHOLD 10000
 
 namespace sge {
 	//Basically, compare two bufferIDs by treating them as one big number
@@ -43,6 +43,7 @@ namespace sge {
 			return handle.buffer;
 		}
 		catch (std::out_of_range& exc) {
+			(void)exc;
 			//Create a new, empty buffer ('append' zero bytes to a new buffer)
 			appendToBuffer({ bd, BufferUsageType::STATIC }, { 0, 0 });
 
@@ -62,6 +63,7 @@ namespace sge {
 
 		if (currentlyBoundVAO_ != vao) {
 			glBindVertexArray(VAOs_[id]);
+			currentlyBoundVAO_ = vao;
 		}
 	}
 
@@ -181,5 +183,42 @@ namespace sge {
 		handle->usedBytes += data.s;
 
 		return { start, end, firstUse };
+	}
+
+	//This is a copy operation from a part of a buffer to another part of the
+	//same buffer. As such, it requires that the buffer actually exist
+	//(dataStart and dataEnd are offsets into the target buffer)
+	BufferAppendResult BufferManager::appendToBuffer(BufferTargetDescriptor target, unsigned int dataStart, unsigned int dataEnd) {
+		BufferData* handle;
+		
+		try {
+			handle = &buffers_.at(target.id);
+		}
+		catch (std::out_of_range& exc) {
+			(void)exc;
+			throw std::runtime_error("Buffer given to appendToBuffer() (copy) does not exist!");
+		}
+
+		GLuint len = dataEnd - dataStart;
+
+		if (handle->usedBytes + len > handle->maxSizeBytes) {
+			//Resize the buffer
+			*handle = reallocateBuffer(
+				handle->buffer,
+				handle->usedBytes + len,
+				(GLenum)target.usage,
+				handle->usedBytes
+			);
+		}
+
+		//Copy the data from one part of the buffer to another (in the same buffer)
+		glCopyNamedBufferSubData(handle->buffer, handle->buffer, dataStart, handle->usedBytes, len);
+
+		int start = handle->usedBytes;
+
+		//Update the buffer data
+		handle->usedBytes += len;
+
+		return { (unsigned int)start, handle->usedBytes, false };
 	}
 }

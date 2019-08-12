@@ -31,7 +31,10 @@ namespace sge {
 		float velZ = speed * UserInputManager::getAxis("Y");
 		float velX = speed * UserInputManager::getAxis("X");
 
-		maincam->setRot(180 - deltaX, -deltaY, 0);
+		glm::vec3 camRot(190 - deltaX, -deltaY, 0);
+		if (maincam->rot() != camRot) {
+			maincam->setRot(camRot.x, camRot.y, camRot.z);
+		}
 
 		//Calculate where to move to based on the camera's
 		//orientation
@@ -47,6 +50,8 @@ namespace sge {
 		glm::vec3 deltaPos = deltaPosX - deltaPosZ;
 		pos += deltaPos;
 
-		maincam->setPos(pos.x, pos.y, pos.z);
+		if (maincam->pos() != pos) {
+			maincam->setPos(pos.x, pos.y, pos.z);
+		}
 	}
 }

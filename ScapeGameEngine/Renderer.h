@@ -34,6 +34,9 @@ namespace sge {
 		}
 
 		static void setCurrentCamera(Camera* cam) { currentCamera_ = cam; }
+		
+		//Has the view or projection matrix been updated since last frame?
+		static bool projOrViewJustUpdated() { return projOrViewJustUpdated_; }
 
 		//Register a new Object to be drawn on the screen
 		static void registerObject(Object* obj);
@@ -63,8 +66,9 @@ namespace sge {
 		///////////////////
 
 		static glm::mat4x4 projectionMatrix_;
-
 		static Camera* currentCamera_;
+
+		static bool projOrViewJustUpdated_;
 
 		//Stores pointers to objects that have to be drawn each frame
 		//Note that this is a list, but not a std::list
