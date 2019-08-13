@@ -5,11 +5,9 @@ namespace sgeui {
 
 	void setupShadersForRendering(TextureResource* tx) {
 		//Similar to sge::StaticObject::render
-		//Activate the GUI shader program, bind the texture
-		sge::ShaderManager::pushActive(*GUIShaderProgram);
-		sge::ShaderManager::bindSamplerTexUnit(0);
-
-		sge::TextureManager::bindTexture(tx? tx->get() : nullptr);
+		//Activate the GUI shader program, bind the texture to the diffuse sampler
+		sge::ShaderManager::setActive(*GUIShaderProgram);
+		sge::ShaderManager::bindTexSampler("diffuse", 0, *tx->get());
 	}
 
 	char* translate_uniform_name = "translate";
@@ -107,8 +105,6 @@ namespace sgeui {
 
 		//And finally, issue the draw command:
 		glDrawElements(GL_TRIANGLES, (GLsizei)6, GL_UNSIGNED_INT, (void*)0);
-
-		sge::ShaderManager::popActive();
 
 		auto e = glGetError();
 		if (e != 0) {

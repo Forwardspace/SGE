@@ -1,6 +1,8 @@
 #pragma once
+
 #include "stdheaders.h"
 #include "ShaderProgram.h"
+#include "Texture.h"
 
 namespace sge {
 	class ShaderManager {
@@ -10,15 +12,21 @@ namespace sge {
 
 		//Called internally
 		static void setActive(ShaderProgram& sh);
-		static void pushActive(ShaderProgram& newActive);
-		static void popActive();
-		//Binds the MVP uniform to the bound shader
-		static void bindMVP(glm::mat4x4 MVP);
+		//Binds a uniform named "name" of value "value "
+		//to the bound shader
+		//If the uniform could not be found, returns false
+		template <typename T>
+		static bool bindUniform(std::string name, T& value);
 
-		static void bindSamplerTexUnit(int absoluteUnit);
+		//Textures are bound to a slot, which is in turn bound to a uniform sampler
+		//Bind the texture at specified slot
+		static void bindTexSampler(std::string name, GLuint absoluteUnit, Texture& tex);
 	
 	private:
 		static ShaderProgram* boundShader_;
-		static std::stack<ShaderProgram*> shaderStack;
+
+		friend GLint getUniformLoc(std::string name);
 	};
 }
+
+#include "shadermanagerimpl.h"

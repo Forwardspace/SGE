@@ -34,39 +34,25 @@ void mainTest() {
 
 	sge::InstancedStaticObject pallets(
 		palletMesh,
-		1000,
+		500,
 		offsetInstance
 	);
 
 	sge::StaticObject pallet(palletMesh);
 	pallet.setPos(0, 0, -3);
 
-	//sge::StaticObject pallet(palletMesh);
-	//sge::StaticObject pallet2(palletMesh);
-
-	/*pallet2.setPos(0, 0.18, 0);
-	pallet2.setRot(0, 30, 0);
-
-	pallet3.setPos(0, 0.37, 0);
-
-	pallet4.setPos(0, 0.54, 0);
-	pallet4.setRot(0, -25, 0);*/
-
-	sge::VertexShader vs(fs::path(".\\shaders\\vs.shader"));
-	sge::FragmentShader fs(fs::path(".\\shaders\\fs.shader"));
-	sge::ShaderProgram prog({ vs, fs });
-	sge::ShaderManager::setActive(prog);
-
 	sge::Texture woodtex(".\\textures\\woodtex.jpg");
-	pallets.setTexture(woodtex);
+	sge::Material woodMaterial {
+		{&woodtex, "diffuse"}
+	};
+
+	pallets.setMaterial(&woodMaterial);
 	/*pallet2.setTexture(woodtex);
 	pallet3.setTexture(woodtex);
 	pallet4.setTexture(woodtex);*/
 
 	auto aW = new sgeui::Window(250, 250, 150, 10);
 	auto bW = new sgeui::Window(350, 400, 500, 100);
-	
-	//auto snap = new sgeui::WindowSnapArea({ -1, -1 }, { -0.5, -0.5 }, 500, 500, 0, 0);
 
 	sge::FPSCamera::enable();
 	sge::FPSCamera::speed = 0.1f;

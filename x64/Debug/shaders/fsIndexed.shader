@@ -6,8 +6,8 @@ in vec2 interUV;
 //RGBA
 out vec4 color;
 
-uniform sampler2D DefSampler;
+uniform sampler2D diffuse;
 
 void main() {
-	color = texture(DefSampler, interUV).rgba;
+	color = texture(diffuse, interUV).rgba;
 }

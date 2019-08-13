@@ -2,7 +2,7 @@
 #include "stdheaders.h"
 #include "Object.h"
 #include "Mesh.h"
-#include "Texture.h"
+#include "Material.h"
 #include "TextureManager.h"
 #include "Renderer.h"
 #include "ShaderManager.h"
@@ -18,17 +18,15 @@ namespace sge {
 		~StaticObject();
 
 		void setMesh(MeshInVBOs& mesh) { objectMesh_ = mesh; }
-		void setTexture(Texture& tex) { objectTexture_ = tex; useDefaultTexture = false; }
+		void setMaterial(Material* tex) { mat_ = tex; }
 
 		MeshInVBOs mesh() { return objectMesh_; }
-		Texture texture() { return objectTexture_; }
 
 		void render();
 		void setupVAO();
 
 	protected:
+		Material* mat_;
 		MeshInVBOs objectMesh_;
-		Texture objectTexture_;
-		bool useDefaultTexture = true;
 	};
 }

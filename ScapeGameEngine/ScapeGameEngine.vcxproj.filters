@@ -159,6 +159,12 @@
     <ClInclude Include="InstancedStaticObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="shadermanagerimpl.h">
+      <Filter>Header Files\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -253,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="InstancedStaticObject.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Textures</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

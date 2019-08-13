@@ -44,6 +44,7 @@ namespace sgeui {
 
 			state_ = sge::PackedTextureType::NORMAL;
 			unpackByStaticCasting(state_);
+			return true;
 		});
 
 	private:

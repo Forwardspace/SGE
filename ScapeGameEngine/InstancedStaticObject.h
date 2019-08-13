@@ -2,8 +2,8 @@
 #include "stdheaders.h"
 #include "Object.h"
 #include "Mesh.h"
-#include "Texture.h"
 #include "TextureManager.h"
+#include "Material.h"
 
 namespace sge {
 	//Instances can only function inside of an InstancedObject
@@ -34,7 +34,7 @@ namespace sge {
 		~InstancedStaticObject();
 
 		void setupVAO();
-		void setTexture(Texture& tex) { tex_ = &tex; }
+		void setMaterial(Material* tex) { mat_ = tex; }
 		void setMesh(MeshInVBOs& mesh) { objectMesh_ = mesh; }
 
 		/////////////
@@ -74,7 +74,7 @@ namespace sge {
 
 		std::vector<StaticObjectInstance*> instances_;
 
-		Texture* tex_ = TextureManager::defaultTexture;
+		Material* mat_;
 		MeshInVBOs objectMesh_;
 	};
 }

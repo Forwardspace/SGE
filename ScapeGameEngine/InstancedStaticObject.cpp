@@ -22,7 +22,7 @@ namespace sge {
 	const fs::path vInstancedShaderPath = ".\\shaders\\vsIndexed.shader";
 	const fs::path fInstancedShaderPath = ".\\shaders\\fsIndexed.shader";
 
-	ShaderProgram* indexedShader = nullptr;
+	ShaderProgram* instancedShader = nullptr;
 
 	void InstancedStaticObject::render() {
 		if (!renderObject) {
@@ -41,14 +41,18 @@ namespace sge {
 		//Get the MVPs of all instances and bind them to instance attributes
 		bindInstanceMVPs();
 
-		ShaderManager::pushActive(*indexedShader);
-
-		//Hand it over to the shader
-		//ShaderManager::bindMVP(MVP);
-		ShaderManager::bindSamplerTexUnit(0);
-
-		//Bind the assigned texture for the shader
-		TextureManager::bindTexture(tex_);
+		//Bind the material for all instances (and the shader, if
+		//it hasn't been specified
+		if (mat_) {
+			if (!mat_->shaderValid()) {
+				ShaderManager::setActive(*instancedShader);
+			}
+			mat_->activate();
+		}
+		else {
+			ShaderManager::setActive(*instancedShader);
+			defaultMaterial.activate();
+		}
 
 		////The correct VAO should already be bound
 
@@ -149,10 +153,10 @@ namespace sge {
 			BufferManager::getBuffer({ (unsigned int)type_, BufferType::EAB, BufferSubtype::INDEX })
 		);
 
-		//Finally, setup the shaders used for instanced objects
+		//Setup the shaders used for instanced objects
 		VertexShader vtx(vInstancedShaderPath);
 		FragmentShader fgm(fInstancedShaderPath);
-		indexedShader = new ShaderProgram({ vtx, fgm });
+		instancedShader = new ShaderProgram({ vtx, fgm });
 
 		auto b = glGetError();
 	}

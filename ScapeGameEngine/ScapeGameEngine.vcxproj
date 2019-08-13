@@ -131,6 +131,7 @@
     <ClInclude Include="InstancedStaticObject.h" />
     <ClInclude Include="IOManager.h" />
     <ClInclude Include="libs.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PackedTexture.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="ScapeGUIMouseState.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
     <ClCompile Include="InstancedStaticObject.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="ScapeGUITextures.cpp" />
     <ClInclude Include="ScapeGUITypes.h" />
     <ClInclude Include="ScapeGUIWidgets.h" />
@@ -150,6 +152,7 @@
     <ClInclude Include="sgeheaders.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="shadermanagerimpl.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="stdheaders.h" />

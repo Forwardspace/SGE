@@ -43,20 +43,22 @@ namespace sge {
 
 		//First get the model-view-projection matrix
 		auto MVP = getMVP();
-
-		//Replace the current shader with the correct one
-		ShaderManager::pushActive(*staticShader);
 		
 		//Hand it over to the shader
-		ShaderManager::bindMVP(MVP);
-		ShaderManager::bindSamplerTexUnit(0);
+		ShaderManager::bindUniform<glm::mat4>("MVP", MVP);
 
-		//Bind the assigned texture for the shader
-		if (!useDefaultTexture) {
-			TextureManager::bindTexture(&objectTexture_);
+		//Bind the assigned material (and the shader, if
+		//it hasn't been speified)
+		if (mat_) {
+			if (!mat_->shaderValid()) {
+				ShaderManager::setActive(*staticShader);
+			}
+			mat_->activate();
 		}
 		else {
-			TextureManager::bindTexture(nullptr);
+			//No material bound, use the default one
+			ShaderManager::setActive(*staticShader);
+			defaultMaterial.activate();
 		}
 
 		//The correct VAO should already be bound
@@ -73,8 +75,6 @@ namespace sge {
 		if (err) {
 			std::cout << "glGetError() returned non-zero in StaticObject::render(): " << err << "!" << std::endl;
 		}
-
-		ShaderManager::popActive();
 	}
 
 	void StaticObject::setupVAO() {
