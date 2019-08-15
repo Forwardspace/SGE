@@ -39,20 +39,16 @@ void mainTest() {
 	);
 
 	sge::StaticObject pallet(palletMesh);
-	pallet.setPos(0, 0, -3);
+	pallet.setPos(0, 0, -7);
 
 	sge::Texture woodtex(".\\textures\\woodtex.jpg");
 	sge::Material woodMaterial {
 		{&woodtex, "diffuse"}
 	};
-
 	pallets.setMaterial(&woodMaterial);
-	/*pallet2.setTexture(woodtex);
-	pallet3.setTexture(woodtex);
-	pallet4.setTexture(woodtex);*/
 
-	auto aW = new sgeui::Window(250, 250, 150, 10);
-	auto bW = new sgeui::Window(350, 400, 500, 100);
+	sge::SkyboxTexture clouds(".\\textures\\miramar\\miramar.tga");
+	sge::Renderer::setCurrentSkyboxTex(&clouds);
 
 	sge::FPSCamera::enable();
 	sge::FPSCamera::speed = 0.1f;

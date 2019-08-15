@@ -105,14 +105,6 @@ namespace sgeui {
 	}
 
 	void terminate() {
-		/*for (auto& pair : textures) {
-			//Ignore the key, delete the value
-			delete pair.second;
-		}
-		for (auto& pair : packedTextures) {
-			delete pair.second;
-		}*/
-
 		delete GUIShaderProgram;
 	}
 

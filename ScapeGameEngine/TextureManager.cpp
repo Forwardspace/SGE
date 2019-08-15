@@ -9,21 +9,8 @@ namespace sge {
 		//Load the default checkerboard texture
 		defaultTexture = new Texture(defaultTextureFilename);
 
-		glActiveTexture(GL_TEXTURE0);
-	}
-
-	void TextureManager::bindTexture(Texture* tex) {
-		if (tex == nullptr) {
-			if (boundTexture != defaultTexture) {
-				//If nullptr is given, just bind the default texture
-				glBindTexture(GL_TEXTURE_2D, defaultTexture->handle());
-				boundTexture = defaultTexture;
-			}
-		}
-		else if (boundTexture != tex) {
-			glBindTexture(GL_TEXTURE_2D, tex->handle());
-			boundTexture = tex;
-		}
+		//Create the default material
+		defaultMaterial = Material();
 	}
 
 	void TextureManager::terminate() {

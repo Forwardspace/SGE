@@ -10,6 +10,8 @@ namespace sge {
 	GLFWwindow* Renderer::wind_ = nullptr;
 	Camera* Renderer::currentCamera_;
 
+	SkyboxTexture* Renderer::skybox_;
+
 	double deltaTime;
 
 	///////////////////
@@ -132,6 +134,16 @@ namespace sge {
 		}
 
 		startDrawing(objectList_);
+
+		//Render the skybox, if it is assigned
+		if (skybox_) {
+			if (currentCamera_) {
+				glm::mat4 viewNoTr = currentCamera_->viewMatrix();
+				viewNoTr[3][0] = viewNoTr[3][1] = viewNoTr[3][2] = 0;
+
+				skybox_->render(projectionMatrix_ * viewNoTr);
+			}
+		}
 
 		//Draw all registered Objects
 		while (drawQueue.size()) {

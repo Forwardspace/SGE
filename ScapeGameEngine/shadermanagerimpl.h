@@ -39,7 +39,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<GLint>(std::string name, GLint& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniform1i(location, value);
@@ -49,7 +49,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<GLuint>(std::string name, GLuint& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniform1ui(location, value);
@@ -62,7 +62,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<glm::vec2>(std::string name, glm::vec2& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniform2f(location, value[0], value[1]);
@@ -71,7 +71,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<glm::vec3>(std::string name, glm::vec3& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniform3f(location, value[0], value[1], value[2]);
@@ -80,7 +80,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<glm::vec4>(std::string name, glm::vec4& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniform4f(location, value[0], value[1], value[2], value[3]);
@@ -91,7 +91,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<glm::mat2>(std::string name, glm::mat2& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniformMatrix2fv(location, 1, false, &value[0][0]);
@@ -100,7 +100,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<glm::mat3>(std::string name, glm::mat3& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniformMatrix3fv(location, 1, false, &value[0][0]);
@@ -109,7 +109,7 @@ namespace sge {
 	template <>
 	inline bool ShaderManager::bindUniform<glm::mat4>(std::string name, glm::mat4& value) {
 		auto location = getUniformLoc(name);
-		if (!location) {
+		if (location < 0) {
 			return false;
 		}
 		glUniformMatrix4fv(location, 1, false, &value[0][0]);

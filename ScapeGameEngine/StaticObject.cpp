@@ -43,23 +43,19 @@ namespace sge {
 
 		//First get the model-view-projection matrix
 		auto MVP = getMVP();
-		
-		//Hand it over to the shader
-		ShaderManager::bindUniform<glm::mat4>("MVP", MVP);
 
-		//Bind the assigned material (and the shader, if
-		//it hasn't been speified)
+		//Bind the assigned material (and the shader)
+		ShaderManager::setActive(*staticShader);
 		if (mat_) {
-			if (!mat_->shaderValid()) {
-				ShaderManager::setActive(*staticShader);
-			}
 			mat_->activate();
 		}
 		else {
 			//No material bound, use the default one
-			ShaderManager::setActive(*staticShader);
 			defaultMaterial.activate();
 		}
+
+		//Hand it over to the shader
+		ShaderManager::bindUniform<glm::mat4>("MVP", MVP);
 
 		//The correct VAO should already be bound
 

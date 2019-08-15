@@ -12,7 +12,7 @@ namespace sge {
 
 	char* Sampler_uniform = (char*)"DefSampler";
 
-	void ShaderManager::bindTexSampler(std::string name, GLuint absoluteUnit, Texture& tex) {
+	void ShaderManager::bindTexSampler(std::string name, GLuint absoluteUnit, Texture& tex, GLenum target) {
 		//First find the uniform
 		GLint Sampler_uniform_location = glGetUniformLocation(boundShader_->handle(), name.c_str());
 		if (Sampler_uniform_location < 0) {
@@ -24,6 +24,6 @@ namespace sge {
 
 		//Now bind the texture to absoluteUnit
 		glActiveTexture(GL_TEXTURE0 + absoluteUnit);
-		glBindTexture(GL_TEXTURE_2D, tex.handle());
+		glBindTexture(target, tex.handle());
 	}
 }

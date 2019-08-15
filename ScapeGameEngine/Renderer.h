@@ -7,6 +7,7 @@
 #include "TextureManager.h"
 #include "Camera.h"
 #include "UserInputManager.h"
+#include "SkyboxTexture.h"
 
 #include "ScapeGUI.h"
 
@@ -34,6 +35,8 @@ namespace sge {
 		}
 
 		static void setCurrentCamera(Camera* cam) { currentCamera_ = cam; }
+		
+		static void setCurrentSkyboxTex(SkyboxTexture* tex) { skybox_ = tex; }
 		
 		//Has the view or projection matrix been updated since last frame?
 		static bool projOrViewJustUpdated() { return projOrViewJustUpdated_; }
@@ -67,6 +70,8 @@ namespace sge {
 
 		static glm::mat4x4 projectionMatrix_;
 		static Camera* currentCamera_;
+
+		static SkyboxTexture* skybox_;
 
 		static bool projOrViewJustUpdated_;
 

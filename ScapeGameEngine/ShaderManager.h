@@ -20,7 +20,7 @@ namespace sge {
 
 		//Textures are bound to a slot, which is in turn bound to a uniform sampler
 		//Bind the texture at specified slot
-		static void bindTexSampler(std::string name, GLuint absoluteUnit, Texture& tex);
+		static void bindTexSampler(std::string name, GLuint absoluteUnit, Texture& tex, GLenum target = GL_TEXTURE_2D);
 	
 	private:
 		static ShaderProgram* boundShader_;

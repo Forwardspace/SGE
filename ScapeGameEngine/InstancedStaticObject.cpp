@@ -43,14 +43,11 @@ namespace sge {
 
 		//Bind the material for all instances (and the shader, if
 		//it hasn't been specified
+		ShaderManager::setActive(*instancedShader);
 		if (mat_) {
-			if (!mat_->shaderValid()) {
-				ShaderManager::setActive(*instancedShader);
-			}
 			mat_->activate();
 		}
 		else {
-			ShaderManager::setActive(*instancedShader);
 			defaultMaterial.activate();
 		}
 

@@ -7,7 +7,7 @@ C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(16,34): war
 C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(16,26): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(16,18): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(32,34): warning C4305:  'argument': truncation from 'double' to 'float'
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(65,50): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(65,36): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(65,22): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(61,50): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(61,36): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(61,22): warning C4244:  'argument': conversion from 'double' to 'float', possible loss of data
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe

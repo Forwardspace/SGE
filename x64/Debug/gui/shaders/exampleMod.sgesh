@@ -1,0 +1,22 @@
+shader ExampleSGEShaderMod
+
+//Modifies base shaders to increase the intensity of the colour red
+
+type {
+	modification,
+	modifies {
+		basic
+	}
+}
+
+inputs {
+	uniforms {
+		custom {
+			float intensity;
+		}
+	}
+}
+
+fragment {
+	colour.r = clamp(colour.r + intensity, 0, 1);
+}

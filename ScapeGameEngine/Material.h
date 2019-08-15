@@ -34,8 +34,8 @@ namespace sge {
 		bool shaderSpecified = false;
 
 	private:
-		ShaderProgram* shader_;
-		std::array<Texture*, MAX_TEXTURES> textures_;
+		ShaderProgram* shader_ = nullptr;
+		std::array<Texture*, MAX_TEXTURES> textures_ = {0, 0, 0, 0, 0, 0, 0, 0};
 
 		void addTextures(std::initializer_list<std::pair<Texture*, std::string>> textures);
 	};
