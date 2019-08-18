@@ -34,6 +34,29 @@ namespace sge {
 		Renderer::removeObject(this);
 	}
 
+	void StaticObject::setRigidBody(float mass) {
+		updateModelMatrix();
+		
+		physObj_ = new RigidPhysicsObject(
+			BasicColliderType::BOX,
+			objectMesh_.boundingBox.getDimensions() * glm::vec3(scaleX_, scaleY_, scaleZ_),
+			glm::vec3(posX_, posY_, posZ_),
+			glm::vec3(rotX_, rotY_, rotZ_),
+			mass
+		);
+	}
+
+	void StaticObject::setRigidBody(float mass, BasicColliderType collider, glm::vec3 colliderDimensions) {
+		updateModelMatrix();
+		physObj_ = new RigidPhysicsObject(
+			collider,
+			colliderDimensions,
+			glm::vec3(posX_, posY_, posZ_),
+			glm::vec3(rotX_, rotY_, rotZ_),
+			mass
+		);
+	}
+
 	void StaticObject::render() {
 		if (!renderObject) {
 			return;

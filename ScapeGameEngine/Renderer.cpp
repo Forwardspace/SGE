@@ -86,8 +86,6 @@ namespace sge {
 	}
 
 	void drawNext() {
-		//This is the core rendering loop
-
 		auto current = drawQueue.front();
 
 		if ((int)current->type() != previousObject) {
@@ -126,6 +124,10 @@ namespace sge {
 	}
 
 	void Renderer::renderFrame() {
+		startTimer();
+		//This contains the core rendering loop
+		//and is the most important function in SGE
+
 		//Check if the view matrix has been updated
 		if (currentCamera_) {
 			if (currentCamera_->transformJustUpdated_) {
@@ -151,9 +153,11 @@ namespace sge {
 		}
 
 		finalizeFrame(wind_);
+		endTimer();
+
+		BulletIOManager::update(objectList_);
 
 		callBack();
-
 		projOrViewJustUpdated_ = false;
 	}
 
@@ -218,6 +222,7 @@ namespace sge {
 		TextureManager::init();
 		IOManager::init();
 		GLFWIOManager::init(wind_);
+		BulletIOManager::init();
 		//GUI
 		sgeui::init(sge::Renderer::wind(), w_, h_);
 
@@ -231,6 +236,7 @@ namespace sge {
 	[[ noreturn ]] void Renderer::terminate(bool exit) {
 		//Some cleanup
 		IOManager::terminate();
+		BulletIOManager::terminate();
 
 		glfwTerminate();
 

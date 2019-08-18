@@ -2,6 +2,7 @@
 #include "stdheaders.h"
 #include "BufferManager.h"
 #include "IOManager.h"
+#include "AABB.h"
 
 namespace sge {
 	struct Vertex3D {
@@ -30,6 +31,8 @@ namespace sge {
 		unsigned int baseVtx; //The starting vertex in the vertex VBO
 		unsigned int texStart, texEnd;
 		unsigned int normalStart, normalEnd;	//Not used for now
+
+		AABB boundingBox;
 		
 		//Copy the data from this region of btd to
 		//a new region of btd
@@ -73,5 +76,8 @@ namespace sge {
 		VertexArray VertArray_;
 		IndexArray IndArray_;
 		TexCoordArray TCArray_;
+
+		//Used for physics
+		AABB boundingBox_;
 	};
 }

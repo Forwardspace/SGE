@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "Renderer.h"
 #include "ShaderManager.h"
+#include "RigidPhysics.h"
 
 namespace sge {
 	class StaticObject : public Object {
@@ -20,13 +21,20 @@ namespace sge {
 		void setMesh(MeshInVBOs& mesh) { objectMesh_ = mesh; }
 		void setMaterial(Material* tex) { mat_ = tex; }
 
+		//Rigid body from bounding box
+		void setRigidBody(float mass);
+		//Rigid body from custom shape
+		void setRigidBody(float mass, BasicColliderType collider, glm::vec3 colliderDimensions);
+
 		MeshInVBOs mesh() { return objectMesh_; }
 
 		void render();
 		void setupVAO();
 
-	protected:
-		Material* mat_;
+		//Used for physics, optional
+		bool destructRigidBody_ = true;
+
+		Material* mat_ = nullptr;;
 		MeshInVBOs objectMesh_;
 	};
 }

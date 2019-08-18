@@ -31,6 +31,7 @@ namespace fs = std::experimental::filesystem;
 //GLM
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\euler_angles.hpp>
 
 //DevIL
 #include <IL\il.h>
@@ -44,3 +45,8 @@ namespace fs = std::experimental::filesystem;
 
 //XML
 #include <rapidxml\rapidxml.hpp>
+
+//Physics - Bullet
+#define BT_USE_DOUBLE_PRECISION
+#include <src\btBulletCollisionCommon.h>
+#include <src\btBulletDynamicsCommon.h>

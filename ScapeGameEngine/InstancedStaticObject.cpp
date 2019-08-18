@@ -127,6 +127,8 @@ namespace sge {
 		for (auto inst : instances_) {
 			delete inst;
 		}
+
+		Renderer::removeObject(this);
 	}
 
 	void InstancedStaticObject::setupVAO() {

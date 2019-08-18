@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 #include "Renderer.h"
 #include "StaticObject.h"
@@ -10,6 +10,7 @@
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "GLFWIOManager.h"
+#include "RigidPhysics.h"
 
 //#include "FPSCamera.h"
 

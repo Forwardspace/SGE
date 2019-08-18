@@ -6,6 +6,9 @@ namespace sge {
 	}
 
 	Object::~Object() {
+		if (physObj_) {
+			delete physObj_;
+		}
 	}
 
 	glm::mat4x4 Object::getMVP() {

@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\packages\glew-2.1.0\include;..\packages\DevIL Windows SDK\include;..\packages\Assimp.3.0.0\build\native\include;..\packages\glad\include;..\packages\rapidxml.1.13\build\native\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\packages\glew-2.1.0\include;..\packages\DevIL Windows SDK\include;..\packages\Assimp.3.0.0\build\native\include;..\packages\glad\include;..\packages\rapidxml.1.13\build\native\include;..\packages\bullet3;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -85,11 +85,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>SGE_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SGE_INTERNAL;WIN32;BT_DOUBLE_PRECISION;BT_USE_DOUBLE_PRECISION%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\packages\glfw.3.3.0.1\build\native\lib\static\v140\x64;..\packages\DevIL Windows SDK\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\packages\glfw.3.3.0.1\build\native\lib\static\v140\x64;..\packages\DevIL Windows SDK\lib\x64\Release;..\packages\bullet3\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,8 +123,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AABB.h" />
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="RigidPhysics.h" />
     <ClInclude Include="EventHandling.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FragmentShader.h" />
@@ -133,6 +137,7 @@
     <ClInclude Include="libs.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="BulletIOManager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PackedTexture.h" />
     <ClInclude Include="ParsedXML.h" />
@@ -142,8 +147,11 @@
     <ClInclude Include="ScapeGUIInit.h" />
     <ClInclude Include="ScapeGUIMouseState.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
+    <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="RigidPhysics.cpp" />
     <ClCompile Include="InstancedStaticObject.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="BulletIOManager.cpp" />
     <ClCompile Include="ScapeGUITextures.cpp" />
     <ClInclude Include="ScapeGUITypes.h" />
     <ClInclude Include="ScapeGUIWidgets.h" />

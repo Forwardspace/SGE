@@ -8,6 +8,8 @@ namespace sge {
 		VertArray_ = va;
 		IndArray_ = ia;
 		TCArray_ = ta;
+
+		boundingBox_ = AABB(VertArray_);
 	}
 
 	void Mesh::appendMeshData(const aiScene* scene, aiMesh* mesh) {
@@ -75,6 +77,9 @@ namespace sge {
 		m.nIndices = (unsigned int)IndArray_.size();
 		m.baseVtx = m.vertStart / sizeof(Vertex3D);
 
+		//Finally, copy the bounding box
+		m.boundingBox = boundingBox_;
+
 		return m;
 	}
 
@@ -87,6 +92,8 @@ namespace sge {
 			aiMesh* m = scene->mMeshes[i];
 			appendMeshData(scene, m);
 		}
+
+		boundingBox_ = AABB(VertArray_);
 
 		//Everything should be copied now, so we're done
 	}

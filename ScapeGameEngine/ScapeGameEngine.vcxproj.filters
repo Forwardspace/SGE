@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{c47963fc-162b-427b-9b57-4d807b816b85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{5af81ae5-c040-4f58-8c11-4ae857cbbdaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{154d8000-5b98-42b3-8bc3-e5ed9750249e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SGE.h">
@@ -165,7 +171,19 @@
     <ClInclude Include="Material.h">
       <Filter>Header Files\Textures</Filter>
     </ClInclude>
+    <ClInclude Include="RigidPhysics.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletIOManager.h">
+      <Filter>Header Files\Management</Filter>
+    </ClInclude>
     <ClInclude Include="SkyboxTexture.h">
+      <Filter>Header Files\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsObject.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -268,6 +286,15 @@
     </ClCompile>
     <ClCompile Include="SkyboxTexture.cpp">
       <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidPhysics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletIOManager.cpp">
+      <Filter>Source Files\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

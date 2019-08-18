@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "UserInputManager.h"
 #include "SkyboxTexture.h"
+#include "BulletIOManager.h"
 
 #include "ScapeGUI.h"
 
