@@ -7,6 +7,8 @@
 #include "FragmentShader.h"
 #include "ShaderProgram.h"
 
+#include "RigidPhysics.h"
+
 #include "Renderer.h"
 
 #include <future>
@@ -83,15 +85,26 @@ namespace sge {
 		glVertexAttribDivisor(c, 1);
 	}
 
-	InstancedStaticObject::InstancedStaticObject(fs::path filename, int numInstances, std::function<void(StaticObjectInstance&)> t) {
+	InstancedStaticObject::InstancedStaticObject(
+		fs::path filename,
+		int numInstances,
+		std::function<void(StaticObjectInstance&)> t,
+		bool physics
+	) {
 		type_ = ObjectType::INSTANCED_STATIC;
 
 		Mesh m(filename);
 		objectMesh_ = m.moveToVBOs({ { (unsigned int)type_, (BufferType)0, 0 }, BufferUsageType::STATIC });
 
+		if (physics) {
+			setMasterRigidBody();
+		}
+
 		//For each instance, transform it according to t and add it
 		for (int i = 0; i < numInstances; i++) {
 			StaticObjectInstance* instance = new StaticObjectInstance();
+			instance->parent = this;
+
 			t(*instance);
 
 			instances_.push_back(instance);
@@ -101,14 +114,25 @@ namespace sge {
 		Renderer::registerObject(this);
 	}
 
-	InstancedStaticObject::InstancedStaticObject(Mesh& m, int numInstances, std::function<void(StaticObjectInstance&)> t) {
+	InstancedStaticObject::InstancedStaticObject(
+		Mesh& m,
+		int numInstances,
+		std::function<void(StaticObjectInstance&)> t,
+		bool physics
+	) {
 		type_ = ObjectType::INSTANCED_STATIC;
 
 		objectMesh_ = m.moveToVBOs({ { (unsigned int)type_, (BufferType)0, 0 }, BufferUsageType::STATIC });
 
+		if (physics) {
+			setMasterRigidBody();
+		}
+
 		//For each instance, transform it according to t and add it
 		for (int i = 0; i < numInstances; i++) {
 			StaticObjectInstance* instance = new StaticObjectInstance();
+			instance->parent = this;
+
 			t(*instance);
 
 			instances_.push_back(instance);
@@ -228,7 +252,7 @@ namespace sge {
 		for (auto instance : instances_) {
 			glm::mat4 mat = instance->getMVP();
 
-			if (Renderer::projOrViewJustUpdated() || instance->transformJustUpdated) {
+			if (Renderer::projOrViewJustUpdated() || instance->transformNeedsReplacing) {
 				//Copy the 4 matrix rows row-by-row
 				unsigned int offset = 4 * instanceNumber;
 
@@ -236,6 +260,8 @@ namespace sge {
 				memcpyMatrixRow(pMatrixC2 + offset, &mat[1][0]);
 				memcpyMatrixRow(pMatrixC3 + offset, &mat[2][0]);
 				memcpyMatrixRow(pMatrixC4 + offset, &mat[3][0]);
+
+				instance->transformNeedsReplacing = false;
 			}
 
 			//else: The transform was the same as before; don't rewrite it
@@ -262,5 +288,44 @@ namespace sge {
 		appendMatColToAttrib(&MVP[1][0], type_, MVP_ATTRIB_INDEX_START + 1);
 		appendMatColToAttrib(&MVP[2][0], type_, MVP_ATTRIB_INDEX_START + 2);
 		appendMatColToAttrib(&MVP[3][0], type_, MVP_ATTRIB_INDEX_START + 3);
+	}
+	
+	void StaticObjectInstance::setRigidBody(float mass) {
+		updateModelMatrix();
+
+		auto box = parent->objectMesh_.boundingBox.scaled(scaleX_, scaleY_, scaleZ_);
+
+		auto rPhysObj = new RigidPhysicsObject(
+			BasicColliderType::BOX,
+			box,
+			glm::vec3(posX_, posY_, posZ_),
+			glm::vec3(rotX_, rotY_, rotZ_),
+			mass,
+			this
+		);
+		physObj_ = rPhysObj;
+
+		//Add this object to the parent's physics object
+		if (auto instancedPhysObj = dynamic_cast<InstancedRigidPhysicsObject*>(parent->physObj_)) {
+			instancedPhysObj->addInstance(rPhysObj);
+		}
+	}
+
+	void StaticObjectInstance::setRigidBody(float mass, BasicColliderType collider, glm::vec3 colliderDimensions) {
+		updateModelMatrix();
+		auto rPhysObj = new RigidPhysicsObject(
+			collider,
+			AABB(colliderDimensions),
+			glm::vec3(posX_, posY_, posZ_),
+			glm::vec3(rotX_, rotY_, rotZ_),
+			mass,
+			this
+		);
+		physObj_ = rPhysObj;
+
+		//Add this object to the parent's physics object
+		if (auto instancedPhysObj = dynamic_cast<InstancedRigidPhysicsObject*>(parent->physObj_)) {
+			instancedPhysObj->addInstance(rPhysObj);
+		}
 	}
 }

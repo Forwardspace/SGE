@@ -4,8 +4,10 @@
 #include "Mesh.h"
 #include "TextureManager.h"
 #include "Material.h"
+#include "RigidPhysics.h"
 
 namespace sge {
+	class InstancedStaticObject;
 	//Instances can only function inside of an InstancedObject
 	class StaticObjectInstance : public Object {
 	public:
@@ -18,7 +20,13 @@ namespace sge {
 			throw std::runtime_error("Error: setupVBOs was called on an object instance!");
 		}
 
+		//Rigid body from bounding box
+		void setRigidBody(float mass);
+		//Rigid body from custom shape
+		void setRigidBody(float mass, BasicColliderType collider, glm::vec3 colliderDimensions);
+
 		friend class InstancedStaticObject;
+		InstancedStaticObject* parent;
 	};
 
 	//Stores instances of some object
@@ -27,8 +35,8 @@ namespace sge {
 	//to the view matrix
 	class InstancedStaticObject : public Object {
 	public:
-		InstancedStaticObject(fs::path filename, int numInstances, std::function<void(StaticObjectInstance&)> t);
-		InstancedStaticObject(Mesh& m, int numInstances, std::function<void(StaticObjectInstance&)> t);
+		InstancedStaticObject(fs::path filename, int numInstances, std::function<void(StaticObjectInstance&)> t, bool physics = false);
+		InstancedStaticObject(Mesh& m, int numInstances, std::function<void(StaticObjectInstance&)> t, bool physics = false);
 		InstancedStaticObject();
 
 		~InstancedStaticObject();
@@ -36,6 +44,11 @@ namespace sge {
 		void setupVAO();
 		void setMaterial(Material* tex) { mat_ = tex; }
 		void setMesh(MeshInVBOs& mesh) { objectMesh_ = mesh; }
+
+		//Used for physics, call this if you want to assign rigid bodies to instances
+		void setMasterRigidBody() {
+			physObj_ = new InstancedRigidPhysicsObject;
+		}
 
 		/////////////
 
@@ -76,5 +89,8 @@ namespace sge {
 
 		Material* mat_;
 		MeshInVBOs objectMesh_;
+
+		friend class StaticObjectInstance;
+		friend class InstancedRigidPhysicsObject;
 	};
 }

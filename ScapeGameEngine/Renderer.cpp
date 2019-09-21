@@ -153,6 +153,7 @@ namespace sge {
 		}
 
 		finalizeFrame(wind_);
+
 		endTimer();
 
 		BulletIOManager::update(objectList_);

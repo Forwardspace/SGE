@@ -36,13 +36,16 @@ namespace sge {
 
 	void StaticObject::setRigidBody(float mass) {
 		updateModelMatrix();
+
+		auto box = objectMesh_.boundingBox.scaled(scaleX_, scaleY_, scaleZ_);
 		
 		physObj_ = new RigidPhysicsObject(
 			BasicColliderType::BOX,
-			objectMesh_.boundingBox.getDimensions() * glm::vec3(scaleX_, scaleY_, scaleZ_),
+			box,
 			glm::vec3(posX_, posY_, posZ_),
 			glm::vec3(rotX_, rotY_, rotZ_),
-			mass
+			mass,
+			this
 		);
 	}
 
@@ -50,10 +53,11 @@ namespace sge {
 		updateModelMatrix();
 		physObj_ = new RigidPhysicsObject(
 			collider,
-			colliderDimensions,
+			AABB(colliderDimensions),
 			glm::vec3(posX_, posY_, posZ_),
 			glm::vec3(rotX_, rotY_, rotZ_),
-			mass
+			mass,
+			this
 		);
 	}
 

@@ -2,6 +2,7 @@
 #include "stdheaders.h"
 #include "BulletIOManager.h"
 #include "PhysicsObject.h"
+#include "AABB.h"
 
 namespace sge {
 	enum class BasicColliderType {
@@ -23,34 +24,51 @@ namespace sge {
 	void rigidBodyTransformCallback(const NewtonBody* const body, const float* const matrix, int threadIndex);
 	*/
 
+	class Object;
 	//Represents an object that simulates real-world physics
 	//Used by Objects
 	class RigidPhysicsObject : public PhysicsObject {
 	public:
 		RigidPhysicsObject(
 			BasicColliderType type,
-			glm::vec3 scale,
+			AABB boundingBox,
 			glm::dvec3 objectPos,
 			glm::dvec3 objectRot,
-			float objectMass
+			float objectMass,
+			Object* parent
 		);
 		~RigidPhysicsObject();
 
 		int colliderType;
 		Collider* collider() { return collider_; }
 		
-		void update(Object* parent);
+		void update();
 
 		bool gravity = true;
 
-	private:
+	protected:
 		Collider* collider_;
 		btRigidBody* body_;
 
 		void createBox();
 		void createSphere();
 
-		glm::vec3 dims_;
+		glm::dvec3 dims_;
+		glm::dvec3 center_;
+
+		Object* parent_;
+	};
+
+	//Used for the master object, updates all child instances
+	class InstancedRigidPhysicsObject : public PhysicsObject {
+	public:
+		void update();
+
+		void addInstance(RigidPhysicsObject* instance);
+		void removeInstance(RigidPhysicsObject* instance);
+
+	private:
+		std::vector<RigidPhysicsObject*> instances_;
 	};
 
 	//The most often used collider

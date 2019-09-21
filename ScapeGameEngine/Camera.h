@@ -16,6 +16,7 @@ namespace sge {
 		glm::mat4x4 viewMatrix() { return makeViewMatrix(); }
 
 		void setTransform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale);
+		void setTransform(glm::mat4 transform) { cachedMatrix_ = transform; transformNeedsUpdating_ = false; }
 		void setPos(float posX, float posY, float posZ);
 		void setRot(float rotX, float rotY, float rotZ);
 

@@ -3,6 +3,9 @@
 #include "RigidPhysics.h"
 
 namespace sge {
+	glm::dvec3 physGravityNormal = { 0, -1, 0 };
+	double physGravity = 9.81;
+
 	bool BulletIOManager::simulate = true;
 	btDiscreteDynamicsWorld* BulletIOManager::world_;
 
@@ -22,8 +25,8 @@ namespace sge {
 
 		world_ = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 
-		//Debug only//
-		world_->setGravity(btVector3(0, -9.81f, 0));
+		//Disable predefined gravity, apply it manually
+		world_->setGravity(btVector3(0, 0, 0));
 	}
 
 	void BulletIOManager::update(std::deque<Object*> objects) {
@@ -38,7 +41,7 @@ namespace sge {
 		for (auto object : objects) {
 			//Figure out the physics object's type and update it
 			if (object->physObj_) {
-				object->physObj_->update(object);
+				object->physObj_->update();
 			}
 		}
 	}

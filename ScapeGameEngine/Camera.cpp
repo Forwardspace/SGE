@@ -62,9 +62,9 @@ namespace sge {
 
 		//Compute the right vector
 		glm::vec3 right = glm::vec3(
-			sin(radRotY - 3.14f / 2.0f),
+			sin(radRotY - glm::pi<float>() / 2.0f),
 			0,
-			cos(radRotY - 3.14f / 2.0f)
+			cos(radRotY - glm::pi<float>() / 2.0f)
 		);
 
 		//Finally, the up vector

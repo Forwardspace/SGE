@@ -38,9 +38,13 @@ namespace sge {
 
 		//Calculate the distance between those points
 		dimensions_ = glm::abs(maxPoint - minPoint);
-	}
 
-	glm::vec3 AABB::getDimensions() {
-		return dimensions_;
+		//Calculate the center of mass (average of those points)
+		COM_ = (minPoint + maxPoint) / 2.f;
+	}
+	AABB AABB::scaled(float x, float y, float z) {
+		return AABB(dimensions_ * glm::vec3(x, y, z), COM_ * glm::vec3(x, y, z));
+
+		//TODO: support for non-uniform scaling
 	}
 }

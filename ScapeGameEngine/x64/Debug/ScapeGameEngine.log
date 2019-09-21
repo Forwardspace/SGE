@@ -1,13 +1,6 @@
-﻿  StaticObject.cpp
-  test.cpp
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\StaticObject.cpp(89,31): warning C4312:  'type cast': conversion from 'unsigned int' to 'void *' of greater size
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(12,17): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(13,20): warning C4244:  'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(15,29): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(15,14): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(16,34): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(16,26): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(16,18): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(48,29): warning C4305:  'argument': truncation from 'double' to 'float'
+﻿  FPSCamera.cpp
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\FPSCamera.cpp(23,20): warning C4305:  '+=': truncation from 'double' to 'float'
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\FPSCamera.cpp(98,12): warning C4244:  'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\FPSCamera.cpp(102,12): warning C4244:  'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\FPSCamera.cpp(149,6): warning C4305:  'argument': truncation from 'const double' to 'float'
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe

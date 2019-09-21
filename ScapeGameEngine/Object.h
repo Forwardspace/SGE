@@ -37,6 +37,8 @@ namespace sge {
 		inline glm::mat4 modelMat() {
 			if (transformNeedsUpdating) {
 				updateModelMatrix();
+
+				transformNeedsReplacing = true;
 			}
 			return cachedMatrix_;
 		}
@@ -61,6 +63,7 @@ namespace sge {
 
 		bool transformNeedsUpdating = true;
 		bool transformJustUpdated = false;
+		bool transformNeedsReplacing = true;	//This flag is used when moving transforms inside VBOs
 
 		ObjectType type_ = ObjectType::GENERIC;
 

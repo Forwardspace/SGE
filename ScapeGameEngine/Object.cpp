@@ -18,6 +18,8 @@ namespace sge {
 			transformJustUpdated = true;
 
 			updateModelMatrix();
+
+			transformNeedsReplacing = true;
 		}
 		else {
 			transformJustUpdated = false;

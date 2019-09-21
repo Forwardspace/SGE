@@ -1,43 +1,25 @@
-shader ExampleSGEShader
-type {
+meta {
+	
 	//What does this shader do?
-	base,
-	classes {
-		//For other shaders to be able to modify
-		//the results of this one
-		basic,
-		non_instanced
+	isTargetOf {
+		static
 	}
-}
-
+	targets {
+		staticBase
+	}
+},
 inputs {
 	//This is a comment. Wow, helpful!
-	textures {
-		diffuse,
-		normal
-	}
-	attributes {
-		pos3d,
-		texcoords2d
-	}
-	uniforms {
-		MVP,
-		custom {
-			uniform float time;
-		}
-	}
-}
+	float time;
+},
 outputs {
-	position,
-	color
-	interpolate {
-		texcoords2d -> tcInterpolated
-	}
-}
+	texcoords2d -> tcInterpolated
+},
 
-vertex {
-	position = MVP * vec4(pos, 1);
-}
-fragment {
-	color = texture(diffuse, texcoords2dInterp).rgba;
+source {
+	vertex:
+		position = MVP * vec4(pos, 1);
+
+	fragment:
+		color = texture(diffuse, texcoords2dInterp).rgba;
 }
