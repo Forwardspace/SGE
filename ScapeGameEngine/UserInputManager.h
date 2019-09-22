@@ -21,6 +21,7 @@ namespace sge {
 		/////Keyboard/////
 		static float getAxis(std::string axisName);
 		static bool pressed(int keyCode);
+		static bool modPressed(int mod);
 
 		static void setActiveMapping(UserInputMapping& mapping);
 
@@ -33,7 +34,7 @@ namespace sge {
 		static void updateKeyboard();
 	};
 
-	extern UserInputMapping FreeCamControls;
+	extern UserInputMapping FPSControls;
 
 	extern double deltaTime;
 }

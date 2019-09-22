@@ -2,15 +2,21 @@
 
 namespace sge {
 	float FPSCameraController::mouseSensitivity = 0.2f;
+
 	float FPSCameraController::speed = 5.f;
+	float FPSCameraController::sprintSpeed = 2.f;
+	float FPSCameraController::walkSpeed = 0.5f;
 
 	float FPSCameraController::gravity = 9.81f;
+	float FPSCameraController::jumpStrength = 4.f;
 
 	float FPSCameraController::prevX = 0;
 	float FPSCameraController::prevY = 0;
 
 	bool FPSCameraController::inited = false;
 	bool FPSCameraController::enabled = false;
+
+	float FPSCameraController::jumpVelocity = 0;
 
 	btRigidBody* FPSCameraController::body;
 	btCollisionShape* FPSCameraController::collision;
@@ -75,6 +81,10 @@ namespace sge {
 		enabled = false;
 	}
 
+	inline void sprintOrWalk(float& velZ, float walkSpeed, float sprintSpeed);
+	inline glm::vec3 forwardFromMatrix(const glm::mat4& mat);
+	inline glm::vec3 rightFromMatrix(const glm::mat4& mat);
+
 	void FPSCameraController::update() {
 		if (!enabled) {
 			return;
@@ -87,7 +97,6 @@ namespace sge {
 		}
 
 		//Extract the position of the rigid body
-
 		btTransform worldTrans;
 		body->getMotionState()->getWorldTransform(worldTrans);
 
@@ -123,13 +132,17 @@ namespace sge {
 		float velZ = speed * UserInputManager::getAxis("Y");
 		float velX = speed * UserInputManager::getAxis("X");
 
+		//Simulate sprinting with shift and walking with ctrl
+		sprintOrWalk(velZ, walkSpeed, sprintSpeed);
+
 		//Calculate where to move to based on the camera's
 		//orientation
 		glm::vec3 pos = maincam->pos();
 		glm::mat4 view = maincam->viewMatrix();
 
-		glm::vec3 forward = glm::vec3(view[0][2], view[1][2], view[2][2]);
-		glm::vec3 right = glm::vec3(view[0][0], view[1][0], view[2][0]);
+		//This extracts the vectors directly from the view matrix
+		glm::vec3 forward = forwardFromMatrix(view);
+		glm::vec3 right = rightFromMatrix(view);
 
 		//Constrain the velocities to their respective axes
 		forward.y = 0;
@@ -145,13 +158,15 @@ namespace sge {
 		deltaVel += deltaVelZ;
 		deltaVel += -deltaVelX;
 
-		//Apply gravity
-		if (!raycastDown(pos, playerHeight)) {
+		//Apply gravity or ignore it if jumping
+		if (jumpVelocity > 0) {
+			deltaVel.y -= jumpVelocity;
+
+			jumpVelocity -= gravity * deltaTime * 5;
+		}
+		else {
 			deltaVel.y += gravity;
 		}
-
-		//Make the speed independent of the frame time
-		//deltaVel *= deltaTime;
 
 		body->setLinearVelocity(btVector3(deltaVel.x, deltaVel.y, deltaVel.z));
 
@@ -164,5 +179,22 @@ namespace sge {
 
 		motion->setWorldTransform(trans);
 		body->setMotionState(motion);
+	}
+
+	inline void sprintOrWalk(float& velZ, float walkSpeed, float sprintSpeed) {
+		if (UserInputManager::modPressed(GLFW_MOD_CONTROL)) {
+			velZ *= walkSpeed;
+		}
+		else if (UserInputManager::modPressed(GLFW_MOD_SHIFT)) {
+			velZ *= sprintSpeed;
+		}
+	}
+
+	inline glm::vec3 forwardFromMatrix(const glm::mat4& mat) {
+		return glm::vec3(mat[0][2], mat[1][2], mat[2][2]);
+	}
+
+	inline glm::vec3 rightFromMatrix(const glm::mat4& mat) {
+		return glm::vec3(mat[0][0], mat[1][0], mat[2][0]);
 	}
 }

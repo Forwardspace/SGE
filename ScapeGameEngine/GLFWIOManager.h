@@ -24,6 +24,7 @@ namespace sge {
 		//Getters
 		static int mouseX() { return mouseX_; }
 		static int mouseY() { return mouseY_; }
+		static int mods() { return mods_; }
 		static bool mouseKeyStatus(int n) { return mouseKeyStatus_[n]; }
 		static bool isPressed(int key) { return keyStatus_[key]; }
 
@@ -50,6 +51,8 @@ namespace sge {
 		static std::array<bool, 8> mouseKeyStatus_;
 		//Stores true if the key at some location is pressed
 		static std::map<int, bool> keyStatus_;
+		//Stores the modifer bits (shift, alt...) recieved from GLFW
+		static int mods_;
 		//Recieved from Renderer.h
 		//static GLFWwindow* wind_;
 	};
