@@ -20,7 +20,7 @@ namespace sge {
 		static float sprintSpeed;	//Default: 2 (times normal speed)
 		static float walkSpeed;		//Default: 0.5 (times normal speed)
 
-		static float gravity;	//Default: 9.81 m/s**2
+		static float gravity;		//Default: 9.81 m/s**2
 		static float jumpStrength;	//Default 5 m/s**2
 
 	private:

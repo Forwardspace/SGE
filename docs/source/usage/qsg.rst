@@ -11,12 +11,10 @@ Example Code
 ------------
 
 If you open the file "test.cpp", you'll see the ``main()`` function.
-The code here sets up SGE by calling ``sge::Renderer::init(...)`` and creating two :doc:`StaticObjects <../classes/objects/staticobject>`. It then sets their position and rotation.
-It creates a :doc:`ShaderProgram <../classes/shaders/shaderprogram>`, before finally creating a wooden :doc:`Texture <../classes/textures/texture>` and assigning it to the two Objects.
+The code here sets up SGE by calling ``sge::Renderer::init(...)`` and creating a simple scene using physics and instancing.
+It also enables the FPS camera to allow the player to move.
 
-(currently, there is also some GUI code here; the GUI is in development - you can ignore it for now)
-
-This demonstrates a very simple program.
+This demonstrates a very simple SGE program.
 If you want more details, carry on reading.
 
 Details
@@ -32,7 +30,8 @@ Before using anything from those namespaces, call
 
 function, which will initialize SGE and open a window.
 
-When creating 3D objects, (currently) you have only one option: :doc:`StaticObject <../classes/objects/staticobject>`.
+When creating 3D objects, (currently) you there are static and instanced objects: doc:`StaticObject <../classes/objects/staticobject>`, doc:`StaticInstancedObject <../classes/objects/staticinstancedobject>`
+
 To create a :doc:`StaticObject <../classes/objects/staticobject>` from a file, call
 ::
 	sge::StaticObject::StaticObject(fs::path filename);
@@ -40,21 +39,16 @@ To create a :doc:`StaticObject <../classes/objects/staticobject>` from a file, c
 	//eg.
 	auto object = sge::StaticObject("path/to/file.obj");
 
-This will load the model from ``filename`` and prepare it for rendering.
+This will load the model from ``filename`` and render it every frame.
+Nearly all model formats are supported (through Assimp).
 
-:doc:`StaticObject <../classes/objects/staticobject>` supports model loading through Assimp - therefore supporting most model file formats.
-Ones tested by me are .obj and .fbx.
+To create an instanced object (used when you have to render multiple identical objects), check out its documentation.
 
 If you don't want an object to render, set the renderObject flag to false.
 ::
 	someObject.renderObject = false;
 
 Set it back to true if you want to render it again.
-
-.. note:: Before actually rendering anything, a shader program has to be created.
-	  Check out the code in test.cpp to see how.
-
-	  TODO: create a default ShaderProgram to allow users to skip this step
 
 A :doc:`Camera <../classes/objects/camera>` has to be created to describe the positon and rotation of the viewer:
 ::
@@ -72,19 +66,14 @@ Now, in a loop, do:
 ::
 	sge::Renderer::renderFrame();
 
-.. note:: If you want a free-look FPS camera, you can enable it by calling:
+.. note:: If you want a simple FPS camera, you can enable it by calling:
 	  ::
 		sge::FPSCamera::enable();
-		
-		//Adjust the speed like this
-		sge::FPSCamera::speed = someValue;
 
 Putting it all together, it could look something like:
 ::
 	...
 	sge::Renderer::init(1024, 768, "Exempli gratia", false);
-
-	//<Create shader program here>
 
 	auto camera = sge::Camera();
 	sge::Renderer::setCurrentCamera(camera);	

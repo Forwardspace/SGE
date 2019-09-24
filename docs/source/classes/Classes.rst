@@ -9,3 +9,4 @@ Classes
 	textures/Textures
 	managers/Managers
 	misc/Miscellaneous
+	physics/Physics

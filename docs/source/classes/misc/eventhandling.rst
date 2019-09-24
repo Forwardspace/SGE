@@ -12,6 +12,8 @@ registration; just use these macros! (and don't look at what's under the hood, p
 How to use it?
 --------------
 
+Well, if you don't have to, this is made just for GUI purposes. Else:
+
 Defining new events
 *******************
 
