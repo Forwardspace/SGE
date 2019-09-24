@@ -4,7 +4,7 @@
 #include "ScapeGUIMouseState.h"
 
 namespace sge {
-	UserInputMapping& UserInputManager::currentMapping_ = FreeCamControls;
+	UserInputMapping& UserInputManager::currentMapping_ = FPSControls;
 
 	float UserInputManager::getAxis(std::string axisName) {
 		return currentMapping_.axes[axisName];
@@ -12,6 +12,10 @@ namespace sge {
 
 	bool UserInputManager::pressed(int key) {
 		return GLFWIOManager::isPressed(key);
+	}
+
+	bool UserInputManager::modPressed(int mod) {
+		return GLFWIOManager::mods() & mod;
 	}
 
 	void UserInputManager::setActiveMapping(UserInputMapping& mapping) {
@@ -39,15 +43,16 @@ namespace sge {
 	}
 
 	//An example of the UIM this class uses:
-	//First, there are the required axes
-	//Second, there are weights for each key
-	UserInputMapping FreeCamControls = {
+	//First, there are the required axes with default values
+	//Second, there are weights for each key for each axis
+	//This is the default mapping, and is the one FPSController uses
+	UserInputMapping FPSControls = {
 		{ {"X", 0}, {"Y", 0} },
 		{
-			{GLFW_KEY_W, { {"Y", 1} }},
-			{GLFW_KEY_S, { {"Y", -1} }},
-			{GLFW_KEY_A, { {"X", -1} }},
-			{GLFW_KEY_D, { {"X", 1} }}
+			{GLFW_KEY_W, { {"Y", 1.f} }},
+			{GLFW_KEY_S, { {"Y", -1.f} }},
+			{GLFW_KEY_A, { {"X", -1.f} }},
+			{GLFW_KEY_D, { {"X", 1.f} }},
 		}
 	};
 }

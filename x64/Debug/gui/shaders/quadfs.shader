@@ -3,11 +3,11 @@
 //Takes in 2D coordinates,
 //renders triangulated quads
 
-uniform sampler2D DefSampler;
+uniform sampler2D diffuse;
 in vec2 interUV;
 
 out vec4 col;
 
 void main() {
-	col = texture(DefSampler, interUV);
+	col = texture(diffuse, interUV);
 }

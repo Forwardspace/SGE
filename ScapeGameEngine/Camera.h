@@ -3,7 +3,7 @@
 
 namespace sge {
 	//The most important purpose of Camera is
-	//stroing its view matrix (and therefore, its 
+	//storing its view matrix (and therefore, its 
 	//position and orientation)
 	class Camera {
 	public:
@@ -16,6 +16,7 @@ namespace sge {
 		glm::mat4x4 viewMatrix() { return makeViewMatrix(); }
 
 		void setTransform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale);
+		void setTransform(glm::mat4 transform) { cachedMatrix_ = transform; transformNeedsUpdating_ = false; }
 		void setPos(float posX, float posY, float posZ);
 		void setRot(float rotX, float rotY, float rotZ);
 
@@ -36,6 +37,9 @@ namespace sge {
 		glm::mat4x4 cachedMatrix_;
 
 		//We don't waste cycles here!
-		bool transformNeedsUpdating = true;
+		bool transformNeedsUpdating_ = true;
+		bool transformJustUpdated_ = false;
+
+		friend class Renderer;
 	};
 }

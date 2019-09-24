@@ -1,0 +1,7 @@
+Managers
+========
+
+.. toctree::
+	:glob:
+
+	*

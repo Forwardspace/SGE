@@ -5,7 +5,7 @@ namespace sge {
 	class Texture {
 	public:
 		Texture();
-		~Texture();
+		virtual ~Texture();
 		//Load from file
 		Texture(fs::path filename);
 		//Load from array

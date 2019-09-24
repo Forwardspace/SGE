@@ -2,10 +2,11 @@
 #include "stdheaders.h"
 #include "Object.h"
 #include "Mesh.h"
-#include "Texture.h"
+#include "Material.h"
 #include "TextureManager.h"
 #include "Renderer.h"
 #include "ShaderManager.h"
+#include "RigidPhysics.h"
 
 namespace sge {
 	class StaticObject : public Object {
@@ -17,23 +18,23 @@ namespace sge {
 		StaticObject(fs::path filename);
 		~StaticObject();
 
-		void setMesh(Mesh& mesh) { objectMesh_ = mesh; }
-		void setTexture(Texture& tex) { objectTexture_ = tex; useDefaultTexture = false; }
+		void setMesh(MeshInVBOs& mesh) { objectMesh_ = mesh; }
+		void setMaterial(Material* tex) { mat_ = tex; }
 
-		Mesh mesh() { return objectMesh_; }
-		Texture texture() { return objectTexture_; }
+		//Rigid body from bounding box
+		void setRigidBody(float mass);
+		//Rigid body from custom shape
+		void setRigidBody(float mass, BasicColliderType collider, glm::vec3 colliderDimensions);
+
+		MeshInVBOs mesh() { return objectMesh_; }
 
 		void render();
-	
-	protected:
-		glm::mat4x4 getMVP();
-		void clampAngles();
-		void updateModelMatrix();
+		void setupVAO();
 
-		Mesh objectMesh_;
-		Texture objectTexture_;
-		bool useDefaultTexture = true;
+		//Used for physics, optional
+		bool destructRigidBody_ = true;
 
-		const ObjectType::Enum type_ = ObjectType::STATIC;
+		Material* mat_ = nullptr;;
+		MeshInVBOs objectMesh_;
 	};
 }

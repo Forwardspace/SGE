@@ -17,13 +17,17 @@ It is mostly used by the SGE GUI system to store images for 3 different button s
 How to use it?
 **************
 
-Along with the texture file, you need to have a file with the same name and the *.csv* exstension.
-This is a comma-separated values file in which you need to specify in what order are the images in the texture.
+Along with the texture file, you need to have an XML file in which you need to specify in what order are the images in the texture.
+The file has to have a root element named ``textureTypes`` with a children element for each texture (named ``type``).
 
-For example, if you have a file called *myTexture.png* in which the textures are (in order) normal, hover and clicked textures,
-create the file *myTexture.csv*, inside which is:
+For example, if you have a file called *myTexture.png* in which the textures are (in order) normal, hover and click textures,
+create the file *myTexture.xml*, inside of which is:
 ::
-	NORMAL, HOVER, CLICK
+	<textureTypes>
+  	  <type>NORMAL</type>
+  	  <type>CLICK</type>
+ 	  <type>HOVER</type>
+	</textureTypes>
 
 Then, simply supply the filename of the texture file to the contructor:
 ::

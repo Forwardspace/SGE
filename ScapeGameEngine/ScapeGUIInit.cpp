@@ -1,6 +1,9 @@
 #include "ScapeGUIInit.h"
 #include "TextureManager.h"
 #include "UserInputManager.h"
+#include "ParsedXML.h"
+
+#include "ScapeGUITextures.h"
 
 namespace sgeui {
 	void initSGEUI(GLFWwindow* wind_, int w_, int h_) {
@@ -8,87 +11,101 @@ namespace sgeui {
 		windW = w_;
 		windH = h_;
 
-		makeUIBase();
-	}
-
-	void makeUIBase() {
 		loadResources();
 		makeShaders();
+		setVertexPtrs();
 	}
 
 	const fs::path resourcesRoot = "gui\\resources";
-	const fs::path resourceDefinitionsFilename = resourcesRoot / "resources.csv";
+	const fs::path resourceDefinitionsFilename = resourcesRoot / "resources.xml";
 
 	std::map<int, sge::Texture*> textures;
 	std::map<int, sge::PackedTexture*> packedTextures;
-	int defaultTheme;
+	Theme* defaultTheme;
 
-	//Load the window themes
-	//(loop over the rest until END_THEMES is encountered)
-	void loadThemes(int &i, std::vector<std::string> &rDef) {
-		for (i++; i < rDef.size(); i++) {
-			if (rDef[i] == "END_THEMES") {
-				if (textures.size() == 0) {
-					throw std::runtime_error("Invalid GUI Resource Definition file (themeTextures empty)!");
-				}
-				return;
-			}
-
-			sge::Texture* temp = new sge::Texture(resourcesRoot / rDef[i]);
-			textures[std::stoi(rDef[++i])] = temp;
+	inline void assertNodeNotNull(rapidxml::xml_node<>* node, std::string nodeName) {
+		if (!node) {
+			throw std::runtime_error("Error: No root '" + nodeName + "' tag in XML resource definition file!");
 		}
 	}
 
-	void loadtextures(int &i, std::vector<std::string>& rDef) {
-		for (i++; i < rDef.size(); i++) {
-			if (rDef[i] == "END_ADDITIONAL_TEXTURES") {
-				if (textures.size() == 0 && packedTextures.size() == 0) {
-					throw std::runtime_error("Invalid GUI Resource Definition file (textures empty)");
-				}
-				return;
+	void loadThemes(rapidxml::xml_node<>* root) {
+		auto themes = root->first_node("themes");
+		assertNodeNotNull(themes, "themes");
+
+		//Load all themes inide <theme> tags
+		//example theme declaration: <theme name="my_theme">theme.png</theme>
+		auto nextTheme = themes->first_node("theme");
+		while (nextTheme) {
+			if (nextTheme->first_attribute()->name() != std::string("name")) {
+				throw std::runtime_error("Theme attribute name is not 'name'!");
 			}
-			else if (rDef[i] == "PACKED") {
-				//Contains multiple textures in one file
-				i++;
-				sge::PackedTexture* temp = new sge::PackedTexture(resourcesRoot / rDef[i]);
-				packedTextures[std::stoi(rDef[++i])] = temp;
+			std::string name = nextTheme->first_attribute()->value();
+
+			ThemeTextureResource* rsc = new ThemeTextureResource(resourcesRoot/nextTheme->value(), name);
+			TextureManager::add(rsc);
+
+			nextTheme = nextTheme->next_sibling("theme");
+		}
+
+		auto defaultThemeNode = themes->first_node("defaultTheme");
+
+		if (!defaultThemeNode) {
+			throw std::runtime_error("Error: no defaultTheme tag in XML resource definition file!");
+		}
+
+		defaultTheme = TextureManager::getTheme(defaultThemeNode->value());
+	}
+
+	void loadTextures(rapidxml::xml_node<>* root) {
+		auto textures = root->first_node("textures");
+		assertNodeNotNull(textures, "textures");
+
+		//Load the rest of the required textures similarly
+		auto nextTexture = textures->first_node("texture");
+		while (nextTexture) {
+			//First check for the required name attribute
+			if (!nextTexture->first_attribute("name")) {
+				throw std::runtime_error("No attribute 'name' in texture: XML resource definition file!");
+			}
+			std::string name = nextTexture->first_attribute("name")->value();
+
+			//Next, for the optional packed attribute (if value == "true", the texture is a packed one)
+			if (
+				nextTexture->first_attribute("packed") != nullptr &&
+				nextTexture->first_attribute("packed")->value() == std::string("true")
+			) {
+
+				sge::PackedTexture* tex = new sge::PackedTexture(resourcesRoot/nextTexture->value());
+				StaticTextureResource* rsc = new StaticTextureResource(tex, name);
+
+				TextureManager::add(rsc);
 			}
 			else {
-				sge::Texture* temp = new sge::Texture(resourcesRoot / rDef[i]);
-				textures[std::stoi(rDef[++i])] = temp;
+				//Nope, just a regular texture
+
+				sge::Texture* tex = new sge::Texture(resourcesRoot/nextTexture->value());
+				StaticTextureResource* rsc = new StaticTextureResource(tex, name);
+
+				TextureManager::add(rsc);
 			}
+
+			nextTexture = nextTexture->next_sibling("texture");
 		}
 	}
 
 	void loadResources() {
-		std::vector<std::string> rDef = sge::IOManager::stringVecFromCSV(resourceDefinitionsFilename);
+		sge::ParsedXML rsc(resourceDefinitionsFilename);
 
-		if (rDef.size() == 0) {
-			throw std::runtime_error("rDef size 0! rTFM > 0!");
-		}
+		auto root = rsc["resources"];
+		assertNodeNotNull(root, "resources");
 
-		for (int i = 0; i < rDef.size(); i++) {
-			if (rDef[i] == "THEMES") {
-				loadThemes(i, rDef);
-			}
-			else if (rDef[i] == "DEFAULT_THEME") {
-				i++;
-				defaultTheme = std::stoi(rDef[i]);
-			}
-			else if (rDef[i] == "ADDITIONAL_TEXTURES") {
-				loadtextures(i, rDef);
-			}
-		}
+		loadThemes(root);
+		loadTextures(root);
 	}
 
 	void terminate() {
-		for (auto& pair : textures) {
-			//Ignore the key, delete the value
-			delete pair.second;
-		}
-		for (auto& pair : packedTextures) {
-			delete pair.second;
-		}
+		delete GUIShaderProgram;
 	}
 
 	const fs::path quadVSShFilename = "gui\\shaders\\quadvs.shader";
@@ -98,14 +115,35 @@ namespace sgeui {
 		sge::VertexShader quadVS(quadVSShFilename);
 		sge::FragmentShader quadFS(quadFSShFilename);
 
-		sge::ShaderProgram quadShader({ quadVS, quadFS });
+		sge::ShaderProgram* quadShader = new sge::ShaderProgram({ quadVS, quadFS });
 		GUIShaderProgram = quadShader;
 	}
 
+	GLuint buffs[3];	//vertex, texCoord and index buffers
 	void setVertexPtrs() {
-		//Just configure the VBO to accept 2D coordinates (instead of 3D)
-		glBindBuffer(GL_ARRAY_BUFFER, sge::BufferManager::VBO(sge::VBOType::VERTEX2D));
+		sge::BufferManager::bindVAO(SGEUI_BUFFER_ID);
+
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+
+		//Note: do not use sge::BufferManager as we are not batching meshes together;
+		//create everything manually once and store it in the VAO
+
+		glGenBuffers(3, buffs);
+
+		//Configure the vertex buffer to accept 2d coordinates
+		glBindBuffer(GL_ARRAY_BUFFER, buffs[0]);
 		glVertexAttribPointer(0, 2 /* <- The important part */, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+		//The texture coordinate array is similar
+		glBindBuffer(GL_ARRAY_BUFFER, buffs[1]);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+		//While we're here, bind the element array buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffs[2]);
+
+		//The buffer data is supplied in the render() function, for now
+		glBindVertexArray(0);
 	}
 
 	void updateMouseDelta() {
@@ -124,5 +162,5 @@ namespace sgeui {
 
 	GLFWwindow* wind;
 	int windW, windH;
-	sge::ShaderProgram GUIShaderProgram;
+	sge::ShaderProgram* GUIShaderProgram;
 }

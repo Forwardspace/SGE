@@ -1,0 +1,25 @@
+meta {
+	
+	//What does this shader do?
+	isTargetOf {
+		static
+	}
+	targets {
+		staticBase
+	}
+},
+inputs {
+	//This is a comment. Wow, helpful!
+	float time;
+},
+outputs {
+	texcoords2d -> tcInterpolated
+},
+
+source {
+	vertex:
+		position = MVP * vec4(pos, 1);
+
+	fragment:
+		color = texture(diffuse, texcoords2dInterp).rgba;
+}

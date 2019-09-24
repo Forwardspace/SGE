@@ -1,13 +1,12 @@
 #include "GLFWIOManager.h"
 
-#include "ScapeGUIMouseState.h"
-
 namespace sge {
 	bool GLFWIOManager::storeText_ = false;
 	std::wstring GLFWIOManager::textBuffer_;
 	int GLFWIOManager::mouseX_ = 0, GLFWIOManager::mouseY_ = 0;
 	std::array<bool, 8> GLFWIOManager::mouseKeyStatus_ {};
 	std::map<int, bool> GLFWIOManager::keyStatus_ {};
+	int GLFWIOManager::mods_ = 0;
 
 	void GLFWIOManager::init(GLFWwindow* wind_) {
 		glfwSetCharCallback(wind_, charCallback);
@@ -24,6 +23,8 @@ namespace sge {
 		}
 
 		keyStatus_[key] = pressed;
+
+		mods_ = mods;
 	}
 
 	void GLFWIOManager::charCallback(GLFWwindow* window, GLuint codepoint) {
@@ -37,7 +38,7 @@ namespace sge {
 		mouseY_ = ypos;
 
 		//Update GUI
-		sgeui::updateClickStates();
+		sgeui::onMousePosUpdate(xpos, ypos);
 	}
 
 	void GLFWIOManager::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
@@ -48,6 +49,10 @@ namespace sge {
 		else {
 			//Update it to 0
 			mouseKeyStatus_[button] = false;
+		}
+
+		if (button == sgeui::defaultInteractMouseButton) {
+			sgeui::onMouseButtonUpdate(button, mouseKeyStatus_[button]);
 		}
 	}
 }

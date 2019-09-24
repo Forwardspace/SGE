@@ -2,6 +2,7 @@
 #include "stdheaders.h"
 #include "BufferManager.h"
 #include "IOManager.h"
+#include "AABB.h"
 
 namespace sge {
 	struct Vertex3D {
@@ -22,6 +23,35 @@ namespace sge {
 	using IndexArray = std::vector<GLuint>;
 	using TexCoordArray = std::vector<Vertex2D>;
 
+	//Holds indexes to VBO data
+	struct MeshInVBOs {
+		unsigned int vertStart, vertEnd;
+		unsigned int indStart, indEnd;
+		unsigned int nIndices; //Total number of indices
+		unsigned int baseVtx; //The starting vertex in the vertex VBO
+		unsigned int texStart, texEnd;
+		unsigned int normalStart, normalEnd;	//Not used for now
+
+		AABB boundingBox;
+		
+		//Copy the data from this region of btd to
+		//a new region of btd
+		void makeCopy(BufferTargetDescriptor btd) {
+			BufferManager::bindVAO(btd.id.id);
+
+			btd.id.t = BufferType::VBO;
+			btd.id.subtype = BufferSubtype::VERTEX;
+			BufferManager::appendToBuffer(btd, vertStart, vertEnd);
+
+			btd.id.subtype = BufferSubtype::TEXTURE;
+			BufferManager::appendToBuffer(btd, texStart, texEnd);
+
+			btd.id.t = BufferType::EAB;
+			btd.id.subtype = BufferSubtype::INDEX;
+			BufferManager::appendToBuffer(btd, indStart, indEnd);
+		}
+	};
+
 	class Mesh {
 	public:
 		VertexArray* VertArrayPtr() { return &VertArray_; }
@@ -34,6 +64,8 @@ namespace sge {
 
 		void appendMeshData(const aiScene* scene, aiMesh* mesh);
 
+		MeshInVBOs moveToVBOs(BufferTargetDescriptor target);
+
 		Mesh();
 		Mesh(VertexArray va, IndexArray ia, TexCoordArray ta);
 		//Mesh from file: loads the first mesh from the file
@@ -44,5 +76,8 @@ namespace sge {
 		VertexArray VertArray_;
 		IndexArray IndArray_;
 		TexCoordArray TCArray_;
+
+		//Used for physics
+		AABB boundingBox_;
 	};
 }

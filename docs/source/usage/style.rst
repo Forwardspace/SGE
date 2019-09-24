@@ -21,7 +21,7 @@ Variable naming
 ---------------
 
 Generally, variables are named using *camelCase*.
-Private variables have an underscore after their name if they have externally available getters/setters.
+Private variables have an underscore after their name, especially if they have externally available getters/setters.
 
 Example:
 ::
@@ -45,6 +45,7 @@ Example:
 	class FooBarManager {
 	public:
 		...
+
 	private:
 		...
 	};
@@ -52,22 +53,18 @@ Example:
 Enums
 -----
 
-All enums are declared inside a namespace with the enum's name under an enum named ``Enum``.
+All enums are declared as ``enum class``es with the members in all caps.
 
 Example:
 ::
 	//enum Foo
-	namespace Foo {
-		enum Enum {
-			FOO,
-			BAR
-		};
-	}
+	enum SomeEnum {
+		FOO,
+		BAR,
+	};
 
 	//To use it
-	Foo::Enum bar = Foo::BAR;
-
-This is done to avoid polluting the surrounding namespaces.
+	Foo bar = Foo::BAR;
 
 ---------------------------------------
 

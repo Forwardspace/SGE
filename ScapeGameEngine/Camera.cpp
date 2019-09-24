@@ -17,7 +17,7 @@ namespace sge {
 		rotX_ = rot.x; rotY_ = rot.y; rotZ_ = rot.z;
 		scaleX_ = scale.x; scaleY_ = scale.y; scaleZ_ = scale.z;
 
-		transformNeedsUpdating = true;
+		transformNeedsUpdating_ = true;
 	}
 
 	void Camera::setPos(float posX, float posY, float posZ) {
@@ -25,7 +25,7 @@ namespace sge {
 		posY_ = posY;
 		posZ_ = posZ;
 
-		transformNeedsUpdating = true;
+		transformNeedsUpdating_ = true;
 	}
 
 	void Camera::setRot(float rotX, float rotY, float rotZ) {
@@ -33,7 +33,7 @@ namespace sge {
 		rotY_ = rotY;
 		rotZ_ = rotZ;
 
-		transformNeedsUpdating = true;
+		transformNeedsUpdating_ = true;
 	}
 
 	void Camera::clampAngles() {
@@ -62,9 +62,9 @@ namespace sge {
 
 		//Compute the right vector
 		glm::vec3 right = glm::vec3(
-			sin(radRotY - 3.14f / 2.0f),
+			sin(radRotY - glm::pi<float>() / 2.0f),
 			0,
-			cos(radRotY - 3.14f / 2.0f)
+			cos(radRotY - glm::pi<float>() / 2.0f)
 		);
 
 		//Finally, the up vector
@@ -79,9 +79,14 @@ namespace sge {
 	}
 
 	glm::mat4x4 Camera::makeViewMatrix() {
-		if (transformNeedsUpdating) {
-			transformNeedsUpdating = false;
+		if (transformNeedsUpdating_) {
+			transformNeedsUpdating_ = false;
 			updateViewMatrix();
+
+			transformJustUpdated_ = true;
+		}
+		else {
+			transformJustUpdated_ = false;
 		}
 
 		return cachedMatrix_;

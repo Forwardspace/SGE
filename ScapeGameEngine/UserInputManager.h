@@ -21,11 +21,12 @@ namespace sge {
 		/////Keyboard/////
 		static float getAxis(std::string axisName);
 		static bool pressed(int keyCode);
+		static bool modPressed(int mod);
 
 		static void setActiveMapping(UserInputMapping& mapping);
 
 		/////Mouse/////
-		static int mouseX() { return GLFWIOManager::mouseX(); };
+		static int mouseX() { return GLFWIOManager::mouseX(); }
 		static int mouseY() { return GLFWIOManager::mouseY(); }
 	private:
 		static UserInputMapping& currentMapping_;
@@ -33,7 +34,7 @@ namespace sge {
 		static void updateKeyboard();
 	};
 
-	extern UserInputMapping FreeCamControls;
+	extern UserInputMapping FPSControls;
 
 	extern double deltaTime;
 }

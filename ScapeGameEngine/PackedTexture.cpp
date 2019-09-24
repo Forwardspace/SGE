@@ -8,34 +8,46 @@ namespace sge {
 		//Load the whole sprite sheet
 		loadFromFile(path);
 
-		//Load the accompanying csv file
-		fs::path csvPath = path.parent_path() / (path.stem().string() + ".csv");
-		auto vec = IOManager::stringVecFromCSV(csvPath);
+		//Load the accompanying xml file
+		fs::path csvPath = path.parent_path() / (path.stem().string() + ".xml");
+		auto xml = ParsedXML(csvPath);
 
-		//Parse it to convert to Enum
-		for (auto& texType : vec) {
-			if (texType == "NORMAL") {
-				types.push_back(PackedTextureType::Enum::NORMAL);
+		auto root = xml["textureTypes"];
+		if (!root) {
+			//Not correctly formated xml document
+			throw std::runtime_error("Incorrectly formatted XML document. Fix ur docs.");
+		}
+
+		//Translate all types in the XML document
+		//into PackedTextureType values
+		auto currentType = root->first_node("type");
+		while (currentType) {
+			std::string type = currentType->value();
+
+			if (type == "NORMAL") {
+				types.push_back(PackedTextureType::NORMAL);
 			}
-			else if (texType == "HOVER") {
-				types.push_back(PackedTextureType::Enum::HOVER);
+			else if (type == "HOVER") {
+				types.push_back(PackedTextureType::HOVER);
 			}
-			else if (texType == "CLICK") {
-				types.push_back(PackedTextureType::Enum::CLICK);
+			else if (type == "CLICK") {
+				types.push_back(PackedTextureType::CLICK);
 			}
-			else if (texType == "DISABLED") {
-				types.push_back(PackedTextureType::Enum::DISABLED);
+			else if (type == "DISABLED") {
+				types.push_back(PackedTextureType::DISABLED);
 			}
 			else {
-				throw std::runtime_error("Error: undefined CSV value encountered! Don't mess with CSVs!");
+				throw std::runtime_error("Error: undefined XML value encountered! Don't mess with XMLs!");
 			}
+
+			currentType = currentType->next_sibling("type");
 		}
 	}
 
 	PackedTexture::~PackedTexture() {
 	}
 
-	std::array<glm::vec2, 2> PackedTexture::unpackTexture(PackedTextureType::Enum type) {
+	std::array<glm::vec2, 2> PackedTexture::unpackTexture(PackedTextureType type) {
 		int index = -1;
 		//First search the types vector for the first of type
 		for (int i = 0; i < types.size(); i++) {

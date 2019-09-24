@@ -1,44 +1,65 @@
 #include "SGE.h"
 
+#include "FPSCamera.h"
+
 //This is just a simple integration test
 //Of course, we can't define main when creating a
 //static library
+
+void offsetInstance(sge::StaticObjectInstance& inst) {
+	static int posY = 40;
+
+	inst.setPos(0, posY, 0);
+	inst.setRot(rand(), rand(), rand());
+
+	//Set up the rigid body
+	inst.setRigidBody(8);
+
+	posY += 1;
+}
+
 #ifndef SGE_MAKE_LIBRARY
 int main() {
 #else
 void mainTest() {
 #endif
-	sge::Renderer::init(1200, 1000, "A SGE Test", false);
+	//TODO: document why I'm multiplying by 0.5 times the scale in setRigidBody
+	
+	sge::Renderer::init(1800, 1200, "A SGE Test", false);
 
-	sge::StaticObject pallet(".\\models\\pallet.obj");
-	sge::StaticObject pallet2(".\\models\\pallet.obj");
+	auto palletMesh = sge::Mesh(".\\models\\pallet.obj");
 
-	pallet2.setPos(0, 0.18, 0);
-	pallet2.setRot(0, 30, 0);
-
-	sge::VertexShader vs(fs::path(".\\shaders\\vs.shader"));
-	sge::FragmentShader fs(fs::path(".\\shaders\\fs.shader"));
-	sge::ShaderProgram prog({ vs, fs });
-	sge::ShaderManager::setActive(prog);
-
-	sge::Texture woodtex(".\\textures\\woodtex.jpg");
-	pallet.setTexture(woodtex);
-	pallet2.setTexture(woodtex);
-
-	sge::Camera maincam(0, 0.5, 1.8);
+	sge::Camera maincam({ 3, -5, 0 }, { 0, 0, 0 }, { 1, 1, 1 });
 	sge::Renderer::setCurrentCamera(&maincam);
 
-	auto aW = new sgeui::Window(400, 400, 10, 10);
-	auto bW = new sgeui::Window(350, 400, -100, 100);
+	sge::StaticObject pallet(palletMesh);
+	pallet.setPos(0, 20, 0);
+	pallet.setRot(90, 0, 0);
+	pallet.setRigidBody(8);
 
-	sge::FPSCamera::enable();
-	sge::FPSCamera::speed = 0.01f;
+	sge::InstancedStaticObject aLotOfPallets(palletMesh, 100, offsetInstance, true);
 
-	float x = 1;
+	sge::StaticObject hugePallet(palletMesh);
+	hugePallet.setScl(10, 10, 10);
+	hugePallet.setRigidBody(0);
+
+	sge::Texture woodtex(".\\textures\\woodtex.jpg");
+	sge::Material woodMaterial {
+		{&woodtex, "diffuse"}
+	};
+	pallet.setMaterial(&woodMaterial);
+	aLotOfPallets.setMaterial(&woodMaterial);
+	hugePallet.setMaterial(&woodMaterial);
+
+	sge::SkyboxTexture clouds(".\\textures\\miramar\\miramar.tga");
+	sge::Renderer::setCurrentSkyboxTex(&clouds);
+
+	sge::FPSCameraController::enable();
+	//sge::FPSCameraController::speed = 2.f;
 
 	while (true) {
 		sge::Renderer::renderFrame();
-
-		x += 0.01;
 	}
+
+	return 0;
 }
