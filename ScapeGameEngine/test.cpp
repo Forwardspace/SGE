@@ -1,10 +1,11 @@
 #include "SGE.h"
 
 #include "FPSCamera.h"
+#include "MonoManager.h"
 
-//This is just a simple integration test
-//Of course, we can't define main when creating a
-//static library
+//This is either a simple main function, a demonstration function or
+//an integration test, depending on the options specified.
+//The default mode of operation is to host C# code
 
 void offsetInstance(sge::StaticObjectInstance& inst) {
 	static int posY = 40;
@@ -25,6 +26,13 @@ void mainTest() {
 #endif
 	//TODO: document why I'm multiplying by 0.5 times the scale in setRigidBody
 	
+#ifdef SGE_MONO
+	//Init the default camera to save some C# code
+	sge::Camera defaultCam({0, 0, -1}, {0, 0, 0}, {1, 1, 1});
+	sge::Renderer::setCurrentCamera(&defaultCam);
+
+	sge::MonoManager::init();
+#else
 	sge::Renderer::init(1800, 1200, "A SGE Test", false);
 
 	auto palletMesh = sge::Mesh(".\\models\\pallet.obj");
@@ -56,10 +64,24 @@ void mainTest() {
 
 	sge::FPSCameraController::enable();
 	//sge::FPSCameraController::speed = 2.f;
+#endif
 
 	while (true) {
+#ifdef SGE_MONO
+		sge::MonoManager::preFrame();
+#endif
+
 		sge::Renderer::renderFrame();
+
+#ifdef SGE_MONO
+		sge::MonoManager::postFrame();
+#endif
 	}
+
+#ifdef SGE_MONO
+	sge::MonoManager::terminate();
+#endif
+	sge::Renderer::terminate();
 
 	return 0;
 }

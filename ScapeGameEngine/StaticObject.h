@@ -11,7 +11,6 @@
 namespace sge {
 	class StaticObject : public Object {
 	public:
-		StaticObject();
 		StaticObject(Mesh& msh);
 		//Object from a file: loads the first mesh from the
 		//specified file.
@@ -31,10 +30,10 @@ namespace sge {
 		void render();
 		void setupVAO();
 
-		//Used for physics, optional
-		bool destructRigidBody_ = true;
+		bool destructRigidBody = true;
 
-		Material* mat_ = nullptr;;
+	private:
+		Material* mat_ = nullptr;
 		MeshInVBOs objectMesh_;
 	};
 }

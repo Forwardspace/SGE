@@ -9,7 +9,8 @@ namespace sge {
 		STATIC,
 		INSTANCED_STATIC,
 		GENERIC,
-		INSTANCE
+		INSTANCE,
+		MONO_SCRIPTED
 	};
 
 	inline void unpackVec3(float& x, float& y, float& z, glm::vec3 target) {

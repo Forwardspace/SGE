@@ -61,6 +61,9 @@
     <Filter Include="Header Files\Physics">
       <UniqueIdentifier>{154d8000-5b98-42b3-8bc3-e5ed9750249e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MonoWrappers">
+      <UniqueIdentifier>{62734706-3c0a-47cb-b02f-57646a64a33e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SGE.h">
@@ -186,6 +189,33 @@
     <ClInclude Include="AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RendererWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticObjectWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoManager.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInputWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoScriptedObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptedObjectWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -295,6 +325,12 @@
     </ClCompile>
     <ClCompile Include="AABB.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoManager.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoScriptedObject.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
