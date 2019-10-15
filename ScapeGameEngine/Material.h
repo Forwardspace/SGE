@@ -25,8 +25,9 @@ namespace sge {
 	class Material {
 	public:
 		Material();
-		Material(ShaderProgram* shader, std::initializer_list<std::pair<Texture*, std::string>> textures);
-		Material(std::initializer_list<std::pair<Texture*, std::string>> textures);
+		Material(ShaderProgram* shader, std::initializer_list<std::pair<Texture*, std::string>>& textures, bool skipCheck = false);
+		Material(std::initializer_list<std::pair<Texture*, std::string>>& textures, bool skipCheck = false);
+		Material(std::vector<std::pair<Texture*, std::string>>&, bool skipCheck = false);
 
 		void activate();
 		bool shaderValid() { return shader_ ? true : false; }
@@ -37,7 +38,11 @@ namespace sge {
 		ShaderProgram* shader_ = nullptr;
 		std::array<Texture*, MAX_TEXTURES> textures_ = {0, 0, 0, 0, 0, 0, 0, 0};
 
-		void addTextures(std::initializer_list<std::pair<Texture*, std::string>> textures);
+		//Adds textures to this Material
+		void addFromListChecked(std::initializer_list<std::pair<Texture*, std::string>> textures);
+		void addFromListUnchecked(std::initializer_list<std::pair<Texture*, std::string>> textures);
+		void addFromVecChecked(std::vector<std::pair<Texture*, std::string>>& textures);
+		void addFromVecUnchecked(std::vector<std::pair<Texture*, std::string>>& textures);
 	};
 
 	extern Material defaultMaterial;

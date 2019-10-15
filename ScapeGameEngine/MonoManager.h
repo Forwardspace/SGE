@@ -16,6 +16,8 @@
 #include "MeshWrapper.h"
 #include "UserInputWrapper.h"
 #include "ScriptedObjectWrapper.h"
+#include "TextureWrapper.h"
+#include "MaterialWrapper.h"
 
 namespace sge {
 	class MonoManager {
@@ -46,7 +48,7 @@ namespace sge {
 		static void registerInternalCalls();
 
 		static MonoMethod* MonoManager::getFunction(std::string function);
-		static MonoMethod* MonoManager::callStaticVoidFunction(MonoMethod* function);
+		static void MonoManager::callStaticVoidFunction(MonoMethod* function);
 
 		static MonoDomain* domain_;
 		static MonoAssembly* rootAssembly_;

@@ -45,6 +45,8 @@ namespace sge {
 		sgewrap::Mesh::reg();
 		sgewrap::InputManager::reg();
 		sgewrap::ScriptedObject::reg();
+		sgewrap::Texture::reg();
+		sgewrap::Material::reg();
 	}
 
 	///
@@ -55,11 +57,13 @@ namespace sge {
 
 		return method;
 	}
-	MonoMethod* MonoManager::callStaticVoidFunction(MonoMethod* function) {
+
+	void MonoManager::callStaticVoidFunction(MonoMethod* function) {
 		MonoObject* exception = nullptr;
 		mono_runtime_invoke(function, nullptr, nullptr, &exception);
 
 		if (exception) {
+			mono_print_unhandled_exception(exception);
 			throw std::runtime_error("Error: unhandled exception in Mono code!");
 		}
 	}

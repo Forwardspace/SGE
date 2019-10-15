@@ -89,6 +89,7 @@
       <PreprocessorDefinitions>SGE_MONO;SGE_INTERNAL;WIN32;BT_DOUBLE_PRECISION;BT_USE_DOUBLE_PRECISION%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>26495</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\packages\glfw.3.3.0.1\build\native\lib\static\v140\x64;..\packages\DevIL Windows SDK\lib\x64\Release;..\packages\bullet3\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -125,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CameraWrapper.h" />
+    <ClInclude Include="MaterialWrapper.h" />
     <ClInclude Include="MeshWrapper.h" />
     <ClInclude Include="MonoManager.h" />
     <ClInclude Include="MonoScriptedObject.h" />
@@ -178,6 +180,7 @@
     <ClInclude Include="stdheaders.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TextureWrapper.h" />
     <ClInclude Include="UserInputManager.h" />
     <ClInclude Include="UserInputWrapper.h" />
     <ClInclude Include="VertexShader.h" />

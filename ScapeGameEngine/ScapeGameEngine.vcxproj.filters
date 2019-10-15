@@ -216,6 +216,12 @@
     <ClInclude Include="ScriptedObjectWrapper.h">
       <Filter>Header Files\MonoWrappers</Filter>
     </ClInclude>
+    <ClInclude Include="TextureWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

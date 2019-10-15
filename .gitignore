@@ -2,7 +2,6 @@ packages/*
 .vs
 ScapeGameEngine/x64/*
 ScapeGameEngine/Debug/*
-*.exe
 *.tlog/*
 *.tlog
 *.log
