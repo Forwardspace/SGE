@@ -204,9 +204,6 @@
     <ClInclude Include="CameraWrapper.h">
       <Filter>Header Files\MonoWrappers</Filter>
     </ClInclude>
-    <ClInclude Include="MeshWrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UserInputWrapper.h">
       <Filter>Header Files\MonoWrappers</Filter>
     </ClInclude>
@@ -220,6 +217,12 @@
       <Filter>Header Files\MonoWrappers</Filter>
     </ClInclude>
     <ClInclude Include="MaterialWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshWrapper.h">
+      <Filter>Header Files\MonoWrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedStaticObjectWrapper.h">
       <Filter>Header Files\MonoWrappers</Filter>
     </ClInclude>
   </ItemGroup>

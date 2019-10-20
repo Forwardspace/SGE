@@ -18,6 +18,7 @@
 #include "ScriptedObjectWrapper.h"
 #include "TextureWrapper.h"
 #include "MaterialWrapper.h"
+#include "InstancedStaticObjectWrapper.h"
 
 namespace sge {
 	class MonoManager {

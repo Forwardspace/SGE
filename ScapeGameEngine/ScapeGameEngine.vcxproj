@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CameraWrapper.h" />
+    <ClInclude Include="InstancedStaticObjectWrapper.h" />
     <ClInclude Include="MaterialWrapper.h" />
     <ClInclude Include="MeshWrapper.h" />
     <ClInclude Include="MonoManager.h" />

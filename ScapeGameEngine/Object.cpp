@@ -13,7 +13,7 @@ namespace sge {
 
 	glm::mat4x4 Object::getMVP() {
 		//|| true: hopefully temporary fix for movement bug
-		if (transformNeedsUpdating || true) {
+		if (transformNeedsUpdating) {
 			transformNeedsUpdating = false;
 			transformJustUpdated = true;
 

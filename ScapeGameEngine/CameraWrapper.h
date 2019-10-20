@@ -8,7 +8,7 @@
 #include "Camera.h"
 
 namespace sge {
-	extern MonoArray* newMonoDoubleArray(int numberOfElems);
+	extern MonoArray* newMonoSingleArray(int numberOfElems);
 }
 
 namespace sgewrap {

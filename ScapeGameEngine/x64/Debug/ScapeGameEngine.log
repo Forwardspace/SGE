@@ -1,2 +1,6 @@
-﻿  MonoManager.cpp
+﻿  test.cpp
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(13,17): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(14,34): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(14,26): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(14,18): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe

@@ -142,6 +142,39 @@ namespace sge {
 		Renderer::registerObject(this);
 	}
 
+	InstancedStaticObject::InstancedStaticObject(fs::path filename, int numInstances, bool physics) {
+		type_ = ObjectType::INSTANCED_STATIC;
+
+		Mesh m(filename);
+		objectMesh_ = m.moveToVBOs({ { (unsigned int)type_, (BufferType)0, 0 }, BufferUsageType::STATIC });
+
+		if (physics) {
+			setMasterRigidBody();
+		}
+
+		//Allocate numInstances instances,
+		for (int i = 0; i < numInstances; i++) {
+			instances_.push_back(new StaticObjectInstance);
+		}
+
+		Renderer::registerObject(this);
+	}
+
+	InstancedStaticObject::InstancedStaticObject(Mesh& m, int numInstances, bool physics) {
+		objectMesh_ = m.moveToVBOs({ { (unsigned int)type_, (BufferType)0, 0 }, BufferUsageType::STATIC });
+
+		if (physics) {
+			setMasterRigidBody();
+		}
+
+		//Allocate numInstances instances,
+		for (int i = 0; i < numInstances; i++) {
+			instances_.push_back(new StaticObjectInstance);
+		}
+
+		Renderer::registerObject(this);
+	}
+
 	InstancedStaticObject::InstancedStaticObject() {
 		type_ = ObjectType::INSTANCED_STATIC;
 		Renderer::registerObject(this);

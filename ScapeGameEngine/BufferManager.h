@@ -41,6 +41,7 @@ namespace sge {
 
 	//Describes the target buffer and the usage of that buffer after its modification
 	struct BufferTargetDescriptor {
+		BufferTargetDescriptor() {}
 		BufferTargetDescriptor(BufferID i, BufferUsageType bu) : id(i), usage(bu) {}
 
 		BufferID id;

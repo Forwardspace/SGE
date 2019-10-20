@@ -6,6 +6,10 @@
 #include "Material.h"
 #include "RigidPhysics.h"
 
+namespace sgewrap {
+	class InstancedStaticObject;
+}
+
 namespace sge {
 	class InstancedStaticObject;
 	//Instances can only function inside of an InstancedObject
@@ -29,14 +33,17 @@ namespace sge {
 		InstancedStaticObject* parent;
 	};
 
-	//Stores instances of some object
-	//Massively increases performance
-	//Please construct only if the camera is set as this requires access
-	//to the view matrix
+	//Stores instances of an objects which have the same appearance but 
+	//(Please construct only if the camera is set as it requires access
+	//to the view matrix)
 	class InstancedStaticObject : public Object {
 	public:
 		InstancedStaticObject(fs::path filename, int numInstances, std::function<void(StaticObjectInstance&)> t, bool physics = false);
 		InstancedStaticObject(Mesh& m, int numInstances, std::function<void(StaticObjectInstance&)> t, bool physics = false);
+		
+		//Do not initialize instances. Remember to init them yourself before rendering!
+		InstancedStaticObject(fs::path filename, int numInstances, bool physics = false);
+		InstancedStaticObject(Mesh& m, int numInstances, bool physics = false);
 		InstancedStaticObject();
 
 		~InstancedStaticObject();
@@ -44,6 +51,8 @@ namespace sge {
 		void setupVAO();
 		void setMaterial(Material* tex) { mat_ = tex; }
 		void setMesh(MeshInVBOs& mesh) { objectMesh_ = mesh; }
+
+		MeshInVBOs mesh() { return objectMesh_; }
 
 		//Used for physics, call this if you want to assign rigid bodies to instances
 		void setMasterRigidBody() {
@@ -58,11 +67,8 @@ namespace sge {
 		
 		/////////////
 
-		//Renders all instances (use this if you can)
+		//Renders all instances
 		void render();
-
-		//void renderSpecificInstance(StaticObjectInstance& instance);
-		//void renderSpecificInstance(int index);
 
 		/////////////
 
@@ -73,7 +79,7 @@ namespace sge {
 
 		//Apply a function (transformation) to all instances
 		void transformInstances(std::function<void(StaticObjectInstance&)> transformation);
-		//Same as transformInstances but apply the transformation to only some instances
+		//Same as transformInstances but apply the transformation only to some instances
 		void transformInstancesRange(
 			int startIndex,
 			int endIndex,
@@ -82,7 +88,6 @@ namespace sge {
 
 	private:
 		void bindInstanceMVPs();
-		//void renderSpecific(int index);
 		void appendInstanceData(glm::mat4 MVP);
 
 		std::vector<StaticObjectInstance*> instances_;
@@ -92,5 +97,6 @@ namespace sge {
 
 		friend class StaticObjectInstance;
 		friend class InstancedRigidPhysicsObject;
+		friend class sgewrap::InstancedStaticObject;
 	};
 }

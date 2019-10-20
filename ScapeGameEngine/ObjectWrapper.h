@@ -8,12 +8,12 @@
 #include "Object.h"
 
 namespace sge {
-	extern MonoArray* newMonoDoubleArray(int numberOfElems);
+	MonoArray* newMonoSingleArray(int numberOfElems);
 }
 
 namespace sgewrap {
 	inline MonoArray* newMonoArray3(float x, float y, float z) {
-		auto arr = sge::newMonoDoubleArray(3);
+		auto arr = sge::newMonoSingleArray(3);
 
 		mono_array_set(arr, float, 0, x);
 		mono_array_set(arr, float, 1, y);

@@ -28,7 +28,7 @@ void mainTest() {
 	
 #ifdef SGE_MONO
 	//Init the default camera to save some C# code
-	sge::Camera defaultCam({0, 0, -1}, {0, 0, 0}, {1, 1, 1});
+	sge::Camera defaultCam({0, 0, 1}, {0, 180, 0}, {1, 1, 1});
 	sge::Renderer::setCurrentCamera(&defaultCam);
 
 	sge::MonoManager::init();

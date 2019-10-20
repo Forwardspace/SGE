@@ -47,6 +47,7 @@ namespace sge {
 		sgewrap::ScriptedObject::reg();
 		sgewrap::Texture::reg();
 		sgewrap::Material::reg();
+		sgewrap::InstancedStaticObject::reg();
 	}
 
 	///
@@ -68,7 +69,11 @@ namespace sge {
 		}
 	}
 
-	MonoArray* newMonoDoubleArray(int numberOfElems) {
+	MonoArray* newMonoSingleArray(int numberOfElems) {
 		return mono_array_new(MonoManager::domain(), mono_get_single_class(), numberOfElems);
+	}
+
+	MonoArray* newMonoIntPtrArray(int numberOfElems) {
+		return mono_array_new(MonoManager::domain(), mono_get_intptr_class(), numberOfElems);
 	}
 }
