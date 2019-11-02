@@ -1,6 +1,3 @@
-﻿  test.cpp
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(13,17): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(14,34): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(14,26): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\test.cpp(14,18): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+﻿  InstancedStaticObject.cpp
+C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\InstancedStaticObject.cpp(62,31): warning C4312:  'type cast': conversion from 'unsigned int' to 'void *' of greater size
   ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe

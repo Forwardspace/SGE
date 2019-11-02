@@ -27,11 +27,20 @@ void mainTest() {
 	//TODO: document why I'm multiplying by 0.5 times the scale in setRigidBody
 	
 #ifdef SGE_MONO
-	//Init the default camera to save some C# code
-	sge::Camera defaultCam({0, 0, 1}, {0, 180, 0}, {1, 1, 1});
-	sge::Renderer::setCurrentCamera(&defaultCam);
+	try {
+		//Init the default camera to save some C# code
+		sge::Camera defaultCam({ 0, 0, 1 }, { 0, 180, 0 }, { 1, 1, 1 });
+		sge::Renderer::setCurrentCamera(&defaultCam);
 
-	sge::MonoManager::init();
+		sge::MonoManager::init();
+
+		//For testing purposes
+		sge::FPSCameraController::enable();
+	}
+	catch (std::exception& exc) {
+		std::cout << "Exception when initializing SGE with Mono: " + std::string(exc.what());
+		std::terminate();
+	}
 #else
 	sge::Renderer::init(1800, 1200, "A SGE Test", false);
 
@@ -68,13 +77,19 @@ void mainTest() {
 
 	while (true) {
 #ifdef SGE_MONO
-		sge::MonoManager::preFrame();
+		try {
+			sge::MonoManager::preFrame();
 #endif
 
-		sge::Renderer::renderFrame();
+			sge::Renderer::renderFrame();
 
 #ifdef SGE_MONO
-		sge::MonoManager::postFrame();
+			sge::MonoManager::postFrame();
+		}
+		catch (std::exception& exc) {
+			std::cout << "Exception in game loop with Mono: " + std::string(exc.what());
+			std::terminate();
+		}
 #endif
 	}
 

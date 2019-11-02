@@ -29,9 +29,8 @@ namespace sgewrap {
 			mono_add_internal_call("ScapeInternal.InstancedStaticObject::getInstances", getInstances);
 			///
 
-			/*mono_add_internal_call("ScapeInternal.StaticObjectInstance::setPos", setPos);
-			mono_add_internal_call("ScapeInternal.StaticObjectInstance::setRot", setRot);
-			mono_add_internal_call("ScapeInternal.StaticObjectInstance::setScl", setScl);*/
+			mono_add_internal_call("ScapeInternal.InstancedStaticObject::setInstanceRigidBodyFromMass", setRigidBodyFromMass);
+			mono_add_internal_call("ScapeInternal.InstancedStaticObject::setInstanceRigidBodyFromDetails", setRigidBodyFromDetails);
 		}
 
 		static sge::InstancedStaticObject* create(MonoString* filename, int numInstances, bool physics) {
@@ -76,6 +75,16 @@ namespace sgewrap {
 			}
 
 			return arr;
+		}
+
+		//
+
+		static void setRigidBodyFromMass(sge::StaticObjectInstance* inst, float mass) {
+			inst->setRigidBody(mass);
+		}
+
+		static void setRigidBodyFromDetails(sge::StaticObjectInstance* inst, float mass, int type, float x, float y, float z) {
+			inst->setRigidBody(mass, (sge::BasicColliderType)type, glm::vec3(x, y, z));
 		}
 	};
 }

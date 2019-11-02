@@ -154,7 +154,11 @@ namespace sge {
 
 		//Allocate numInstances instances,
 		for (int i = 0; i < numInstances; i++) {
-			instances_.push_back(new StaticObjectInstance);
+			auto instance = new StaticObjectInstance;
+			instance->parent = this;
+
+			instances_.push_back(instance);
+			appendInstanceData(instance->getMVP());
 		}
 
 		Renderer::registerObject(this);
@@ -169,7 +173,11 @@ namespace sge {
 
 		//Allocate numInstances instances,
 		for (int i = 0; i < numInstances; i++) {
-			instances_.push_back(new StaticObjectInstance);
+			auto instance = new StaticObjectInstance;
+			instance->parent = this;
+
+			instances_.push_back(instance);
+			appendInstanceData(instance->getMVP());
 		}
 
 		Renderer::registerObject(this);
@@ -222,10 +230,22 @@ namespace sge {
 
 		auto MVP = instance.getMVP();
 		appendInstanceData(MVP);
+
+		//Attach the physics object to this object's as well, after figuring out the body's type
+		if (instance.physObj_) {
+			if (auto rigid = dynamic_cast<InstancedRigidPhysicsObject*>(physObj_)) {
+				rigid->addInstance(static_cast<RigidPhysicsObject*>(instance.physObj_));
+			}
+		}
 	}
 
 	void InstancedStaticObject::removeInstance(StaticObjectInstance& instance) {
 		instances_.erase(std::find(instances_.begin(), instances_.end(), &instance));
+
+		//Remove the physics object
+		if (auto rigid = dynamic_cast<InstancedRigidPhysicsObject*>(physObj_)) {
+			rigid->removeInstance(static_cast<RigidPhysicsObject*>(instance.physObj_));
+		}
 	}
 
 	inline GLfloat* mapMatrixColumnVBOWrite(ObjectType o, int c) {

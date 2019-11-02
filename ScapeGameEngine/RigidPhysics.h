@@ -19,11 +19,6 @@ namespace sge {
 		virtual ~Collider();
 	};
 
-	/*void destroyRigidBodyCallback(const NewtonWorld* const world, void* const listenerUserData, NewtonBody* const body);
-	void rigidBodyForceAndTorqueCallback(const NewtonBody* const body, float timestep, int threadIndex);
-	void rigidBodyTransformCallback(const NewtonBody* const body, const float* const matrix, int threadIndex);
-	*/
-
 	class Object;
 	//Represents an object that simulates real-world physics
 	//Used by Objects
