@@ -3,7 +3,7 @@
 namespace sge {
 	float FPSCameraController::mouseSensitivity = 0.2f;
 
-	float FPSCameraController::speed = 5.f;
+	float FPSCameraController::speed = 500.f;
 	float FPSCameraController::sprintSpeed = 2.f;
 	float FPSCameraController::walkSpeed = 0.5f;
 
@@ -96,6 +96,18 @@ namespace sge {
 			return;
 		}
 
+		static double totalTime = 0;
+		static bool freecam = false;
+
+		if (UserInputManager::pressed(GLFW_KEY_F)) {
+			freecam = true;
+		}
+		else if (UserInputManager::pressed(GLFW_KEY_G)) {
+			freecam = false;
+		}
+
+		totalTime += deltaTime;
+
 		//Extract the position of the rigid body
 		btTransform worldTrans;
 		body->getMotionState()->getWorldTransform(worldTrans);
@@ -120,7 +132,7 @@ namespace sge {
 
 		auto orig = worldTrans.getOrigin();
 		transMat[3][0] = orig.x();
-		transMat[3][1] = orig.y();
+		transMat[3][1] = -orig.y();	//For some reason, Bullet's y axis is inverted
 		transMat[3][2] = orig.z();
 
 		camMat *= transMat;
@@ -145,30 +157,34 @@ namespace sge {
 		glm::vec3 right = rightFromMatrix(view);
 
 		//Constrain the velocities to their respective axes
-		forward.y = 0;
-		right.y = 0;
+		if (!freecam) {
+			forward.y = 0;
+			right.y = 0;
+		}
 
 		forward = glm::normalize(forward);
 		right = glm::normalize(right);
 
-		glm::vec3 deltaVelZ = forward * velZ;
-		glm::vec3 deltaVelX = right * velX;
-
+		glm::vec3 deltaVelZ = forward * velZ * (float)deltaTime;
+		glm::vec3 deltaVelX = right * velX * (float)deltaTime;
 		glm::vec3 deltaVel = glm::vec3(0, 0, 0);
+
 		deltaVel += deltaVelZ;
 		deltaVel += -deltaVelX;
 
-		//Apply gravity or ignore it if jumping
-		if (jumpVelocity > 0) {
-			deltaVel.y -= jumpVelocity;
+		if (!freecam) {
+			//Apply gravity or ignore it if jumping
+			if (jumpVelocity > 0) {
+				deltaVel.y -= jumpVelocity;
 
-			jumpVelocity -= gravity * deltaTime * 5;
-		}
-		else {
-			deltaVel.y += gravity;
+				jumpVelocity -= gravity * deltaTime * 5;
+			}
+			else {
+				deltaVel.y += gravity * deltaTime * 100;
+			}
 		}
 
-		body->setLinearVelocity(btVector3(deltaVel.x, deltaVel.y, deltaVel.z));
+		body->setLinearVelocity(btVector3(deltaVel.x, -deltaVel.y, deltaVel.z));
 
 		//Constrain the rotation of the rigid body so it doesn't fall over
 		auto motion = body->getMotionState();

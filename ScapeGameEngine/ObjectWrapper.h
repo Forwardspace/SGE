@@ -26,13 +26,13 @@ namespace sgewrap {
 	public:
 		static void reg() {
 			mono_add_internal_call("ScapeInternal.Object::setPos", setPos);
-			mono_add_internal_call("ScapeInternal.StaticObject::pos", pos);
+			mono_add_internal_call("ScapeInternal.Object::pos", pos);
 
 			mono_add_internal_call("ScapeInternal.Object::setRot", setRot);
-			mono_add_internal_call("ScapeInternal.StaticObject::rot", rot);
+			mono_add_internal_call("ScapeInternal.Object::rot", rot);
 
-			mono_add_internal_call("ScapeInternal.Object::setScl", setRot);
-			mono_add_internal_call("ScapeInternal.StaticObject::scl", rot);
+			mono_add_internal_call("ScapeInternal.Object::setScl", setScl);
+			mono_add_internal_call("ScapeInternal.Object::scl", scl);
 		}
 
 		static void setPos(sge::Object* obj, float x, float y, float z) {

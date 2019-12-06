@@ -1,3 +1,12 @@
-﻿  InstancedStaticObject.cpp
-C:\Users\Juraj\source\repos\ScapeGameEngine\ScapeGameEngine\InstancedStaticObject.cpp(62,31): warning C4312:  'type cast': conversion from 'unsigned int' to 'void *' of greater size
-  ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\ScapeGameEngine\x64\Debug\ScapeGameEngine.exe
+﻿  FPSCamera.cpp
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(29,20): warning C4305:  '+=': truncation from 'double' to 'float'
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(53,56): warning C4305:  'argument': truncation from 'const double' to 'btScalar'
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(119,12): warning C4244:  'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(123,12): warning C4244:  'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(180,44): warning C4244:  '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(183,44): warning C4244:  '+=': conversion from 'double' to 'T', possible loss of data
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(183,44): warning C4244:         with
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(183,44): warning C4244:         [
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(183,44): warning C4244:             T=float
+C:\Users\Juraj\source\repos\SGE\ScapeGameEngine\FPSCamera.cpp(183,44): warning C4244:         ]
+  ScapeGameEngine.vcxproj -> C:\Users\Juraj\source\repos\SGE\x64\Debug\ScapeGameEngine.exe

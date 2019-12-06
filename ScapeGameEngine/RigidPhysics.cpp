@@ -6,8 +6,8 @@ namespace sge {
 	RigidPhysicsObject::RigidPhysicsObject(
 		BasicColliderType type,
 		AABB boundingBox,
-		glm::dvec3 objectPos,
-		glm::dvec3 objectRot,
+		glm::vec3 objectPos,
+		glm::vec3 objectRot,
 		float objectMass,
 		Object* parent
 	) {
@@ -35,7 +35,7 @@ namespace sge {
 
 		btTransform t;
 		t.setOrigin(finalPos);
-		t.setRotation((const btQuaternion&)glm::dquat(objectRot));
+		t.setRotation((const btQuaternion&)glm::quat(objectRot));
 
 		auto motionState = new btDefaultMotionState(t);
 
@@ -77,19 +77,19 @@ namespace sge {
 
 		//Update the parent object
 		//First decompose the transform into translate and rotate vec3s,
-		glm::dvec3 translate = (glm::dvec3&)transform.getOrigin();
-		glm::dquat rotQuat = (glm::dquat&)transform.getRotation();
-		glm::dvec3 rotation = glm::eulerAngles(rotQuat);
+		glm::vec3 translate = (glm::vec3&)transform.getOrigin();
+		glm::quat rotQuat = (glm::quat&)transform.getRotation();
+		glm::vec3 rotation = glm::eulerAngles(rotQuat);
 
 		//De-translate (un-translate?) the center of mass to get
 		//the actual position
-		translate -= center_ * 1.25;
+		translate -= center_ * 1.25f;
 
 		//Apply the gravity
 		if (physGravity > 0) {
-			auto grav = physGravityNormal * physGravity * body_->getMass();
+			auto grav = physGravityNormal * physGravity / body_->getInvMass();
 
-			if (body_->getMass() != 0) {
+			if (1.f / body_->getInvMass() != 0) {
 				body_->applyCentralForce((btVector3&)grav);
 			}
 		}
@@ -121,11 +121,11 @@ namespace sge {
 		delete shape;
 	}
 
-	BoxCollider::BoxCollider(double x, double y, double z) {
+	BoxCollider::BoxCollider(float x, float y, float z) {
 		shape = new btBoxShape(btVector3(x, y, z));
 	}
 	
-	SphereCollider::SphereCollider(double r) {
+	SphereCollider::SphereCollider(float r) {
 		shape = new btSphereShape(r);
 	}
 	

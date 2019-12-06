@@ -27,8 +27,8 @@ namespace sge {
 		RigidPhysicsObject(
 			BasicColliderType type,
 			AABB boundingBox,
-			glm::dvec3 objectPos,
-			glm::dvec3 objectRot,
+			glm::vec3 objectPos,
+			glm::vec3 objectRot,
 			float objectMass,
 			Object* parent
 		);
@@ -48,8 +48,8 @@ namespace sge {
 		void createBox();
 		void createSphere();
 
-		glm::dvec3 dims_;
-		glm::dvec3 center_;
+		glm::vec3 dims_;
+		glm::vec3 center_;
 
 		Object* parent_;
 	};
@@ -70,12 +70,12 @@ namespace sge {
 	//In this case, the collider is a simple 3d box
 	class BoxCollider : public Collider {
 	public:
-		BoxCollider(double x, double y, double z);
+		BoxCollider(float x, float y, float z);
 	};
 
 	//The collider here is a simple sphere of radius r
 	class SphereCollider : public Collider {
 	public:
-		SphereCollider(double r);
+		SphereCollider(float r);
 	};
 }

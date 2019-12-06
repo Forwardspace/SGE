@@ -158,7 +158,8 @@
     <ClInclude Include="ScapeGUIMouseState.h" />
     <ClInclude Include="ScapeGUIRendering.h" />
     <ClCompile Include="AABB.cpp" />
-    <ClCompile Include="MonoManager.cpp" />
+    <ClCompile Include="glad\glad.c" />
+	<ClCompile Include="MonoManager.cpp" />
     <ClCompile Include="MonoScriptedObject.cpp" />
     <ClCompile Include="RigidPhysics.cpp" />
     <ClCompile Include="InstancedStaticObject.cpp" />
@@ -190,7 +191,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\packages\glad\src\glad.c" />
     <ClCompile Include="BufferManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FPSCamera.cpp" />

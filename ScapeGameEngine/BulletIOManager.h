@@ -3,8 +3,8 @@
 #include "Object.h"
 
 namespace sge {
-	extern glm::dvec3 physGravityNormal;	//Default: { 0, -1, 0 }
-	extern double physGravity;				//Default: 9.81
+	extern glm::vec3 physGravityNormal;	//Default: { 0, -1, 0 }
+	extern float physGravity;			//Default: 9.81
 
 	//Manages Bullet directly
 	class BulletIOManager {

@@ -3,8 +3,8 @@
 #include "RigidPhysics.h"
 
 namespace sge {
-	glm::dvec3 physGravityNormal = { 0, -1, 0 };
-	double physGravity = 9.81;
+	glm::vec3 physGravityNormal = { 0, -1.f, 0 };
+	float physGravity = 9.81f;
 
 	bool BulletIOManager::simulate = true;
 	btDiscreteDynamicsWorld* BulletIOManager::world_;
@@ -53,7 +53,7 @@ namespace sge {
 	std::array<glm::vec3, 2> decomposeBtTransform(btTransform target) {
 		auto translation = target.getOrigin();
 		glm::vec3 glmTranslation = glm::vec3(translation.getX(), translation.getY(), translation.getZ());
-		glm::dvec3 eulerRot = glm::eulerAngles((glm::dquat&)target.getRotation());
+		glm::vec3 eulerRot = glm::eulerAngles((glm::quat&)target.getRotation());
 
 		return { glmTranslation, eulerRot };
 	}

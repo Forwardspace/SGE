@@ -26,7 +26,7 @@ namespace fs = std::experimental::filesystem;
 //GL-related
 #define GLFW_INCLUDE_NONE
 #include <GLFW\glfw3.h>
-#include <glad\glad.h>
+#include "glad\glad.h"
 
 //GLM
 #include <glm\glm.hpp>
@@ -47,6 +47,5 @@ namespace fs = std::experimental::filesystem;
 #include <rapidxml\rapidxml.hpp>
 
 //Physics - Bullet
-#define BT_USE_DOUBLE_PRECISION
 #include <src\btBulletCollisionCommon.h>
 #include <src\btBulletDynamicsCommon.h>

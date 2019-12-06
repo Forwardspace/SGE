@@ -11,6 +11,7 @@
 #pragma comment(lib, "ILUT.lib")
 
 #pragma comment(lib, "BulletSoftBody.lib")
-#pragma comment(lib, "BulletDynamics")
-#pragma comment(lib, "BulletCollision")
+#pragma comment(lib, "BulletDynamics.lib")
+#pragma comment(lib, "BulletCollision.lib")
 #pragma comment(lib, "LinearMath.lib")
+#pragma comment(lib, "Bullet3Common.lib")
