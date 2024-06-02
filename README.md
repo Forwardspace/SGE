@@ -21,6 +21,7 @@ ScapeGameEngine is a work-in-progress, fully open 3D game engine built on top of
 - Textures (through DevIL library)
 - The ability to make a static library
 - User Input
+- A simple physics system
 
 I am currently working on:
 - GUI library (WIP)

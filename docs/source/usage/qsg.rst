@@ -1,9 +1,6 @@
 Quick Start Guide
 =================
 
-If you're here, that means you've beaten the remarkable odds of not actually being interested in this project. Congratulations.
-Now, let's get started.
-
 First, install SGE using the intructions outlined in the Installation Guide.
 Now you've got a functional and up-to-date version of SGE.
 
@@ -15,7 +12,6 @@ The code here sets up SGE by calling ``sge::Renderer::init(...)`` and creating a
 It also enables the FPS camera to allow the player to move.
 
 This demonstrates a very simple SGE program.
-If you want more details, carry on reading.
 
 Details
 -------

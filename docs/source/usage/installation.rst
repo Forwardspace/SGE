@@ -1,18 +1,15 @@
 Installation guide
 ==================
 
-Although SGE (ScapeGameEngine) hasn't been optimised for installation
-on every, or indeed any, device, it is possible.
+Note: as of yet, SGE has not been optimized for easy installation.
 
 Prerequisites
 -------------
 
-- Visual Studio 2019 (any edition)
+- Visual Studio 2019 or greater (any edition)
 - Windows, obviously
-- An internet connection
-- That's theoretically it
 
-Installation Procedure, seriously, why are you trying to install this??
+Installation Procedure
 -----------------------------------------------------------------------
 
 1. Begin by cloning the SGE repository from GitHub (https://www.github.com/Forwardspace/SGE)
@@ -25,6 +22,6 @@ Installation Procedure, seriously, why are you trying to install this??
 8. Open the .sln file in Visual Studio
 9. Click Build > Build all and wait
 
-You've now got an up-to-date version of SGE. Why are you torturing yourself???
+You've now got an up-to-date version of SGE.
 You can edit the source code or run the program using the button "Local Windows Debugger".
 When you're ready, continue to the Quick Start Guide.
