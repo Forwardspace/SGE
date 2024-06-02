@@ -4,8 +4,6 @@
 
 [![Documentation Status](https://readthedocs.org/projects/sge/badge/?version=latest)](https://sge.readthedocs.io/en/latest/?badge=latest)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/84071573d818bab965c6/maintainability)](https://codeclimate.com/github/Forwardspace/SGE/maintainability)
-
 Find the documentation on https://readthedocs.org/projects/sge/
 
 ------------
