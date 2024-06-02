@@ -1,0 +1,144 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Installation guide &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quick Start Guide" href="qsg.html" />
+    <link rel="prev" title="Usage" href="Usage.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="qsg.html" title="Quick Start Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Usage.html" title="Usage"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Usage.html" accesskey="U">Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation guide</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation-guide">
+<h1>Installation guide<a class="headerlink" href="#installation-guide" title="Permalink to this headline">¶</a></h1>
+<p>Note: as of yet, SGE has not been optimized for easy installation.</p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Visual Studio 2019 or greater (any edition)</p></li>
+<li><p>Windows, obviously</p></li>
+</ul>
+</div>
+<div class="section" id="installation-procedure">
+<h2>Installation Procedure<a class="headerlink" href="#installation-procedure" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Begin by cloning the SGE repository from GitHub (<a class="reference external" href="https://www.github.com/Forwardspace/SGE">https://www.github.com/Forwardspace/SGE</a>)</p></li>
+<li><p>Go to <a class="reference external" href="https://glad.dav1d.de/">https://glad.dav1d.de/</a> (GLAD homepage) and set the gl API version to the latest value</p></li>
+<li><p>Check “Generate a loader”, “Generate” and dowload glad.zip, extract it in SGE/packages/</p></li>
+<li><p>(important) Drag the glad.c file to the “Source files” folder in Visual Studio to add it to the project</p></li>
+<li><p>Configure Bullet Physics, build LinearMath, BulletCollision, BulletDynamics and BulletSoftBody</p></li>
+<li><p>Copy the built libraries in a new folder called “lib” under “bullet3”.</p></li>
+<li><p>Copy the “src” directory from the bullet source to the previously created “bullet3”</p></li>
+<li><p>Open the .sln file in Visual Studio</p></li>
+<li><p>Click Build &gt; Build all and wait</p></li>
+</ol>
+<p>You’ve now got an up-to-date version of SGE.
+You can edit the source code or run the program using the button “Local Windows Debugger”.
+When you’re ready, continue to the Quick Start Guide.</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation guide</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#installation-procedure">Installation Procedure</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Usage.html"
+                        title="previous chapter">Usage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="qsg.html"
+                        title="next chapter">Quick Start Guide</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/usage/installation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="qsg.html" title="Quick Start Guide"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Usage.html" title="Usage"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Usage.html" >Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation guide</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

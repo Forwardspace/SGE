@@ -1,0 +1,146 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Texture: .h, .cpp &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Managers" href="../managers/Managers.html" />
+    <link rel="prev" title="SkyboxTexture: .h, .cpp" href="skyboxtexture.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../managers/Managers.html" title="Managers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="skyboxtexture.html" title="SkyboxTexture: .h, .cpp"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Textures.html" accesskey="U">Textures</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Texture: .h, .cpp</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="texture-h-cpp">
+<h1>Texture: .h, .cpp<a class="headerlink" href="#texture-h-cpp" title="Permalink to this headline">¶</a></h1>
+<p>The Texture class represents an image as used by OpenGL. It sends image data (either from a file loaded by DevIL or supplied by the user)
+to OpenGL and stores the OpenGL handle of the texture.</p>
+<div class="section" id="how-to-use-it">
+<h2>How to use it?<a class="headerlink" href="#how-to-use-it" title="Permalink to this headline">¶</a></h2>
+<p>Create it either by using the contructor with a path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Texture</span><span class="p">::</span><span class="n">Texture</span><span class="p">(</span><span class="n">fs</span><span class="p">::</span><span class="n">path</span><span class="p">);</span>
+
+<span class="o">//</span><span class="n">eg</span><span class="o">.</span>
+<span class="n">auto</span> <span class="n">myTex</span> <span class="o">=</span> <span class="n">sge</span><span class="p">::</span><span class="n">Texture</span><span class="p">(</span><span class="s2">&quot;path/to/file&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>(which will load the texture from the supplied file)
+or the contructor with the raw pixel data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Texture</span><span class="p">(</span><span class="n">GLubyte</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="nb">int</span> <span class="n">w</span><span class="p">,</span> <span class="nb">int</span> <span class="n">h</span><span class="p">,</span> <span class="n">GLenum</span> <span class="nb">format</span><span class="p">);</span>
+
+<span class="o">//</span><span class="n">eg</span><span class="o">.</span>
+<span class="n">auto</span> <span class="n">myTex</span> <span class="o">=</span> <span class="n">sge</span><span class="p">::</span><span class="n">Texture</span><span class="p">(</span><span class="n">myDataPtr</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">GL_RGB</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Which will load <code class="docutils literal notranslate"><span class="pre">w</span> <span class="pre">*</span> <span class="pre">h</span> <span class="pre">*</span> <span class="pre">3</span></code> bytes from myDataPtr and send it to OpenGL with the format of <code class="docutils literal notranslate"><span class="pre">format</span></code> (for example <code class="docutils literal notranslate"><span class="pre">GL_RGB</span></code> or <code class="docutils literal notranslate"><span class="pre">GL_BGR</span></code>).</p>
+</div>
+<div class="section" id="details">
+<h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
+<p>Refer to the .cpp file (more specifically, <code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">loadFromFile()</span></code> and <code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">makeTexture()</span></code>) to see how the textures are loaded from files or raw data.</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Texture: .h, .cpp</a><ul>
+<li><a class="reference internal" href="#how-to-use-it">How to use it?</a></li>
+<li><a class="reference internal" href="#details">Details</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="skyboxtexture.html"
+                        title="previous chapter">SkyboxTexture: .h, .cpp</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../managers/Managers.html"
+                        title="next chapter">Managers</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/classes/textures/texture.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../managers/Managers.html" title="Managers"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="skyboxtexture.html" title="SkyboxTexture: .h, .cpp"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Textures.html" >Textures</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Texture: .h, .cpp</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

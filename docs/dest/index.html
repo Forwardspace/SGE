@@ -1,0 +1,268 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScapeGameEngine &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage" href="usage/Usage.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usage/Usage.html" title="Usage"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ScapeGameEngine</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="scapegameengine">
+<h1>ScapeGameEngine<a class="headerlink" href="#scapegameengine" title="Permalink to this headline">¶</a></h1>
+<p>Hello! This is the ScapeGameEngine project documentation.
+ScapeGameEngine is a small OpenGL game engine written in C++, and currently supporting Windows.
+It is currently developed just by me, Forwardspace.</p>
+<p>Make sure to check out the Quick Start Guide to the left!</p>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<p>Currently, some of its features include:</p>
+<ul class="simple">
+<li><p>mesh rendering</p></li>
+<li><p>shader support</p></li>
+<li><p>input support</p></li>
+<li><p>texturing</p></li>
+<li><p>mesh loading</p></li>
+<li><p>a simple physics system</p></li>
+</ul>
+<p>I’m currently working on the following:</p>
+<ul class="simple">
+<li><p>GUI system (about half-way done to the minimal working prototype)</p></li>
+<li><p>an editor</p></li>
+<li><p>instanced rendering</p></li>
+</ul>
+</div>
+<div class="section" id="table-of-contents">
+<h2>Table Of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage/Usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage/installation.html">Installation guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/installation.html#installation-procedure">Installation Procedure</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage/qsg.html">Quick Start Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/qsg.html#example-code">Example Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/qsg.html#details">Details</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage/style.html">Style Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage/style.html#brackets-parentheses">Brackets/Parentheses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/style.html#variable-naming">Variable naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/style.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage/style.html#enums">Enums</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="classes/Classes.html">Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classes/renderer.html">Renderer: .h, .cpp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes/renderer.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/renderer.html#rendering">Rendering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/renderer.html#callbacks">Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/renderer.html#internal">Internal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classes/objects/Objects.html">Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes/objects/camera.html">Camera: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/camera.html#how-to-use-it">How to use it?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/camera.html#details">Details</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/objects/mesh.html">Mesh: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/mesh.html#struct-vertex3d">struct Vertex3D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/mesh.html#struct-vertex2d">struct Vertex2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/mesh.html#struct-meshinvbos">struct MeshInVBOs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/mesh.html#class-mesh">class Mesh</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="classes/objects/mesh.html#how-to-use-it">How to use it?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/objects/object.html">Object: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/object.html#class-object">class Object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/object.html#namespace-objecttype">namespace ObjectType</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/objects/staticobject.html">StaticObject: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/staticobject.html#how-to-use-it">How to use it?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/objects/staticobject.html#details">Details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classes/textures/Textures.html">Textures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes/textures/packedtexture.html">PackedTexture: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/textures/packedtexture.html#namespace-packedtexturetype">namespace PackedTextureType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/textures/packedtexture.html#class-packedtexture">class PackedTexture</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="classes/textures/packedtexture.html#how-to-use-it">How to use it?</a></li>
+<li class="toctree-l5"><a class="reference internal" href="classes/textures/packedtexture.html#details">Details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/textures/skyboxtexture.html">SkyboxTexture: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/textures/skyboxtexture.html#how-to-use-it">How to use it?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/textures/skyboxtexture.html#details">Details</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="classes/textures/skyboxtexture.html#skybox-format">Skybox format</a></li>
+<li class="toctree-l5"><a class="reference internal" href="classes/textures/skyboxtexture.html#internal-texture-loading">Internal texture loading</a></li>
+<li class="toctree-l5"><a class="reference internal" href="classes/textures/skyboxtexture.html#rendering">Rendering</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/textures/texture.html">Texture: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/textures/texture.html#how-to-use-it">How to use it?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/textures/texture.html#details">Details</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classes/managers/Managers.html">Managers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes/managers/buffermanager.html">BufferManager: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/managers/buffermanager.html#struct">struct …</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classes/managers/buffermanager.html#class-buffermanager">class BufferManager</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/managers/buffermanager.html#how-to-use-it">How to use it?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classes/misc/Miscellaneous.html">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes/misc/eventhandling.html">EventHandling: .h</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/misc/eventhandling.html#how-to-use-it">How to use it?</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="classes/misc/eventhandling.html#defining-new-events">Defining new events</a></li>
+<li class="toctree-l5"><a class="reference internal" href="classes/misc/eventhandling.html#setting-up-listeners">Setting up listeners</a></li>
+<li class="toctree-l5"><a class="reference internal" href="classes/misc/eventhandling.html#setting-up-handlers">Setting up handlers</a></li>
+<li class="toctree-l5"><a class="reference internal" href="classes/misc/eventhandling.html#raising-events">Raising Events</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="classes/misc/eventhandling.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/misc/fpscamera.html">FPSCamera: .h, .cpp</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/misc/fpscamera.html#class-fpscameracontroller">class FPSCameraController</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="classes/misc/fpscamera.html#how-to-use-it">How to use it?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/misc/parsedxml.html">ParsedXML</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/misc/parsedxml.html#how-to-use-it">How to use it?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classes/physics/Physics.html">Physics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes/physics/physicsobject.html">PhysicsObject: .h</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/physics/physicsobject.html#class-physicsobject">class PhysicsObject</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classes/physics/rigidphysics.html">RigidPhysics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classes/physics/rigidphysics.html#class-rigidphysicsobject">class RigidPhysicsObject</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ScapeGameEngine</a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#table-of-contents">Table Of Contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage/Usage.html"
+                        title="next chapter">Usage</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usage/Usage.html" title="Usage"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ScapeGameEngine</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

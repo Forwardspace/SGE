@@ -1,0 +1,154 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BufferManager: .h, .cpp &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Miscellaneous" href="../misc/Miscellaneous.html" />
+    <link rel="prev" title="Managers" href="Managers.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../misc/Miscellaneous.html" title="Miscellaneous"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Managers.html" title="Managers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Managers.html" accesskey="U">Managers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BufferManager: .h, .cpp</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="buffermanager-h-cpp">
+<h1>BufferManager: .h, .cpp<a class="headerlink" href="#buffermanager-h-cpp" title="Permalink to this headline">¶</a></h1>
+<p>The BufferManager class provides an abstraction for access to OpenGL buffers.
+It is used by objects to store vertex data inside of buffers (mostly VBOs).</p>
+<p>It provides several functions, however none of which are useful if you’re not
+creating new renderable objects.</p>
+<div class="section" id="struct">
+<h2>struct …<a class="headerlink" href="#struct" title="Permalink to this headline">¶</a></h2>
+<p>These are various structs describing the target buffers to modify and storing OpenGL buffer metadata.</p>
+</div>
+<div class="section" id="class-buffermanager">
+<h2>class BufferManager<a class="headerlink" href="#class-buffermanager" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="how-to-use-it">
+<h1>How to use it?<a class="headerlink" href="#how-to-use-it" title="Permalink to this headline">¶</a></h1>
+<p>Bind a specific VAO with a custom <code class="docutils literal notranslate"><span class="pre">id</span></code> using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">bindVAO</span><span class="p">(</span><span class="n">unsigned</span> <span class="nb">int</span> <span class="nb">id</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>to store the OpenGL state for later.</p>
+<p>To add data to the buffer, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BufferAppendResult</span> <span class="n">appendToBuffer</span><span class="p">(</span><span class="n">BufferTargetDescriptor</span> <span class="n">target</span><span class="p">,</span> <span class="n">BufferDataDescriptor</span> <span class="n">data</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This will return the position of the data in <code class="docutils literal notranslate"><span class="pre">target</span></code>, which you can use later when rendering.</p>
+<p>Finally, access a buffer using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GLuint</span> <span class="n">getBuffer</span><span class="p">(</span><span class="n">BufferID</span> <span class="n">bd</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Which will return the raw OpenGL handle of that buffer or create it if it doesn’t exist.</p>
+<p>All of these functions will create buffer objects if they don’t yet exist, so you don’t have to worry about instantiating them
+Additionally, <code class="docutils literal notranslate"><span class="pre">appendToBuffer</span></code> will not only create a new buffer, but configure it as well, as long as the <code class="docutils literal notranslate"><span class="pre">BufferSubtype</span></code> is either <code class="docutils literal notranslate"><span class="pre">VERTEX</span></code> or
+<code class="docutils literal notranslate"><span class="pre">TEXTURE</span></code>.</p>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">BufferManager: .h, .cpp</a><ul>
+<li><a class="reference internal" href="#struct">struct …</a></li>
+<li><a class="reference internal" href="#class-buffermanager">class BufferManager</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-use-it">How to use it?</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Managers.html"
+                        title="previous chapter">Managers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../misc/Miscellaneous.html"
+                        title="next chapter">Miscellaneous</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/classes/managers/buffermanager.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../misc/Miscellaneous.html" title="Miscellaneous"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Managers.html" title="Managers"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Managers.html" >Managers</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BufferManager: .h, .cpp</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

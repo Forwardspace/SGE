@@ -1,0 +1,218 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHandling: .h &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="FPSCamera: .h, .cpp" href="fpscamera.html" />
+    <link rel="prev" title="Miscellaneous" href="Miscellaneous.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fpscamera.html" title="FPSCamera: .h, .cpp"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Miscellaneous.html" title="Miscellaneous"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Miscellaneous.html" accesskey="U">Miscellaneous</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">EventHandling: .h</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="eventhandling-h">
+<h1>EventHandling: .h<a class="headerlink" href="#eventhandling-h" title="Permalink to this headline">¶</a></h1>
+<p>Q:
+What is this ugly C-like sorcery?</p>
+<p>A:
+This is a header-only implementation of an event library.
+These macros and classes ease the use of event handling; no need to keep track of handler names and
+registration; just use these macros! (and don’t look at what’s under the hood, please)</p>
+<div class="section" id="how-to-use-it">
+<h2>How to use it?<a class="headerlink" href="#how-to-use-it" title="Permalink to this headline">¶</a></h2>
+<p>Well, if you don’t have to, this is made just for GUI purposes. Else:</p>
+<div class="section" id="defining-new-events">
+<h3>Defining new events<a class="headerlink" href="#defining-new-events" title="Permalink to this headline">¶</a></h3>
+<p>Events are structs inheriting from <code class="docutils literal notranslate"><span class="pre">Event</span></code>.
+To define a new one, simply inherit from it, add the required data and call the <code class="docutils literal notranslate"><span class="pre">REGISTER_EVENT(x)</span></code> like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">MouseDownEvent</span> <span class="p">:</span> <span class="n">public</span> <span class="n">Event</span> <span class="p">{</span>
+        <span class="n">MouseDownEvent</span><span class="p">(</span><span class="nb">int</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">:</span> <span class="n">mX</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">mY</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="n">REGISTER_EVENT</span><span class="p">(</span><span class="n">MouseDownEvent</span><span class="p">)</span> <span class="p">}</span>
+
+        <span class="nb">int</span> <span class="n">mX</span><span class="p">,</span> <span class="n">mY</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>(note the placement of the <code class="docutils literal notranslate"><span class="pre">REGISTER_EVENT(x)</span></code> macro (it’s in the constructor))</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Event names have to end with <code class="docutils literal notranslate"><span class="pre">Event</span></code>; this is a technical limitation of the library.</p>
+</div>
+</div>
+<div class="section" id="setting-up-listeners">
+<h3>Setting up listeners<a class="headerlink" href="#setting-up-listeners" title="Permalink to this headline">¶</a></h3>
+<p>Every class that recieves events is a listener. To set up one, use the <code class="docutils literal notranslate"><span class="pre">LISTENER</span></code> and <code class="docutils literal notranslate"><span class="pre">LISTENER_INIT(x)</span></code> macros:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+        <span class="n">LISTENER</span><span class="p">;</span>
+        <span class="o">...</span>
+        <span class="n">MyClass</span><span class="p">()</span> <span class="p">:</span> <span class="o">...</span><span class="p">,</span> <span class="n">LISTENER_INIT</span><span class="p">(</span><span class="n">forwardEventToChilldren</span><span class="p">),</span> <span class="o">...</span> <span class="p">{}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">forwardEventToChildren</span></code> is a function with the signature of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">bool</span> <span class="n">forwardEventToChildren</span><span class="p">(</span><span class="n">Event</span><span class="o">*</span> <span class="n">e</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>which raises the event to all or some of the children of your listener class.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Pass <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> if you are a bad <code class="docutils literal notranslate"><span class="pre">parent</span></code> and don’t want to pass events to children.</p>
+</div>
+</div>
+<div class="section" id="setting-up-handlers">
+<h3>Setting up handlers<a class="headerlink" href="#setting-up-handlers" title="Permalink to this headline">¶</a></h3>
+<p>Simply use the <code class="docutils literal notranslate"><span class="pre">EVENT_HANDLER(x,</span> <span class="pre">y)</span></code> macros in your class’ body:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">EVENT_HANDLER</span><span class="p">(</span><span class="n">MouseDown</span><span class="p">,</span> <span class="p">{</span>
+        <span class="n">event</span><span class="o">-&gt;</span><span class="n">something</span> <span class="o">=</span> <span class="n">Something</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">doSomethingWith</span><span class="p">(</span><span class="n">event</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">false</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>You can see that the name of the handler consists of the name of the event it handles without the <code class="docutils literal notranslate"><span class="pre">Event</span></code> part at the end.
+For example, a handler that handles <code class="docutils literal notranslate"><span class="pre">SomethingHappensEvent</span></code> will pass the name <code class="docutils literal notranslate"><span class="pre">SomethingHappens</span></code> to <code class="docutils literal notranslate"><span class="pre">EVENT_HANDLER(x,</span> <span class="pre">y)</span></code>.</p>
+<p>The handler itself returns a bool. Return true if you were able to handle the event (or if you ignored it). The return value will
+be forwarded back up as the return value of the <code class="docutils literal notranslate"><span class="pre">RAISE_EVENT</span></code> macro.</p>
+<p>Inside the macro’s block, you now have access to a pointer pre-casted to the required derived Event class named <code class="docutils literal notranslate"><span class="pre">event</span></code>;
+no need to <code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code> anything!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To enable event handling for any specific event, in your constructor do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">HANDLES_EVENT</span><span class="p">(</span><span class="n">MouseDown</span><span class="p">);</span>
+<span class="o">...</span>
+<span class="o">//</span><span class="n">To</span> <span class="n">stop</span> <span class="p">(</span><span class="n">temporarily</span> <span class="ow">or</span> <span class="n">permanently</span><span class="p">):</span>
+<span class="n">DOES_NOT_HANDLE_EVENT</span><span class="p">(</span><span class="n">MouseDown</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="raising-events">
+<h3>Raising Events<a class="headerlink" href="#raising-events" title="Permalink to this headline">¶</a></h3>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">RAISE_EVENT(x,</span> <span class="pre">y)</span></code> macro like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RAISE_EVENT</span><span class="p">(</span><span class="n">someObjectInstancePointer</span><span class="p">,</span> <span class="n">new</span> <span class="n">MouseDown</span><span class="p">(</span><span class="mi">132</span><span class="p">,</span> <span class="mi">168</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>The first argument is the object instance you wish to send the event to, and the second is the event itself.</p>
+</div>
+</div>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<p>There is also a MASTER_* set of macros that allow whole parent systems to operate as listeners outside of any class.
+Its usage is similar to the normal set of macros, so check the macros for details if you want to know more.</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EventHandling: .h</a><ul>
+<li><a class="reference internal" href="#how-to-use-it">How to use it?</a><ul>
+<li><a class="reference internal" href="#defining-new-events">Defining new events</a></li>
+<li><a class="reference internal" href="#setting-up-listeners">Setting up listeners</a></li>
+<li><a class="reference internal" href="#setting-up-handlers">Setting up handlers</a></li>
+<li><a class="reference internal" href="#raising-events">Raising Events</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Miscellaneous.html"
+                        title="previous chapter">Miscellaneous</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fpscamera.html"
+                        title="next chapter">FPSCamera: .h, .cpp</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/classes/misc/eventhandling.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="fpscamera.html" title="FPSCamera: .h, .cpp"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Miscellaneous.html" title="Miscellaneous"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Miscellaneous.html" >Miscellaneous</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">EventHandling: .h</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

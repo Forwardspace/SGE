@@ -1,0 +1,148 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ParsedXML &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Physics" href="../physics/Physics.html" />
+    <link rel="prev" title="FPSCamera: .h, .cpp" href="fpscamera.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../physics/Physics.html" title="Physics"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fpscamera.html" title="FPSCamera: .h, .cpp"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Miscellaneous.html" accesskey="U">Miscellaneous</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ParsedXML</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="parsedxml">
+<h1>ParsedXML<a class="headerlink" href="#parsedxml" title="Permalink to this headline">¶</a></h1>
+<p>This class is a wrapper around the <code class="docutils literal notranslate"><span class="pre">rapidxml::xmldocument&lt;&gt;</span></code> class.
+As such, it provides a way to parse and, more importantly, access an XML document.</p>
+<div class="section" id="how-to-use-it">
+<h2>How to use it?<a class="headerlink" href="#how-to-use-it" title="Permalink to this headline">¶</a></h2>
+<p>Construct the object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ParsedXML</span><span class="p">::</span><span class="n">ParsedXML</span><span class="p">(</span><span class="n">fs</span><span class="p">::</span><span class="n">path</span> <span class="n">sourceFile</span><span class="p">);</span>
+<span class="o">//</span><span class="ow">or</span>
+<span class="n">ParsedXML</span><span class="p">::</span><span class="n">ParsedXML</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">s</span><span class="p">);</span>
+
+<span class="o">//</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span>
+<span class="n">auto</span> <span class="n">myXMLDoc</span> <span class="o">=</span> <span class="n">ParsedXML</span><span class="p">(</span><span class="n">fs</span><span class="p">::</span><span class="n">path</span><span class="p">(</span><span class="s2">&quot;path/to/file.xml&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Then, find children of the root node using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auto</span> <span class="n">myNode</span> <span class="o">=</span> <span class="n">myXMLDoc</span><span class="p">[</span><span class="s2">&quot;Settings&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Find nodes anywhere from root down:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rapidxml</span><span class="p">::</span><span class="n">xml_node</span><span class="o">&lt;&gt;*</span> <span class="n">findNode</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">s</span><span class="p">);</span>
+
+<span class="n">auto</span> <span class="n">myNode</span> <span class="o">=</span> <span class="n">myXMLDoc</span><span class="o">.</span><span class="n">findNode</span><span class="p">(</span><span class="s2">&quot;Brightness&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For information on accessing and manipulating nodes, see <a class="reference external" href="http://rapidxml.sourceforge.net/manual.html">http://rapidxml.sourceforge.net/manual.html</a></p>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ParsedXML</a><ul>
+<li><a class="reference internal" href="#how-to-use-it">How to use it?</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="fpscamera.html"
+                        title="previous chapter">FPSCamera: .h, .cpp</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../physics/Physics.html"
+                        title="next chapter">Physics</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/classes/misc/parsedxml.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../physics/Physics.html" title="Physics"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="fpscamera.html" title="FPSCamera: .h, .cpp"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Miscellaneous.html" >Miscellaneous</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ParsedXML</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

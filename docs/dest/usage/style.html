@@ -1,0 +1,183 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Style Guide &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Classes" href="../classes/Classes.html" />
+    <link rel="prev" title="Quick Start Guide" href="qsg.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../classes/Classes.html" title="Classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="qsg.html" title="Quick Start Guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Usage.html" accesskey="U">Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Style Guide</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="style-guide">
+<h1>Style Guide<a class="headerlink" href="#style-guide" title="Permalink to this headline">¶</a></h1>
+<p>We have STANDARDS here! To better understand existing code and contribute by adding new code, please follow the simple style guide below.</p>
+<div class="section" id="brackets-parentheses">
+<h2>Brackets/Parentheses<a class="headerlink" href="#brackets-parentheses" title="Permalink to this headline">¶</a></h2>
+<p>The opening bracket is placed on the same line as the expression requiring it.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">foo</span> <span class="o">==</span> <span class="n">bar</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">...</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">FooBar</span> <span class="p">{</span>
+        <span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variable-naming">
+<h2>Variable naming<a class="headerlink" href="#variable-naming" title="Permalink to this headline">¶</a></h2>
+<p>Generally, variables are named using <em>camelCase</em>.
+Private variables have an underscore after their name, especially if they have externally available getters/setters.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>int fooBar = 3;
+
+class ... {
+        int fooBar_ = 3;
+        ...
+};
+</pre></div>
+</div>
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<p>Classes use <em>PascalCase</em>.
+The <code class="docutils literal notranslate"><span class="pre">private:</span></code> and <code class="docutils literal notranslate"><span class="pre">public:</span></code> labels in classes are inline with the <code class="docutils literal notranslate"><span class="pre">class</span></code> declaration.</p>
+<p>It is also worth mentioning that each important class should have its own .cpp and .h files.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FooBarManager</span> <span class="p">{</span>
+<span class="n">public</span><span class="p">:</span>
+        <span class="o">...</span>
+
+<span class="n">private</span><span class="p">:</span>
+        <span class="o">...</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="enums">
+<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h2>
+<p>All enums are declared as <a href="#id1"><span class="problematic" id="id2">``</span></a>enum class``es with the members in all caps.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span><span class="n">enum</span> <span class="n">Foo</span>
+<span class="n">enum</span> <span class="n">SomeEnum</span> <span class="p">{</span>
+        <span class="n">FOO</span><span class="p">,</span>
+        <span class="n">BAR</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="o">//</span><span class="n">To</span> <span class="n">use</span> <span class="n">it</span>
+<span class="n">Foo</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">::</span><span class="n">BAR</span><span class="p">;</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>Ultimately, just follow the existing style and everything will be fine.</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Style Guide</a><ul>
+<li><a class="reference internal" href="#brackets-parentheses">Brackets/Parentheses</a></li>
+<li><a class="reference internal" href="#variable-naming">Variable naming</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#enums">Enums</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="qsg.html"
+                        title="previous chapter">Quick Start Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../classes/Classes.html"
+                        title="next chapter">Classes</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/usage/style.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../classes/Classes.html" title="Classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="qsg.html" title="Quick Start Guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Usage.html" >Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Style Guide</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

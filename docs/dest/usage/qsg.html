@@ -1,0 +1,197 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Start Guide &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Style Guide" href="style.html" />
+    <link rel="prev" title="Installation guide" href="installation.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="style.html" title="Style Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Usage.html" accesskey="U">Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Quick Start Guide</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="quick-start-guide">
+<h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
+<p>First, install SGE using the intructions outlined in the Installation Guide.
+Now you’ve got a functional and up-to-date version of SGE.</p>
+<div class="section" id="example-code">
+<h2>Example Code<a class="headerlink" href="#example-code" title="Permalink to this headline">¶</a></h2>
+<p>If you open the file “test.cpp”, you’ll see the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.
+The code here sets up SGE by calling <code class="docutils literal notranslate"><span class="pre">sge::Renderer::init(...)</span></code> and creating a simple scene using physics and instancing.
+It also enables the FPS camera to allow the player to move.</p>
+<p>This demonstrates a very simple SGE program.</p>
+</div>
+<div class="section" id="details">
+<h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
+<p>You may be wondering how to create your own games/programs.
+First off, include the <code class="docutils literal notranslate"><span class="pre">SGE.h</span></code> header.</p>
+<p>Everything SGE provides is placed in the aptly named <code class="docutils literal notranslate"><span class="pre">sge</span></code> namespace (except GUI, which is in the <code class="docutils literal notranslate"><span class="pre">sgeui</span></code> namespace).
+Before using anything from those namespaces, call</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">init</span><span class="p">(</span><span class="nb">int</span> <span class="n">w</span><span class="p">,</span> <span class="nb">int</span> <span class="n">h</span><span class="p">,</span> <span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">title</span><span class="p">,</span> <span class="nb">bool</span> <span class="n">fullscreen</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>function, which will initialize SGE and open a window.</p>
+<p>When creating 3D objects, (currently) you there are static and instanced objects: doc:<cite>StaticObject &lt;../classes/objects/staticobject&gt;</cite>, doc:<cite>StaticInstancedObject &lt;../classes/objects/staticinstancedobject&gt;</cite></p>
+<p>To create a <a class="reference internal" href="../classes/objects/staticobject.html"><span class="doc">StaticObject</span></a> from a file, call</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sge</span><span class="p">::</span><span class="n">StaticObject</span><span class="p">::</span><span class="n">StaticObject</span><span class="p">(</span><span class="n">fs</span><span class="p">::</span><span class="n">path</span> <span class="n">filename</span><span class="p">);</span>
+
+<span class="o">//</span><span class="n">eg</span><span class="o">.</span>
+<span class="n">auto</span> <span class="nb">object</span> <span class="o">=</span> <span class="n">sge</span><span class="p">::</span><span class="n">StaticObject</span><span class="p">(</span><span class="s2">&quot;path/to/file.obj&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This will load the model from <code class="docutils literal notranslate"><span class="pre">filename</span></code> and render it every frame.
+Nearly all model formats are supported (through Assimp).</p>
+<p>To create an instanced object (used when you have to render multiple identical objects), check out its documentation.</p>
+<p>If you don’t want an object to render, set the renderObject flag to false.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">someObject</span><span class="o">.</span><span class="n">renderObject</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Set it back to true if you want to render it again.</p>
+<p>A <a class="reference internal" href="../classes/objects/camera.html"><span class="doc">Camera</span></a> has to be created to describe the positon and rotation of the viewer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sge</span><span class="p">::</span><span class="n">Camera</span><span class="p">::</span><span class="n">Camera</span><span class="p">();</span>
+
+<span class="o">//</span><span class="n">eg</span><span class="o">.</span>
+<span class="n">auto</span> <span class="n">camera</span> <span class="o">=</span> <span class="n">sge</span><span class="p">::</span><span class="n">Camera</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../classes/objects/camera.html"><span class="doc">Camera</span></a> then has to be set as the current one in Renderer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">setCurrentCamera</span><span class="p">(</span><span class="n">camera</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>All done!
+Now, in a loop, do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">renderFrame</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want a simple FPS camera, you can enable it by calling:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sge</span><span class="p">::</span><span class="n">FPSCamera</span><span class="p">::</span><span class="n">enable</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<p>Putting it all together, it could look something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">init</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">,</span> <span class="s2">&quot;Exempli gratia&quot;</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+
+<span class="n">auto</span> <span class="n">camera</span> <span class="o">=</span> <span class="n">sge</span><span class="p">::</span><span class="n">Camera</span><span class="p">();</span>
+<span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">setCurrentCamera</span><span class="p">(</span><span class="n">camera</span><span class="p">);</span>
+
+<span class="n">auto</span> <span class="n">myObject</span> <span class="o">=</span> <span class="n">sge</span><span class="p">::</span><span class="n">StaticObject</span><span class="p">(</span><span class="s2">&quot;path/to/file.obj&quot;</span><span class="p">);</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="n">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">renderFrame</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../classes/renderer.html"><span class="doc">Renderer</span></a></p>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Quick Start Guide</a><ul>
+<li><a class="reference internal" href="#example-code">Example Code</a></li>
+<li><a class="reference internal" href="#details">Details</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">Installation guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="style.html"
+                        title="next chapter">Style Guide</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/usage/qsg.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="style.html" title="Style Guide"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Usage.html" >Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Quick Start Guide</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

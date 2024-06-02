@@ -1,0 +1,141 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Object: .h, .cpp &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="StaticObject: .h, .cpp" href="staticobject.html" />
+    <link rel="prev" title="Mesh: .h, .cpp" href="mesh.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="staticobject.html" title="StaticObject: .h, .cpp"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mesh.html" title="Mesh: .h, .cpp"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Objects.html" accesskey="U">Objects</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Object: .h, .cpp</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="object-h-cpp">
+<h1>Object: .h, .cpp<a class="headerlink" href="#object-h-cpp" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class-object">
+<h2>class Object<a class="headerlink" href="#class-object" title="Permalink to this headline">¶</a></h2>
+<p>The Object class is a base class for the <a class="reference internal" href="staticobject.html"><span class="doc">StaticObject</span></a> class, and contains all of the information needed to describe an object in 3D space, <em>minus the actual vertex data</em>.
+The actual data is stored differently based on the object’s type.</p>
+<p>The class stores a 4x4 model matrix, which is recalculated when any of the Object’s attributes are changed. The matrix is not available externally.
+Any class deriving from Object must have a</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">render</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>function, which renders the object (currently) directly onto the screen. It is virtual in Object.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not use the Object class directly; instead derive from it or store pointers to Objects.</p>
+</div>
+</div>
+<div class="section" id="namespace-objecttype">
+<h2>namespace ObjectType<a class="headerlink" href="#namespace-objecttype" title="Permalink to this headline">¶</a></h2>
+<p>Describes the type of an object.
+The Object class has the ObjectType of “GENERIC”</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Object: .h, .cpp</a><ul>
+<li><a class="reference internal" href="#class-object">class Object</a></li>
+<li><a class="reference internal" href="#namespace-objecttype">namespace ObjectType</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mesh.html"
+                        title="previous chapter">Mesh: .h, .cpp</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="staticobject.html"
+                        title="next chapter">StaticObject: .h, .cpp</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/classes/objects/object.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="staticobject.html" title="StaticObject: .h, .cpp"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mesh.html" title="Mesh: .h, .cpp"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../Classes.html" >Classes</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="Objects.html" >Objects</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Object: .h, .cpp</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

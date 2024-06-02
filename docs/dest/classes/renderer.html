@@ -1,0 +1,189 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Renderer: .h, .cpp &#8212; ScapeGameEngine 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Objects" href="objects/Objects.html" />
+    <link rel="prev" title="Classes" href="Classes.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="objects/Objects.html" title="Objects"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Classes.html" title="Classes"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Classes.html" accesskey="U">Classes</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Renderer: .h, .cpp</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="renderer-h-cpp">
+<h1>Renderer: .h, .cpp<a class="headerlink" href="#renderer-h-cpp" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Renderer is a singleton class that manages the (as the name implies) rendering of frames to the screen.
+As such, it is also the main class that initializes and terminates other SGE modules.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before any SGE modules, classes, functions or systems can be used, initialize SGE by calling:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">Renderer</span><span class="p">::</span><span class="n">init</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="nb">bool</span> <span class="n">fullscreen</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This opens a window of <em>w</em> by <em>h</em> pixels with the title <em>name</em>. If <em>fullscreen</em> is true, the window will be fullscreen.
+It then initializes all other SGE systems.</p>
+<p>SGE uses GLFW as the window and input library of choice and GLAD as the OpenGL extension loader.
+DevIL is used for loading images and Assimp for loading models.
+Those libraries are also initialized here.</p>
+</div>
+<p>Before exiting, call:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">Renderer</span><span class="p">::</span><span class="n">terminate</span><span class="p">(</span><span class="nb">bool</span> <span class="n">exit</span> <span class="o">=</span> <span class="n">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Which will exit the program unless exit is false.</p>
+<div class="section" id="rendering">
+<h3>Rendering<a class="headerlink" href="#rendering" title="Permalink to this headline">¶</a></h3>
+<p>When all the setup is done for any one frame, the function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">Renderer</span><span class="p">::</span><span class="n">renderFrame</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>will take over and render that frame, as well as update the GUI and all other systems</p>
+<p>The pair</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">Renderer</span><span class="p">::</span><span class="n">updateProjectionMatrix</span><span class="p">(</span><span class="nb">float</span> <span class="n">FoV</span><span class="p">,</span> <span class="nb">float</span> <span class="n">NCP</span><span class="p">,</span> <span class="nb">float</span> <span class="n">FCP</span><span class="p">);</span>
+<span class="n">static</span> <span class="n">glm</span><span class="p">::</span><span class="n">mat4x4</span> <span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">projectionMatrix</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>(where NCP = near clipping plane and FCP = far clipping plane) will update and return the projection matrix, respectfully.</p>
+<p>The pair</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">Renderer</span><span class="p">::</span><span class="n">setCurrentCamera</span><span class="p">(</span><span class="n">Camera</span><span class="o">*</span> <span class="n">cam</span><span class="p">);</span>
+<span class="n">static</span> <span class="n">Camera</span><span class="o">*</span> <span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">currentCamera</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>set and get the <a class="reference internal" href="objects/camera.html"><span class="doc">Camera</span></a> used for rendering frames.</p>
+</div>
+<div class="section" id="callbacks">
+<h3>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this headline">¶</a></h3>
+<p>Renderer also deals with callbacks; they are called after each frame.
+These functions allow you to add and remove callbacks, respectively</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">Renderer</span><span class="p">::</span><span class="n">registerWindowCallback</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">void</span><span class="p">()</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="n">static</span> <span class="n">void</span> <span class="n">Renderer</span><span class="p">::</span><span class="n">removeWindowCallback</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">void</span><span class="p">()</span><span class="o">&gt;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>They are used mainly to handle window events.</p>
+</div>
+<div class="section" id="internal">
+<h3>Internal<a class="headerlink" href="#internal" title="Permalink to this headline">¶</a></h3>
+<p>The function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">wind</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Returns the GLFW window and is generally only used internally.
+The same is true of</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">registerObject</span><span class="p">();</span>
+<span class="n">static</span> <span class="n">void</span> <span class="n">sge</span><span class="p">::</span><span class="n">Renderer</span><span class="p">::</span><span class="n">removeObject</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>which register and remove the object from being drawn automatically every frame.</p>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Renderer: .h, .cpp</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#rendering">Rendering</a></li>
+<li><a class="reference internal" href="#callbacks">Callbacks</a></li>
+<li><a class="reference internal" href="#internal">Internal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Classes.html"
+                        title="previous chapter">Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="objects/Objects.html"
+                        title="next chapter">Objects</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/classes/renderer.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="objects/Objects.html" title="Objects"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Classes.html" title="Classes"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ScapeGameEngine 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="Classes.html" >Classes</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Renderer: .h, .cpp</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Forwardspace.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

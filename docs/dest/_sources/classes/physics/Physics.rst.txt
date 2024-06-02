@@ -1,0 +1,7 @@
+Physics
+=======
+
+.. toctree::
+	:glob:
+
+	*
